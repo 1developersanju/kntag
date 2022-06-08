@@ -65,9 +65,22 @@ class BookClubContainer extends StatelessWidget {
                 NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
           ),
         ),
-        ElevatedButton(onPressed: (){
-
-        }, child: Text(""))
+        Positioned(
+          right: 15,
+          bottom: 6,
+          child: ElevatedButton(
+            
+            onPressed: (){
+        
+          }, 
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)
+                        ),
+            onPrimary: Colors.blue
+          ),
+          child: Text("Join",style: TextStyle(color: Colors.white),)),
+        )
       ],
     );
   }
