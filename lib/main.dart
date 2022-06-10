@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white60,
                 type: BottomNavigationBarType.fixed,
                 selectedItemColor: Colors.blue[900],
-                unselectedItemColor: Colors.black87),
+                unselectedItemColor: Color.fromRGBO(0, 0, 0, 0.867)),
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.white,
               elevation: 0.0,

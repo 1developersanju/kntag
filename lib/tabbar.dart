@@ -4,7 +4,7 @@ import 'package:kntag/ui/views/group_view/group_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/message_view/message_view.dart';
 import 'package:kntag/ui/views/notification_view/notification_view.dart';
-import 'package:kntag/ui/views/post_view/post_view.dart';
+import 'package:kntag/ui/views/post_view/create_tag_view.dart';
 
 class Tabbar extends StatefulWidget {
   const Tabbar({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedTab = 0;
+  int _selectedTab = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +37,7 @@ class _TabbarState extends State<Tabbar> {
         children: [
           renderView(0, HomeView()),
           renderView(1, GroupView()),
-          renderView(2, PostView()),
+          renderView(2, CreateTagView()),
           renderView(3, NotificationView()),
           renderView(4, MessageView())
         ],

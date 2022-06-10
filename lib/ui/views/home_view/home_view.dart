@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:kntag/widgets/home_view_widgets/bookclub_poiter_container.dart';
 
@@ -12,6 +13,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
@@ -55,9 +57,28 @@ class _HomeViewState extends State<HomeView> {
               left: 60,
               child: BookClubPointer()),
             
-
             Positioned(
-              bottom: 25,
+              left: currentWidth/3.5,
+              bottom: 185,
+              height: currentHeight/24,
+              width: currentWidth/2.5,
+              child: ElevatedButton(
+                onPressed: (){
+            
+              }, 
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                padding: const EdgeInsets.all(5),
+                primary: Colors.red,
+                onPrimary: Colors.black87,
+                //minimumSize: Size(currentWidth/8, currentHeight/22)
+                
+              ),
+              child: Text("3 upcoming events  >")),
+            ),
+
+            const Positioned(
+              bottom: 8,
               child: BookClubContainer())
           ]),
         ));

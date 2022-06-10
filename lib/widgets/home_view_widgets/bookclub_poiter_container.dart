@@ -9,7 +9,9 @@ class BookClubPointer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          decoration: BoxDecoration(color: Colors.red),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            color: Colors.red),
           padding: EdgeInsets.all(2.5),
           width: 75,
           height: 20,

@@ -10,7 +10,6 @@ class BookClubContainer extends StatelessWidget {
 
     return Stack(
       children: [
-      
         Container(
           color: Colors.transparent,
           height: currentHeight / 4,
@@ -19,8 +18,14 @@ class BookClubContainer extends StatelessWidget {
               padding: EdgeInsets.all(12),
               width: currentWidth - 20,
               height: currentHeight / 5,
-              decoration: BoxDecoration(
-                  color: Colors.red, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Colors.black87.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                )
+              ], color: Colors.white, borderRadius: BorderRadius.circular(12)),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -57,9 +62,9 @@ class BookClubContainer extends StatelessWidget {
             ),
           ),
         ),
-          const Positioned(
+        const Positioned(
           top: 2,
-           right: 15,
+          right: 15,
           child: CircleAvatar(
             backgroundImage:
                 NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
@@ -69,17 +74,15 @@ class BookClubContainer extends StatelessWidget {
           right: 15,
           bottom: 6,
           child: ElevatedButton(
-            
-            onPressed: (){
-        
-          }, 
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)
-                        ),
-            onPrimary: Colors.blue
-          ),
-          child: Text("Join",style: TextStyle(color: Colors.white),)),
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  onPrimary: Colors.blue),
+              child: Text(
+                "Join",
+                style: TextStyle(color: Colors.white),
+              )),
         )
       ],
     );
