@@ -26,7 +26,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
     return Padding(
       padding: const EdgeInsets.only(right: 6.0, left: 2.0, bottom: 4),
       child: Stack(
-        alignment: Alignment.bottomCenter,
+        // alignment: Alignment.bottomCenter,
         children: [
           Positioned(
             child: Container(
