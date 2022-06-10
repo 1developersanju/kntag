@@ -1,90 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/core/models/home_tag/home_tag_model.dart';
 
-class BookClubContainer extends StatelessWidget {
-  const BookClubContainer({Key? key}) : super(key: key);
+import '../../core/models/group_tag_list/group_tag_list_model.dart';
 
+class BookClubContainer extends StatefulWidget {
+  String tagText;
+  String subText;
+  String address;
+
+  BookClubContainer({
+    required this.tagText,
+    required this.subText,
+    required this.address,
+  });
+  @override
+  State<BookClubContainer> createState() => _BookClubContainerState();
+}
+
+class _BookClubContainerState extends State<BookClubContainer> {
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
-    return Stack(
-      children: [
-        Container(
-          color: Colors.transparent,
-          height: currentHeight / 4,
-          child: Center(
+    return Padding(
+      padding: const EdgeInsets.only(right: 6.0, left: 2.0, bottom: 4),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
             child: Container(
-              padding: EdgeInsets.all(12),
-              width: currentWidth - 20,
-              height: currentHeight / 5,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.black87.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                )
-              ], color: Colors.white, borderRadius: BorderRadius.circular(12)),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "#BookClub",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[900],
-                          fontSize: 15),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text("Location: Race Course"),
-                    Text("13th Feb 2022 : 07pm to 10pm"),
-                    Spacer(),
-                    Divider(
-                      endIndent: 150,
-                      color: Colors.black,
-                    ),
-                    Row(
-                      children: [
-                        buildStackedImages(),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "13 Joined . 12/25 Spot Left",
-                          style: TextStyle(fontSize: 11),
+              color: Colors.transparent,
+              height: currentHeight / 2,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  width: currentWidth - 40,
+                  height: currentHeight / 5,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black87.withOpacity(0.100),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
                         )
                       ],
-                    )
-                  ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.tagText,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue[900],
+                              fontSize: 15),
+                        ),
+                        Spacer(),
+                        Text("Location: Race Course"),
+                        Text("13th Feb 2022 : 07pm to 10pm"),
+                        Spacer(),
+                        Divider(
+                          endIndent: 300,
+                          color: Colors.black,
+                        ),
+                        Row(
+                          children: [
+                            buildStackedImages(),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              "13 Joined . 12/25 Spot Left",
+                              style: TextStyle(fontSize: 11),
+                            )
+                          ],
+                        )
+                      ]),
+                ),
+              ),
             ),
           ),
-        ),
-        const Positioned(
-          top: 2,
-          right: 15,
-          child: CircleAvatar(
-            backgroundImage:
-                NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
+          const Positioned(
+            bottom: 167,
+            right: 15,
+            child: CircleAvatar(
+              backgroundImage:
+                  NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
+            ),
           ),
-        ),
-        Positioned(
-          right: 15,
-          bottom: 6,
-          child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  onPrimary: Colors.blue),
-              child: Text(
-                "Join",
-                style: TextStyle(color: Colors.white),
-              )),
-        )
-      ],
+          Positioned(
+            right: 15,
+            bottom: -1,
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    onPrimary: Colors.blue),
+                child: Text(
+                  "Join",
+                  style: TextStyle(color: Colors.white),
+                )),
+          )
+        ],
+      ),
     );
   }
 
