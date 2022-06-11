@@ -91,6 +91,7 @@ class _HomeViewState extends State<HomeView> {
                       time: containerDetails[index].time,
                       spotsLeft: containerDetails[index].spotLeft,
                       profile: containerDetails[index].myProfile,
+                      userProfile: containerDetails[index].userProfileData,
                     );
                   },
                 ),

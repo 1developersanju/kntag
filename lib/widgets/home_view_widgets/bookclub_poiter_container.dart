@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../../ui/views/home_view/event_details_view/event_details_view.dart';
+
 class BookClubPointer extends StatelessWidget {
-  const BookClubPointer({Key? key}) : super(key: key);
+  // String tagText;
+  // String location;
+  // String date;
+  // String time;
+  // String joined;
+  // String spotsLeft;
+  // String profile;
+
+  // BookClubPointer({
+  //   required this.tagText,
+  //   required this.location,
+  //   required this.date,
+  //   required this.time,
+  //   required this.spotsLeft,
+  //   required this.joined,
+  //   required this.profile,
+  // });
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +63,7 @@ class BookClubPointer extends StatelessWidget {
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 
-    return StackedWidgets(
+    return StackedWidget(
       items: items,
       size: size,
     );
@@ -69,58 +87,6 @@ class BookClubPointer extends StatelessWidget {
     );
   }
 }
-
-// Class to stack circles
-class StackedWidgets extends StatelessWidget {
-  final List<Widget> items;
-  final TextDirection direction;
-  final double size;
-  final double xShift;
-
-  const StackedWidgets({
-    Key? key,
-    required this.items,
-    this.direction = TextDirection.ltr,
-    this.size = 10,
-    this.xShift = 10,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final allItems = items
-        .asMap()
-        .map((index, item) {
-          final left = size - xShift;
-
-          final value = Container(
-            width: size,
-            height: size,
-            margin: EdgeInsets.only(left: left * index),
-            child: item,
-          );
-
-          return MapEntry(index, value);
-        })
-        .values
-        .toList();
-
-    return Container(
-      padding: EdgeInsets.all(3),
-      height: 48,
-      width: 95,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(30)),
-      child: Center(
-        child: Stack(
-          children: direction == TextDirection.ltr
-              ? allItems.reversed.toList()
-              : allItems,
-        ),
-      ),
-    );
-  }
-}
-
 
 
 
