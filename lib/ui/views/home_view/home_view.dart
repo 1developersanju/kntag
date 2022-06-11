@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kntag/core/models/home_tag/home_tag_model.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:kntag/widgets/home_view_widgets/bookclub_poiter_container.dart';
@@ -19,7 +18,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    containerDetails = homeTagTileDatas();
+    containerDetails = tagTileDatas();
   }
 
   @override
@@ -47,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                      "https://fiorecommunications.com/wp-content/uploads/2019/02/image-maps.jpg"),
+                      "https://i.pinimg.com/564x/36/08/7c/36087c294ce01fad38d6565f3885b16c.jpg"),
                   fit: BoxFit.cover)),
           child: Stack(
             children: [
@@ -81,8 +80,11 @@ class _HomeViewState extends State<HomeView> {
                   itemBuilder: (context, index) {
                     return BookClubContainer(
                       tagText: containerDetails[index].tagText,
-                      subText: containerDetails[index].subText,
-                      address: '',
+                      joined: containerDetails[index].joined,
+                      location: containerDetails[index].location,
+                      date: containerDetails[index].date,
+                      time: containerDetails[index].time,
+                      spotsLeft: containerDetails[index].spotLeft,
                     );
                   },
                 ),

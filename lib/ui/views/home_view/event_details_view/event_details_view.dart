@@ -34,22 +34,17 @@ class _EventDetailsViewState extends State<EventDetailsView> {
         padding: const EdgeInsets.all(15),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-               Container(
-                width: currentWidth / 2,
-                height: currentHeight / 3.5,
-                color: Colors.deepOrange,
+            child: ListView(scrollDirection: Axis.horizontal, children: [
+              Container(
+                width: currentWidth * 0.54,
+                height: currentHeight * 0.2,
+                color: Colors.blueGrey,
                 child: Image.network(
                   "https://c4.wallpaperflare.com/wallpaper/779/691/639/movies-film-reel-technology-projector-8mm-wallpaper-preview.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
-          
-              
-              ]
-            ),
+            ]),
           ),
           SizedBox(
             height: 15,

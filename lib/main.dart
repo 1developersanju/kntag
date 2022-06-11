@@ -31,6 +31,6 @@ class MyApp extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             )),
-        home: EventDetailsView());
+        home: Tabbar());
   }
 }

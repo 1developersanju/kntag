@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TagTile extends StatefulWidget {
-  
   String tagText;
-  String subText;
+  String joinedCount;
+  String leftCount;
 
   TagTile({
     required this.tagText,
-    required this.subText,
+    required this.joinedCount,
+    required this.leftCount,
   });
 
   @override
@@ -21,17 +22,16 @@ class _TagTileState extends State<TagTile> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 6.5,left: 10,right: 10),
+      padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
-        
         child: Container(
           padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
           width: currentWidth - 20,
           height: currentHeight / 8,
           decoration: BoxDecoration(
-              color: Colors.white, 
-              borderRadius: BorderRadius.circular(8)),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               widget.tagText,
               //"#BookClub",
@@ -44,7 +44,7 @@ class _TagTileState extends State<TagTile> {
             Row(
               children: [
                 Text(
-                  widget.subText,
+                  "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
                   //"13 Joined\n12/25 Spot Left",
                   style: TextStyle(color: Colors.black87, fontSize: 11),
                 ),

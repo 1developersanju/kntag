@@ -1,55 +1,113 @@
 class GroupTagList {
+  String myProfile;
   String tagText;
-  String subText;
-  String address;
+  String location;
+  String date;
+  String time;
+  String joined;
+  String spotLeft;
   GroupTagList(
-      {required this.tagText, required this.subText, required this.address});
+      {required this.tagText,
+      required this.location,
+      required this.date,
+      required this.time,
+      required this.joined,
+      required this.spotLeft,
+      required this.myProfile});
 }
 
 tagTileDatas() {
   List<GroupTagList> tagTileDetails = [];
 
-  GroupTagList tileData = GroupTagList(tagText: "", subText: "", address: '');
+  GroupTagList tileData = GroupTagList(
+      tagText: "",
+      date: "",
+      location: '',
+      time: '',
+      joined: '',
+      spotLeft: '',
+      myProfile: '');
 
   //1
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
   //2
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
   //3
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
+
   //4
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
+
   //5
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
+
   //6
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
+
   //7
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
-  tagTileDetails.add(tileData);
-  //8
-  tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
-  tagTileDetails.add(tileData);
-  //9
-  tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
-  tagTileDetails.add(tileData);
-  //10
-  tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+    tagText: "#BookClub",
+    date: "13th june 2022",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: 'j',
+  );
   tagTileDetails.add(tileData);
 
   return tagTileDetails;

@@ -59,7 +59,7 @@ class _GroupViewState extends State<GroupView> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 130, 162, 189),
       appBar: AppBar(
-        title: Text(""),
+        title: Text("KnTag"),
         // TextField(
         //   decoration: InputDecoration(
         //     border: OutlineInputBorder(),
@@ -88,7 +88,7 @@ class _GroupViewState extends State<GroupView> {
                 children: [
                   Icon(
                     Icons.location_pin,
-                    color: Colors.blue[900],
+                    color: Colors.white,
                   ),
                   Text(
                     "${kmSlider}Km",
@@ -104,8 +104,10 @@ class _GroupViewState extends State<GroupView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return TagTile(
-              tagText: containerDetails[index].tagText,
-              subText: containerDetails[index].subText);
+            tagText: containerDetails[index].tagText,
+            joinedCount: containerDetails[index].joined,
+            leftCount: containerDetails[index].spotLeft,
+          );
         },
       ),
     );
