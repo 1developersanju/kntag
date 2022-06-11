@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({Key? key}) : super(key: key);
@@ -10,6 +11,6 @@ class NotificationView extends StatefulWidget {
 class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
-    return Text("Notification View");
+    return Scaffold(backgroundColor: bgColor, body: Text("Notification View"));
   }
 }

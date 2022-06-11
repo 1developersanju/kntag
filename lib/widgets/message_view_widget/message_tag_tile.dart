@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
-class TagTile extends StatefulWidget {
+class MessageTagTile extends StatefulWidget {
   String tagText;
   String joinedCount;
   String leftCount;
   List userProfile;
 
-  TagTile({
+  MessageTagTile({
     required this.tagText,
     required this.joinedCount,
     required this.leftCount,
@@ -14,10 +15,10 @@ class TagTile extends StatefulWidget {
   });
 
   @override
-  State<TagTile> createState() => _TagTileState();
+  State<MessageTagTile> createState() => _MessageTagTileState();
 }
 
-class _TagTileState extends State<TagTile> {
+class _MessageTagTileState extends State<MessageTagTile> {
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -51,7 +52,35 @@ class _TagTileState extends State<TagTile> {
                   style: TextStyle(color: Colors.black87, fontSize: 11),
                 ),
                 Spacer(),
-                buildStackedImages()
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                            backgroundColor: bgColor,
+                            radius: 13,
+                            child: Icon(
+                              Icons.location_pin,
+                              size: 14,
+                            )),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        CircleAvatar(
+                            backgroundColor: bgColor,
+                            radius: 13,
+                            child: Icon(
+                              Icons.message,
+                              size: 13,
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    buildStackedImages(),
+                  ],
+                )
               ],
             )
           ]),
