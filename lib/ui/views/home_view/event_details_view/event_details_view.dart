@@ -3,31 +3,7 @@
 import 'package:flutter/material.dart';
 
 class EventDetailsView extends StatefulWidget {
-  String tagName;
-  String location;
-  String dateTime;
-  String awayTime;
-  String hostedName;
-  String hostProfilePic;
-  String hostBio;
-  String circleImage1, circleImage2, circleImage3;
-  String membersJoined;
-  String spotLeft;
-
-  EventDetailsView({
-    required this.tagName,
-    required this.location,
-    required this.dateTime,
-    required this.awayTime,
-    required this.hostedName,
-    required this.hostProfilePic,
-    required this.hostBio,
-    required this.circleImage1,
-    required this.circleImage2,
-    required this.circleImage3,
-    required this.membersJoined,
-    required this.spotLeft,
-  });
+  const EventDetailsView({Key? key}) : super(key: key);
 
   @override
   State<EventDetailsView> createState() => _EventDetailsViewState();
@@ -60,15 +36,9 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           Expanded(
             child: ListView(scrollDirection: Axis.horizontal, children: [
               Container(
-<<<<<<< HEAD
-                width: currentWidth / 2,
-                height: currentHeight / 3.5,
-                color: Colors.deepOrange,
-=======
                 width: currentWidth * 0.54,
                 height: currentHeight * 0.2,
                 color: Colors.blueGrey,
->>>>>>> 401953ede4bbbab8ea15bdcc1d345a19e889999a
                 child: Image.network(
                   "https://c4.wallpaperflare.com/wallpaper/779/691/639/movies-film-reel-technology-projector-8mm-wallpaper-preview.jpg",
                   fit: BoxFit.cover,
@@ -86,35 +56,32 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                 children: [
                   //#Hash tag text
                   Text(
-                    widget.tagName,
+                    "#BookClub",
                     style: TextStyle(
                         color: Colors.blue[900],
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
 
-                  Text(
-                    "Location : ${widget.location}",
-                    //"Location : Race Course,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[850],
-                        fontWeight: FontWeight.w500),
-                  ),
-
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.dateTime),
-                      //13th Feb 2022 : 07pm to 10pm"
+                      //subText for tag timing & date
+                      Text(
+                        "Location : Race Course\n13th Feb 2022 : 07pm to 10pm",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[850],
+                            fontWeight: FontWeight.w500),
+                      ),
                       Spacer(),
                       Text(
-                        widget.awayTime,
-                        //"14 mins away",
+                        "14 mins away",
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
                             color: Colors.grey[850]),
-                      ),
+                      )
                     ],
                   ),
 
@@ -134,8 +101,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 10,
                                   color: Colors.grey[850])),
-                          Text(widget.hostedName,
-                              //"DevarajS",
+                          Text("DevarajS",
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w900,
@@ -144,17 +110,16 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       ),
                       Spacer(),
                       CircleAvatar(
-                          backgroundImage: NetworkImage(widget.hostProfilePic)
-                          //"https://44.media.tumblr.com/16dbab1567b517ad54ce0906bcd9102c/tumblr_nmrfvdT1zu1u563huo1_500.gif"
-                          )
+                        backgroundImage: NetworkImage(
+                            "https://44.media.tumblr.com/16dbab1567b517ad54ce0906bcd9102c/tumblr_nmrfvdT1zu1u563huo1_500.gif"),
+                      )
                     ],
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    widget.hostBio,
-                    //"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -175,27 +140,12 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         children: [
                           buildStackedImages(),
                           Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                widget.membersJoined,
-                                //"13 Joined",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[850]),
-                              ),
-                              Text(
-                                widget.spotLeft,
-                                //"12/25 Spot Left"
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[850]),
-                              ),
-                            ],
+                          Text(
+                            "13 Joined\n12/25 Spot Left",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[850]),
                           ),
                           SizedBox(
                             width: 8,
@@ -228,12 +178,9 @@ class _EventDetailsViewState extends State<EventDetailsView> {
   Widget buildStackedImages() {
     final double size = 30;
     final urlImages = [
-      widget.circleImage1,
-      widget.circleImage2,
-      widget.circleImage3
-      // "https://c4.wallpaperflare.com/wallpaper/583/178/494/4k-8k-natasha-romanoff-captain-america-civil-war-wallpaper-preview.jpg",
-      // "https://wallpaperaccess.com/full/2388604.jpg",
-      // "https://images.wallpapersden.com/image/download/marvel-natasha-romanoff_bGVtZWaUmZqaraWkpJRobWllrWdma2U.jpg"
+      "https://c4.wallpaperflare.com/wallpaper/583/178/494/4k-8k-natasha-romanoff-captain-america-civil-war-wallpaper-preview.jpg",
+      "https://wallpaperaccess.com/full/2388604.jpg",
+      "https://images.wallpapersden.com/image/download/marvel-natasha-romanoff_bGVtZWaUmZqaraWkpJRobWllrWdma2U.jpg"
     ];
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();

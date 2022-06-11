@@ -3,7 +3,6 @@ import 'package:kntag/tabbar.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
-import 'package:kntag/ui/views/post_view/create_tag_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,11 +31,6 @@ class MyApp extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             )),
-<<<<<<< HEAD
-        home: 
-        EventDetailsView(tagName: "#BookClub", location: "Race Course", dateTime: "13th Feb 2022 : 07pm to 10pm", awayTime: "14 mins away", hostedName: "Natasa", hostProfilePic: "https://44.media.tumblr.com/16dbab1567b517ad54ce0906bcd9102c/tumblr_nmrfvdT1zu1u563huo1_500.gif", hostBio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat", circleImage1: "https://c4.wallpaperflare.com/wallpaper/583/178/494/4k-8k-natasha-romanoff-captain-america-civil-war-wallpaper-preview.jpg", circleImage2: "https://wallpaperaccess.com/full/2388604.jpg", circleImage3: "https://images.wallpapersden.com/image/download/marvel-natasha-romanoff_bGVtZWaUmZqaraWkpJRobWllrWdma2U.jpg", membersJoined: "13 Joined",spotLeft: "12/25 Spot Left",));
-=======
         home: Tabbar());
->>>>>>> 401953ede4bbbab8ea15bdcc1d345a19e889999a
   }
 }
