@@ -1,12 +1,8 @@
-class GroupTagList {
-  String tagText;
-  String subText;
-  String address;
-  GroupTagList(
-      {required this.tagText, required this.subText, required this.address});
-}
+import 'package:flutter/material.dart';
 
-tagTileDatas() {
+import '../group_tag_list/group_tag_list_model.dart';
+
+homeTagTileDatas() {
   List<GroupTagList> tagTileDetails = [];
 
   GroupTagList tileData = GroupTagList(tagText: "", subText: "", address: '');
@@ -17,7 +13,7 @@ tagTileDatas() {
   tagTileDetails.add(tileData);
   //2
   tileData = GroupTagList(
-      tagText: "#BookClub", subText: "13 Joined\n12/25 Spot Left", address: '');
+      tagText: "#MovieClub", subText: "13 Joined\n12/25 Spot Left", address: '');
   tagTileDetails.add(tileData);
   //3
   tileData = GroupTagList(

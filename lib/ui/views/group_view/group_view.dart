@@ -10,32 +10,41 @@ class GroupView extends StatefulWidget {
 }
 
 class _GroupViewState extends State<GroupView> {
-  List<GroupTagList> containerDetails = [];
+  double kmSlider = 5;
 
-  int km = 5;
+  @override
+  List<GroupTagList> containerDetails = [];
 
   Future showAlertBox() async {
     return await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          double currentSliderValue = 20;
-          return AlertDialog(
-              title: Text("Filer the KM"),
-              content: Slider(
-      value: currentSliderValue,
-      max: 100,
-      divisions: 5,
-      label: currentSliderValue.round().toString(),
-      onChanged: (double value) {
-        setState(() {
-          currentSliderValue = value;
-        });
-      },
-    ));
-        });
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text("Km Range 0 - ${kmSlider.round().toString()}"),
+          content: Container(
+            height: 50,
+            child: (Slider(
+              value: kmSlider,
+              label: "${kmSlider.round().toString()} KM",
+              min: 0,
+              max: 100,
+              divisions: 10,
+              onChanged: (value) => {setState(() => kmSlider = value)},
+            )),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text("Ok"),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -82,7 +91,7 @@ class _GroupViewState extends State<GroupView> {
                     color: Colors.blue[900],
                   ),
                   Text(
-                    "${km}Km",
+                    "${kmSlider}Km",
                     style: TextStyle(fontSize: 10, color: Colors.black87),
                   )
                 ],
@@ -176,4 +185,3 @@ class MySearchDelegate extends SearchDelegate {
     );
   }
 }
-

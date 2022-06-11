@@ -14,7 +14,7 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedTab = 2;
+  int _selectedTab = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
