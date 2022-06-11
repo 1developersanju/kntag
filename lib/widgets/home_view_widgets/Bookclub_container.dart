@@ -9,6 +9,7 @@ class BookClubContainer extends StatefulWidget {
   String time;
   String joined;
   String spotsLeft;
+  String profile;
 
   BookClubContainer({
     required this.tagText,
@@ -17,6 +18,7 @@ class BookClubContainer extends StatefulWidget {
     required this.time,
     required this.spotsLeft,
     required this.joined,
+    required this.profile,
   });
   @override
   State<BookClubContainer> createState() => _BookClubContainerState();
@@ -88,12 +90,11 @@ class _BookClubContainerState extends State<BookClubContainer> {
               ),
             ),
           ),
-          const Positioned(
+           Positioned(
             bottom: 167,
             right: 15,
             child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
+              backgroundImage: NetworkImage(widget.profile),
             ),
           ),
           Positioned(

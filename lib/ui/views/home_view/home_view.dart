@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:kntag/widgets/home_view_widgets/bookclub_poiter_container.dart';
@@ -29,7 +30,11 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-          title: Text("Kntag"),
+          title: Text(
+            "Kntag",
+            style: TextStyle(color: titleColor),
+          ),
+          centerTitle: true,
           actions: [
             CircleAvatar(
                 backgroundImage: NetworkImage(
@@ -85,6 +90,7 @@ class _HomeViewState extends State<HomeView> {
                       date: containerDetails[index].date,
                       time: containerDetails[index].time,
                       spotsLeft: containerDetails[index].spotLeft,
+                      profile: containerDetails[index].myProfile,
                     );
                   },
                 ),
