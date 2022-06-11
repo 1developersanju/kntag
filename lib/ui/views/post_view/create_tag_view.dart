@@ -86,7 +86,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                       fillColor: Colors.white)),
 
               SizedBox(
-                height: 24,
+                height: 16,
               ),
 
               //4th Row TextField for Date & Time Picker
@@ -104,6 +104,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                         children: [
                           SizedBox(
                             width: currentWidth / 5.6,
+                            height: currentHeight/15,
                             child: TextField(
                               onTap: () async {
                                 DateTime? newDate = await showDatePicker(
@@ -130,6 +131,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                           ),
                           SizedBox(
                             width: currentWidth / 5.6,
+                            height: currentHeight/15,
                             child: TextField(
                               onTap: () async {
                                 TimeOfDay? newTime = await showTimePicker(
@@ -168,6 +170,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                         children: [
                           SizedBox(
                             width: currentWidth / 5.6,
+                            height: currentHeight/15,
                             child: TextField(
                               onTap: () async {
                                 DateTime? newEndDate = await showDatePicker(
@@ -195,6 +198,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                           ),
                           SizedBox(
                             width: currentWidth / 5.6,
+                            height: currentHeight/15,
                             child: TextField(
                               onTap: () async {
                                 TimeOfDay? newEndTime = await showTimePicker(
@@ -222,7 +226,7 @@ class _CreateTagViewState extends State<CreateTagView> {
               ),
 
               SizedBox(
-                height: 24,
+                height: 18,
               ),
 
               Row(
@@ -256,13 +260,13 @@ class _CreateTagViewState extends State<CreateTagView> {
               ),
 
               SizedBox(
-                height: 28,
+                height: 10,
               ),
 
               //Button for next function
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 62),
+                      minimumSize: Size(double.infinity, currentHeight/12),
                       primary: Colors.blue[900]),
                   onPressed: () {},
                   child: Text("Next"))

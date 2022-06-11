@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/tabbar.dart';
+import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 
@@ -30,6 +31,6 @@ class MyApp extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             )),
-        home: Tabbar());
+        home: EventDetailsView());
   }
 }
