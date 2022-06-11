@@ -10,8 +10,7 @@ class BookClubPointer extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: Colors.red),
+              borderRadius: BorderRadius.circular(3), color: Colors.red),
           padding: EdgeInsets.all(2.5),
           width: 75,
           height: 20,
@@ -23,9 +22,7 @@ class BookClubPointer extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-
         buildStackedImages(),
-        
         SizedBox(
           height: 10,
         ),
@@ -56,10 +53,9 @@ class BookClubPointer extends StatelessWidget {
 
   // Method for providing image $ shape circle
   Widget buildImage(String urlImage) {
-
     final double borderSize = 0.8;
-    
-    return ClipOval(  
+
+    return ClipOval(
       child: Container(
         padding: EdgeInsets.all(borderSize),
         color: Colors.black,
@@ -73,8 +69,6 @@ class BookClubPointer extends StatelessWidget {
     );
   }
 }
-
-
 
 // Class to stack circles
 class StackedWidgets extends StatelessWidget {
@@ -115,9 +109,7 @@ class StackedWidgets extends StatelessWidget {
       height: 48,
       width: 95,
       decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(30)
-      ),
+          color: Colors.blue, borderRadius: BorderRadius.circular(30)),
       child: Center(
         child: Stack(
           children: direction == TextDirection.ltr

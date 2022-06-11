@@ -60,9 +60,15 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           Expanded(
             child: ListView(scrollDirection: Axis.horizontal, children: [
               Container(
+<<<<<<< HEAD
                 width: currentWidth / 2,
                 height: currentHeight / 3.5,
                 color: Colors.deepOrange,
+=======
+                width: currentWidth * 0.54,
+                height: currentHeight * 0.2,
+                color: Colors.blueGrey,
+>>>>>>> 401953ede4bbbab8ea15bdcc1d345a19e889999a
                 child: Image.network(
                   "https://c4.wallpaperflare.com/wallpaper/779/691/639/movies-film-reel-technology-projector-8mm-wallpaper-preview.jpg",
                   fit: BoxFit.cover,

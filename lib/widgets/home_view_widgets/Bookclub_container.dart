@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:kntag/core/models/home_tag/home_tag_model.dart';
 
 import '../../core/models/group_tag_list/group_tag_list_model.dart';
 
 class BookClubContainer extends StatefulWidget {
   String tagText;
-  String subText;
-  String address;
+  String location;
+  String date;
+  String time;
+  String joined;
+  String spotsLeft;
+  String profile;
 
   BookClubContainer({
     required this.tagText,
-    required this.subText,
-    required this.address,
+    required this.location,
+    required this.date,
+    required this.time,
+    required this.spotsLeft,
+    required this.joined,
+    required this.profile,
   });
   @override
   State<BookClubContainer> createState() => _BookClubContainerState();
@@ -59,8 +66,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                               fontSize: 15),
                         ),
                         Spacer(),
-                        Text("Location: Race Course"),
-                        Text("13th Feb 2022 : 07pm to 10pm"),
+                        Text("Location: ${widget.location}"),
+                        Text("${widget.date} : ${widget.time}"),
                         Spacer(),
                         Divider(
                           endIndent: 300,
@@ -73,7 +80,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                               width: 5,
                             ),
                             Text(
-                              "13 Joined . 12/25 Spot Left",
+                              "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
                               style: TextStyle(fontSize: 11),
                             )
                           ],
@@ -83,12 +90,11 @@ class _BookClubContainerState extends State<BookClubContainer> {
               ),
             ),
           ),
-          const Positioned(
+           Positioned(
             bottom: 167,
             right: 15,
             child: CircleAvatar(
-              backgroundImage:
-                  NetworkImage("https://wallpapercave.com/wp/wp4298215.jpg"),
+              backgroundImage: NetworkImage(widget.profile),
             ),
           ),
           Positioned(

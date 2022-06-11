@@ -14,7 +14,7 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
-  int _selectedTab = 2;
+  int _selectedTab = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +26,13 @@ class _TabbarState extends State<Tabbar> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.location_pin), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.location_pin), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "Group"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box_rounded), label: "Post"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Notification"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_box_rounded), label: "Post"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications), label: "Notification"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Messages")
         ],
       ),
@@ -47,10 +50,11 @@ class _TabbarState extends State<Tabbar> {
 
   IgnorePointer renderView(int tabIndex, Widget view) {
     return IgnorePointer(
-        ignoring: _selectedTab != tabIndex,
-        child: Opacity(
-          opacity: _selectedTab == tabIndex ? 1 : 0,
-          child: view,),
-      );
+      ignoring: _selectedTab != tabIndex,
+      child: Opacity(
+        opacity: _selectedTab == tabIndex ? 1 : 0,
+        child: view,
+      ),
+    );
   }
 }
