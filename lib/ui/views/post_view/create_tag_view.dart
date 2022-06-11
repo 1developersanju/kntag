@@ -104,8 +104,9 @@ class _CreateTagViewState extends State<CreateTagView> {
                         children: [
                           SizedBox(
                             width: currentWidth / 5.6,
-                            height: currentHeight/15,
-                            child: TextField(
+                           // height: currentHeight/15,
+                            child: TextFormField(
+                              initialValue: "$startDate",
                               onTap: () async {
                                 DateTime? newDate = await showDatePicker(
                                     context: context,
@@ -119,9 +120,11 @@ class _CreateTagViewState extends State<CreateTagView> {
                                   startDate = newDate;
                                 });
                               },
+                              
                               decoration: InputDecoration(
+                                
                                   border: OutlineInputBorder(),
-                                  hintText: "$startDate",
+                                  hintText: "Date",
                                   filled: true,
                                   fillColor: Colors.white),
                             ),
@@ -131,8 +134,9 @@ class _CreateTagViewState extends State<CreateTagView> {
                           ),
                           SizedBox(
                             width: currentWidth / 5.6,
-                            height: currentHeight/15,
-                            child: TextField(
+                            //height: currentHeight/15,
+                            child: TextFormField(
+                              
                               onTap: () async {
                                 TimeOfDay? newTime = await showTimePicker(
                                     context: context, initialTime: startTime);
@@ -170,8 +174,9 @@ class _CreateTagViewState extends State<CreateTagView> {
                         children: [
                           SizedBox(
                             width: currentWidth / 5.6,
-                            height: currentHeight/15,
-                            child: TextField(
+                            //height: currentHeight/15,
+                            child: TextFormField(
+                              initialValue: "$endDate",
                               onTap: () async {
                                 DateTime? newEndDate = await showDatePicker(
                                     context: context,
@@ -188,7 +193,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                               },
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
-                                  hintText: "$endDate",
+                                  hintText: "DATE",
                                   filled: true,
                                   fillColor: Colors.white),
                             ),
@@ -198,8 +203,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                           ),
                           SizedBox(
                             width: currentWidth / 5.6,
-                            height: currentHeight/15,
-                            child: TextField(
+                            //height: currentHeight/15,
+                            child: TextFormField(
                               onTap: () async {
                                 TimeOfDay? newEndTime = await showTimePicker(
                                     context: context, initialTime: endTime);
