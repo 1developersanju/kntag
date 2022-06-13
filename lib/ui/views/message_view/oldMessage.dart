@@ -25,7 +25,9 @@ class _OldMessageViewState extends State<OldMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
-            tagText: containerDetails[index].tagText,
+            tagText: containerDetails[index].tagText == 0
+                ? containerDetails[index].tagText
+                : containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
             userProfile: containerDetails[index].userProfileData,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/models/group_tag_list/group_tag_list_model.dart';
 import '../../ui/views/home_view/event_details_view/event_details_view.dart';
@@ -104,7 +105,9 @@ class _BookClubContainerState extends State<BookClubContainer> {
             right: 15,
             bottom: -1,
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("datee: $date");
+                },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
@@ -130,6 +133,12 @@ class _BookClubContainerState extends State<BookClubContainer> {
       items: items,
       size: size,
     );
+  }
+
+  date() {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(now);
   }
 
   // Method for providing image $ shape circle

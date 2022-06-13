@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class GroupTagList {
   String myProfile;
   String tagText;
@@ -7,15 +9,18 @@ class GroupTagList {
   String joined;
   String spotLeft;
   List userProfileData;
-  GroupTagList(
-      {required this.tagText,
-      required this.location,
-      required this.date,
-      required this.time,
-      required this.joined,
-      required this.spotLeft,
-      required this.myProfile,
-      required this.userProfileData});
+  data() {}
+
+  GroupTagList({
+    required this.tagText,
+    required this.location,
+    required this.date,
+    required this.time,
+    required this.joined,
+    required this.spotLeft,
+    required this.myProfile,
+    required this.userProfileData,
+  });
 }
 
 String profilepic =
@@ -30,21 +35,23 @@ String profilepic3 =
 
 tagTileDatas() {
   List<GroupTagList> tagTileDetails = [];
+  List oldMessages = [];
 
   GroupTagList tileData = GroupTagList(
-      tagText: "",
-      date: "",
-      location: '',
-      time: '',
-      joined: '',
-      spotLeft: '',
-      myProfile: '',
-      userProfileData: []);
+    tagText: "",
+    date: "",
+    location: '',
+    time: '',
+    joined: '',
+    spotLeft: '',
+    myProfile: '',
+    userProfileData: [],
+  );
 
   //1
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -57,7 +64,7 @@ tagTileDatas() {
   //2
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -69,7 +76,7 @@ tagTileDatas() {
   //3
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -82,7 +89,7 @@ tagTileDatas() {
   //4
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -95,7 +102,7 @@ tagTileDatas() {
   //5
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -108,7 +115,7 @@ tagTileDatas() {
   //6
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -121,7 +128,7 @@ tagTileDatas() {
   //7
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "13th june 2022",
+    date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -129,6 +136,7 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
+
   tagTileDetails.add(tileData);
 
   return tagTileDetails;
