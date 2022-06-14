@@ -58,7 +58,7 @@ class _GroupViewState extends State<GroupView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 130, 162, 189),
+      backgroundColor: bgColor,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -112,6 +112,7 @@ class _GroupViewState extends State<GroupView> {
             tagText: containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
+            userProfile: containerDetails[index].userProfileData,
           );
         },
       ),

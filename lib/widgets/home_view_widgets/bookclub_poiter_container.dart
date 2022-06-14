@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
 class BookClubPointer extends StatelessWidget {
-  const BookClubPointer({Key? key}) : super(key: key);
+  // String tagText;
+  // List userProfile;
+  // String joined;
+
+  // BookClubPointer({
+  //   required this.tagText,
+  //   required this.userProfile,
+  //   required this.joined,
+  // });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +67,7 @@ class BookClubPointer extends StatelessWidget {
     return ClipOval(
       child: Container(
         padding: EdgeInsets.all(borderSize),
-        color: Colors.black,
+        color: Colors.white,
         child: ClipOval(
           child: Image.network(
             urlImage,
@@ -109,7 +118,7 @@ class StackedWidgets extends StatelessWidget {
       height: 48,
       width: 95,
       decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(30)),
+          color: profileBlueColor, borderRadius: BorderRadius.circular(30)),
       child: Center(
         child: Stack(
           children: direction == TextDirection.ltr

@@ -226,6 +226,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "10.1.0"
+<<<<<<< HEAD
   frontend_server_client:
     dependency: transitive
     description:
@@ -380,6 +381,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.2.0"
+=======
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
+>>>>>>> 8e516c5b6ddb8c1a836169299e5d8db3d91fb47e
   lints:
     dependency: transitive
     description:
