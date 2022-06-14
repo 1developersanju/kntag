@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/models/group_tag_list/group_tag_list_model.dart';
-
 class BookClubContainer extends StatefulWidget {
   String tagText;
   String location;

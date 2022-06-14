@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/views/Google%20map/current_location_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
@@ -44,38 +45,42 @@ class _HomeViewState extends State<HomeView> {
             )
           ],
         ),
-        body: Container(
-          width: currentWidth,
-          height: currentHeight,
-          padding: EdgeInsets.only(left: 10, right: 10),
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                      "https://i.pinimg.com/564x/36/08/7c/36087c294ce01fad38d6565f3885b16c.jpg"),
-                  fit: BoxFit.cover)),
-          child: Stack(
+        body: 
+        // Container(
+        //   width: currentWidth,
+        //   height: currentHeight,
+        //   padding: EdgeInsets.only(left: 10, right: 10),
+        //   decoration: BoxDecoration(
+        //       image: DecorationImage(
+        //           image: NetworkImage(
+        //               "https://i.pinimg.com/564x/36/08/7c/36087c294ce01fad38d6565f3885b16c.jpg"),
+        //           fit: BoxFit.cover)),
+        //   child: 
+          Stack(
             children: [
-              Positioned(top: 50, left: 25, child: BookClubPointer()),
-              Positioned(top: 75, left: 250, child: BookClubPointer()),
-              Positioned(top: 150, left: 150, child: BookClubPointer()),
-              Positioned(top: 250, left: 60, child: BookClubPointer()),
-              Positioned(
-                left: currentWidth / 3.5,
-                bottom: 250,
-                height: currentHeight / 24,
-                width: currentWidth / 2.5,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      padding: const EdgeInsets.all(5),
-                      primary: Colors.red,
-                      onPrimary: Colors.black87,
-                      //minimumSize: Size(currentWidth/8, currentHeight/22)
-                    ),
-                    child: Text("3 upcoming events  >")),
-              ),
+              
+              CurrentLocation(),
+              // Positioned(top: 50, left: 25, child: BookClubPointer()),
+              // Positioned(top: 75, left: 250, child: BookClubPointer()),
+              // Positioned(top: 150, left: 150, child: BookClubPointer()),
+              // Positioned(top: 250, left: 60, child: BookClubPointer()),
+              // Positioned(
+              //   left: currentWidth / 3.5,
+              //   bottom: 250,
+              //   height: currentHeight / 24,
+              //   width: currentWidth / 2.5,
+              //   child: ElevatedButton(
+              //       onPressed: () {},
+              //       style: ElevatedButton.styleFrom(
+              //         shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(30)),
+              //         padding: const EdgeInsets.all(5),
+              //         primary: Colors.red,
+              //         onPrimary: Colors.black87,
+              //         //minimumSize: Size(currentWidth/8, currentHeight/22)
+              //       ),
+              //       child: Text("3 upcoming events  >")),
+              // ),
               Container(
                 height: currentHeight / 4,
                 // bottom: 200,
@@ -98,6 +103,7 @@ class _HomeViewState extends State<HomeView> {
             ],
             alignment: Alignment.bottomCenter,
           ),
-        ));
+       // )
+        );
   }
 }
