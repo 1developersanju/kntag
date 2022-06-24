@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/main.dart';
 import 'package:kntag/widgets/Profile_view_widgets/book_club_container.dart';
@@ -10,6 +14,20 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  File? image;
+  Future pickimage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final temporaryImage = File(image.path);
+      setState(() {
+        this.image = temporaryImage;
+      });
+    } on PlatformException catch (e) {
+      print('unable to pick image $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
@@ -83,10 +101,38 @@ class _ProfileViewState extends State<ProfileView> {
                       left: currentWidth / 2 - 50,
                       top: 0,
                       child: CircleAvatar(
+<<<<<<< HEAD
                         radius: 35,
                         backgroundImage: NetworkImage(
                             "https://wallpaperaccess.com/full/2024739.jpg"),
                       ),
+=======
+                          radius: 30,
+                          child: image != null
+                              ? GestureDetector(
+                                  onTap: (() {
+                                    pickimage();
+                                  }),
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      image!,
+                                      height: currentHeight / 9.5,
+                                      width: currentWidth / 6,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ))
+                              : GestureDetector(
+                                  onTap: (() {
+                                    pickimage();
+                                  }),
+                                  child: Icon(
+                                    Icons.person,
+                                    size: currentHeight / 12,
+                                  ))
+                          //  backgroundImage: NetworkImage(
+                          //    "https://wallpaperaccess.com/full/2024739.jpg"),
+                          ),
+>>>>>>> refs/remotes/origin/main
                     ),
                     Positioned(
                       top: 8,
@@ -209,5 +255,4 @@ class _ProfileViewState extends State<ProfileView> {
       ),
     );
   }
-
 }
