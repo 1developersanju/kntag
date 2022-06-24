@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 
-import '../../core/models/group_tag_list/group_tag_list_model.dart';
 import '../../ui/views/home_view/event_details_view/event_details_view.dart';
 
 
@@ -43,7 +42,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
           Positioned(
             child: Container(
               color: Colors.transparent,
-              height: currentHeight / 2,
+              height: currentHeight,
               child: Center(
                 child: Container(
                   padding: EdgeInsets.all(12),
@@ -96,7 +95,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
             ),
           ),
           Positioned(
-            bottom: 167,
+            bottom: currentHeight/5.4,
             right: 15,
             child: CircleAvatar(
               backgroundImage: NetworkImage(widget.profile),
@@ -108,6 +107,10 @@ class _BookClubContainerState extends State<BookClubContainer> {
             child: ElevatedButton(
                 onPressed: () {
                   print("datee: ");
+                  Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EventDetailsView()),
+            );
                 },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

@@ -29,7 +29,7 @@ class _NotificationTileState extends State<NotificationTile> {
       padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
         child: Container(
-          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
           width: currentWidth - 20,
           height: widget.status == "request"
               ? currentHeight / 8
@@ -80,10 +80,14 @@ class _NotificationTileState extends State<NotificationTile> {
                   ]),
               Spacer(),
               widget.status == "request"
-                  ? ElevatedButton(onPressed: () {}, child: Text("Approve"))
+                  ? ElevatedButton(
+                    
+                    onPressed: () {}, child: Text("Approve"))
                   : SizedBox(),
               widget.status == "request"
-                  ? IconButton(onPressed: () {}, icon: Icon(Icons.close))
+                  ? IconButton(
+                    iconSize: currentWidth/18,
+                    onPressed: () {}, icon: Icon(Icons.close))
                   : SizedBox(),
             ],
           ),

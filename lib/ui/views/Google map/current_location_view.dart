@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CurrentLocation extends StatefulWidget {
   const CurrentLocation({Key? key}) : super(key: key);
- 
 
   @override
   State<CurrentLocation> createState() => _CurrentLocationState();
@@ -16,19 +15,20 @@ class _CurrentLocationState extends State<CurrentLocation> {
   late GoogleMapController googleMapController;
   late GoogleMapController mapController;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //getCustomMarker();
+  }
+
   final LatLng _center = const LatLng(11.011058542747458, 76.88561938630546);
 
   Set<Marker> markers = Set();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Current Location"),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 49, 101, 50),
-      ),
-      body: GoogleMap(
+    return GoogleMap(
         initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
         markers: markers,
         zoomControlsEnabled: false,
@@ -37,7 +37,6 @@ class _CurrentLocationState extends State<CurrentLocation> {
           googleMapController = controller;
           getCurrentLocation();
         },
-      ),
     );
   }
 
@@ -71,6 +70,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
         position:
             LatLng(11.013578866965481, 76.93194749716262), //position of marker
         infoWindow: InfoWindow(
+          
           //popup info
           title: '2',
           snippet: 'My Custom Subtitle',
@@ -110,7 +110,6 @@ class _CurrentLocationState extends State<CurrentLocation> {
     return markers;
   }
 
-
 //this is a function that providing current location permission
   Future<Position> _detrminePosition() async {
     bool serviceEnabled;
@@ -137,4 +136,13 @@ class _CurrentLocationState extends State<CurrentLocation> {
     Position position = await Geolocator.getCurrentPosition();
     return position;
   }
+
+  // custom marker function
+  // getCustomMarker() async {
+  //   var icon = await BitmapDescriptor.fromAssetImage(
+  //       ImageConfiguration(size: Size(10,10)),
+  //       "assets/mario_PNG125.png");
+  //   setState(() {
+  //   });
+  // }
 }

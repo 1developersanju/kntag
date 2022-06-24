@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/drawer.dart';
 import 'package:kntag/ui/views/Google%20map/current_location_view.dart';
+import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
@@ -29,17 +31,26 @@ class _HomeViewState extends State<HomeView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      drawer: Drawer(child: Drawerpage()),
         appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+          //leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
           title: Text(
             "Kntag",
             style: TextStyle(color: titleColor),
           ),
           centerTitle: true,
           actions: [
-            CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://wallpaperaccess.com/full/2024739.jpg")),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileView()),
+            );
+              },
+              child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://wallpaperaccess.com/full/2024739.jpg")),
+            ),
             SizedBox(
               width: 10,
             )

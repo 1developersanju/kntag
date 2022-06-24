@@ -21,7 +21,9 @@ class _EventDetailsViewState extends State<EventDetailsView> {
         centerTitle: true,
         title: Text("Tag"),
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: Icon(Icons.arrow_back_ios),
         ),
         actions: [
@@ -36,7 +38,6 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           Expanded(
             child: ListView(scrollDirection: Axis.horizontal, children: [
               Container(
-
                 width: currentWidth / 2,
                 height: currentHeight / 3.5,
                 color: Colors.deepOrange,
@@ -166,7 +167,13 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           fixedSize: Size(currentWidth, currentHeight / 12)),
-                      onPressed: () {},
+                      onPressed: () {
+                        print("sent sussess");
+                        final snackBar = SnackBar(
+                          content: const Text('Sent Join Request'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
                       child: Text("Send Join Request"))
                 ],
               )),

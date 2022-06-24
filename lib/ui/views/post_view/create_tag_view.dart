@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/views/post_view/post_setting_view/post_setting_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 //This is code file for Create Tag Page
@@ -44,8 +45,17 @@ class _CreateTagViewState extends State<CreateTagView> {
             ),
             actions: [
               PopupMenuButton(
-                itemBuilder: (BuildContext context) =>
-                    [const PopupMenuItem(child: Text("New...!"))],
+                itemBuilder: (BuildContext context) => [
+                  PopupMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostSettingView()),
+                        );
+                      },
+                      child: Text("Settings"))
+                ],
               )
             ],
           ),
