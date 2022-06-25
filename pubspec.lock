@@ -373,8 +373,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
-<<<<<<< HEAD
-=======
   image_picker:
     dependency: "direct main"
     description:
@@ -410,7 +408,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
->>>>>>> refs/remotes/origin/main
   intl:
     dependency: "direct main"
     description:

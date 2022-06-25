@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/main.dart';
 import 'package:kntag/widgets/Profile_view_widgets/book_club_container.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -60,13 +61,13 @@ class _ProfileViewState extends State<ProfileView> {
                 Stack(
                   children: [
                     Container(
-                      color: Colors.transparent,
+                      color: Colors.white,
                       width: currentWidth,
                       height: currentHeight / 2.8,
                       child: Center(
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 194, 204, 212),
+                                color: bgColor,
                                 borderRadius: BorderRadius.circular(15)),
                             width: currentWidth,
                             height: currentHeight / 3.5,
@@ -101,12 +102,6 @@ class _ProfileViewState extends State<ProfileView> {
                       left: currentWidth / 2 - 50,
                       top: 0,
                       child: CircleAvatar(
-<<<<<<< HEAD
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            "https://wallpaperaccess.com/full/2024739.jpg"),
-                      ),
-=======
                           radius: 30,
                           child: image != null
                               ? GestureDetector(
@@ -132,7 +127,6 @@ class _ProfileViewState extends State<ProfileView> {
                           //  backgroundImage: NetworkImage(
                           //    "https://wallpaperaccess.com/full/2024739.jpg"),
                           ),
->>>>>>> refs/remotes/origin/main
                     ),
                     Positioned(
                       top: 8,
@@ -242,7 +236,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               width: currentWidth,
               height: currentHeight / 2.18,
-              color: Color.fromARGB(255, 194, 204, 212),
+              color: bgColor,
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {

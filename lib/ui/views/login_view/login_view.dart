@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kntag/tabbar.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class LoginView extends StatelessWidget {
     final currentHeight = MediaQuery.of(context).size.height;
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 220, 229, 236),
+      backgroundColor: bgColor,
       body: LayoutBuilder(builder: (context, constraints) {
         return Container(
           padding: EdgeInsets.only(left: 18, right: 18, top: 50, bottom: 15),
@@ -25,7 +26,7 @@ class LoginView extends StatelessWidget {
                       Text(
                         "Create\nConnect\nCelebrate",
                         style: TextStyle(
-                            fontSize: 35, color: Color.fromARGB(255, 98, 41, 37)),
+                            fontSize: 35, color: loginTextColor),
                       ),
                       Spacer()
                     ],
@@ -66,7 +67,7 @@ class LoginView extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const Tabbar()),
             );},
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[900],
+                          primary: buttonBlue,
                           onPrimary: Color.fromARGB(255, 92, 134, 168),
                           minimumSize: Size(double.infinity, 50)),
                       child: Text(

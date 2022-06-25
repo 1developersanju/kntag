@@ -43,14 +43,11 @@ dependencies:
   json_serializable: ^6.2.0
   geolocator: ^8.2.1
   intl: ^0.17.0
-<<<<<<< HEAD
   stacked_services: ^0.8.26
   stacked: ^2.3.12
   animated_splash_screen: ^1.2.0
  
-=======
   image_picker: ^0.8.5+3
->>>>>>> refs/remotes/origin/main
 dev_dependencies:
   flutter_test:
     sdk: flutter

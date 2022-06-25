@@ -69,7 +69,7 @@ class _MessageViewState extends State<MessageView>
           controller: _controller,
         ),
       ),
-      backgroundColor: bgColor,
+      backgroundColor: Colors.amber,
       body: Center(
           child: TabBarView(
         children: _tabs,
