@@ -61,9 +61,11 @@ class _GroupViewState extends State<GroupView> {
       backgroundColor: bgColor,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "KnTag",
-          style: TextStyle(color: titleColor),
+        title: FittedBox(
+          child: Text(
+            "KnTag",
+            style: TextStyle(color: titleColor),
+          ),
         ),
         // TextField(
         //   decoration: InputDecoration(

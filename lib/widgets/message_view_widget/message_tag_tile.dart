@@ -33,57 +33,61 @@ class _MessageTagTileState extends State<MessageTagTile> {
           height: currentHeight / 8,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(8)),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              widget.tagText,
-              //"#BookClub",
-              style: TextStyle(
-                  color: Colors.blue[900],
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Row(
-              children: [
-                Text(
-                  "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
-                  //"13 Joined\n12/25 Spot Left",
-                  style: TextStyle(color: Colors.black87, fontSize: 11),
-                ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    widget.tagText,
+                    //"#BookClub",
+                    style: TextStyle(
+                        color: Colors.blue[900],
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
+                    //"13 Joined\n12/25 Spot Left",
+                    style: TextStyle(color: Colors.black87, fontSize: 11),
+                  ),
+                  ]),
+              ),
                 Spacer(),
                 Column(
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: bgColor,
-                            radius: 13,
-                            child: Icon(
-                              Icons.location_pin,
-                              size: 14,
-                            )),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CircleAvatar(
-                            backgroundColor: bgColor,
-                            radius: 13,
-                            child: Icon(
-                              Icons.message,
-                              size: 13,
-                            )),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                              backgroundColor: bgColor,
+                              radius: 13,
+                              child: Icon(
+                                Icons.location_pin,
+                                size: 14,
+                              )),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          CircleAvatar(
+                              backgroundColor: bgColor,
+                              radius: 13,
+                              child: Icon(
+                                Icons.message,
+                                size: 13,
+                              )),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    buildStackedImages(),
+                    Expanded(child: buildStackedImages()),
                   ],
                 )
-              ],
-            )
-          ]),
+              
+            ],
+          ),
         ),
       ),
     );

@@ -181,31 +181,35 @@ class _ProfileViewState extends State<ProfileView> {
                 Spacer(),
                 Row(
                   children: [
-                    OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                            textStyle: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w500),
-                            side: BorderSide(color: Colors.black),
-                            primary: Colors.grey[850],
-                            backgroundColor: Colors.white,
-                            fixedSize:
-                                Size(currentWidth / 3.5, currentHeight / 17)),
-                        child: Text("#Walking")),
-                    SizedBox(
-                      width: 5,
+                    Expanded(
+                      child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                              textStyle: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w500),
+                              side: BorderSide(color: Colors.black),
+                              primary: Colors.grey[850],
+                              backgroundColor: Colors.white,
+                              fixedSize:
+                                  Size(currentWidth / 3.5, currentHeight / 17)),
+                          child: Text("#Walking")),
                     ),
-                    OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                            textStyle: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w500),
-                            side: BorderSide(color: Colors.black),
-                            primary: Colors.grey[850],
-                            backgroundColor: Colors.white,
-                            fixedSize:
-                                Size(currentWidth / 3.5, currentHeight / 17)),
-                        child: Text("#Dancing")),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Expanded(
+                      child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                              textStyle: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w500),
+                              side: BorderSide(color: Colors.black),
+                              primary: Colors.grey[850],
+                              backgroundColor: Colors.white,
+                              fixedSize:
+                                  Size(currentWidth / 3.5, currentHeight / 17)),
+                          child: Text("#Dancing")),
+                    ),
                     SizedBox(
                       width: 5,
                     ),
@@ -225,9 +229,9 @@ class _ProfileViewState extends State<ProfileView> {
                 Spacer()
               ]),
             ),
-      
+
             //----------------------------------------------------------------------
-      
+
             Container(
               padding: EdgeInsets.only(
                 left: 15,

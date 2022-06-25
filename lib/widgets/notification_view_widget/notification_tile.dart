@@ -38,9 +38,12 @@ class _NotificationTileState extends State<NotificationTile> {
               color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  widget.oppProfile,
+              Expanded(
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    widget.oppProfile,
+                    
+                  ),
                 ),
               ),
               SizedBox(
@@ -50,44 +53,52 @@ class _NotificationTileState extends State<NotificationTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      widget.oppName,
-                      //"#BookClub",
-                      style: TextStyle(
-                          color: Colors.blue[900],
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        widget.oppName,
+                        //"#BookClub",
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     // Spacer(),
                     widget.status == "request"
-                        ? Text(
-                            "Has ${widget.status}ed to join",
-                            //"13 Joined\n12/25 Spot Left",
-                            style:
-                                TextStyle(color: Colors.black38, fontSize: 15),
-                          )
-                        : Text(
-                            "Has ${widget.status}ed your request",
-                            //"13 Joined\n12/25 Spot Left",
-                            style:
-                                TextStyle(color: Colors.black38, fontSize: 15),
-                          ),
-                    Text(
-                      "${widget.tagText}",
-                      //"13 Joined\n12/25 Spot Left",
-                      style: TextStyle(color: Colors.black38, fontSize: 11),
+                        ? Expanded(
+                          child: Text(
+                              "Has ${widget.status}ed to join",
+                              //"13 Joined\n12/25 Spot Left",
+                              style:
+                                  TextStyle(color: Colors.black38, ),
+                            ),
+                        )
+                        : Expanded(
+                          child: Text(
+                              "Has ${widget.status}ed your request",
+                              //"13 Joined\n12/25 Spot Left",
+                              style:
+                                  TextStyle(color: Colors.black38,),
+                            ),
+                        ),
+                    Expanded(
+                      child: Text(
+                        "${widget.tagText}",
+                        //"13 Joined\n12/25 Spot Left",
+                        style: TextStyle(color: Colors.black38, fontSize: 11),
+                      ),
                     ),
                   ]),
               Spacer(),
               widget.status == "request"
-                  ? ElevatedButton(
-                    
-                    onPressed: () {}, child: Text("Approve"))
+                  ? Expanded(child: ElevatedButton(onPressed: () {}, child: Text("Approve")))
                   : SizedBox(),
               widget.status == "request"
-                  ? IconButton(
-                    iconSize: currentWidth/18,
-                    onPressed: () {}, icon: Icon(Icons.close))
+                  ? Expanded(
+                    child: IconButton(
+                        iconSize: currentWidth / 18,
+                        onPressed: () {},
+                        icon: Icon(Icons.close)),
+                  )
                   : SizedBox(),
             ],
           ),

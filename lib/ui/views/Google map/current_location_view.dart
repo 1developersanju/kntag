@@ -29,14 +29,14 @@ class _CurrentLocationState extends State<CurrentLocation> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
-        initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
-        markers: markers,
-        zoomControlsEnabled: false,
-        mapType: MapType.normal,
-        onMapCreated: (GoogleMapController controller) {
-          googleMapController = controller;
-          getCurrentLocation();
-        },
+      initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
+      markers: markers,
+      zoomControlsEnabled: false,
+      mapType: MapType.normal,
+      onMapCreated: (GoogleMapController controller) {
+        googleMapController = controller;
+        getCurrentLocation();
+      },
     );
   }
 
@@ -70,7 +70,6 @@ class _CurrentLocationState extends State<CurrentLocation> {
         position:
             LatLng(11.013578866965481, 76.93194749716262), //position of marker
         infoWindow: InfoWindow(
-          
           //popup info
           title: '2',
           snippet: 'My Custom Subtitle',
