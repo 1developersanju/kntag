@@ -26,7 +26,8 @@ class LoginView extends StatelessWidget {
                       Text(
                         "Create\nConnect\nCelebrate",
                         style: TextStyle(
-                            fontSize: 35, color: loginTextColor),
+                            fontSize: currentHeight * 0.07,
+                            color: loginTextColor),
                       ),
                       Spacer()
                     ],
@@ -36,21 +37,21 @@ class LoginView extends StatelessWidget {
                   ),
                   TextField(
                     decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(),
+                        fillColor: Color(0xFFFFFFFF),
                         labelText: "Email/User Name"),
                   ),
                   SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
+                        border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.white,
-                        border: OutlineInputBorder(),
                         labelText: "Enter Password"),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: currentHeight * 0.02,
                   ),
                   TextButton(
                       onPressed: () {},
@@ -59,13 +60,16 @@ class LoginView extends StatelessWidget {
                               color: Colors.black87,
                               decoration: TextDecoration.underline))),
                   SizedBox(
-                    height: 15,
+                    height: currentHeight * 0.02,
                   ),
                   ElevatedButton(
-                      onPressed: () {Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Tabbar()),
-            );},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Tabbar()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                           primary: buttonBlue,
                           onPrimary: Color.fromARGB(255, 92, 134, 168),
@@ -75,39 +79,43 @@ class LoginView extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.white),
                       )),
-                  SizedBox(height: 15),
+                  SizedBox(height: currentHeight * 0.04),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colors.black12,
-                              minimumSize: Size(currentWidth / 2.3, 50)),
-                          icon: FaIcon(
-                            FontAwesomeIcons.google,
-                            color: Color.fromARGB(255, 70, 25, 25),
-                          ),
-                          label: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.black87),
-                          )),
-                      SizedBox(
-                        width: 12,
+                      Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Colors.black12,
+                                minimumSize: Size(currentWidth / 2.3, 50)),
+                            icon: FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Color.fromARGB(255, 70, 25, 25),
+                            ),
+                            label: Text(
+                              "Login",
+                              style: TextStyle(color: Colors.black87),
+                            )),
                       ),
-                      ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colors.black12,
-                              minimumSize: Size(currentWidth / 2.3, 50)),
-                          icon: FaIcon(FontAwesomeIcons.facebook,
-                              color: Colors.blue[600]),
-                          label: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.black87),
-                          )),
+                      SizedBox(
+                        width: currentWidth * 0.06,
+                      ),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                onPrimary: Colors.black12,
+                                minimumSize: Size(currentWidth / 2.3, 50)),
+                            icon: FaIcon(FontAwesomeIcons.facebook,
+                                color: Colors.blue[600]),
+                            label: Text(
+                              "Login",
+                              style: TextStyle(color: Colors.black87),
+                            )),
+                      ),
                     ],
                   ),
                   SizedBox(

@@ -122,7 +122,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   }),
                                   child: Icon(
                                     Icons.person,
-                                    size: currentHeight / 12,
+                                    size: 20,
                                   ))
                           //  backgroundImage: NetworkImage(
                           //    "https://wallpaperaccess.com/full/2024739.jpg"),
