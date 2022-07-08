@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:kntag/ui/views/profile_view/profile_view.dart';
+import 'package:kntag/ui/views/saved_view/saved_view.dart';
 
 class Drawerpage extends StatefulWidget {
   const Drawerpage({Key? key}) : super(key: key);
@@ -31,24 +32,33 @@ class _DrawerpageState extends State<Drawerpage> {
           SizedBox(height: 30),
           Center(
               child: TextButton(
-                onPressed: (){
-                  Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileView()),
-            );
-                },
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileView()),
+                    );
+                  },
                   child: Text(
-            'Profile',
-            style: TextStyle(color: Colors.white),
-          ))),
+                    'Profile',
+                    style: TextStyle(color: Colors.white),
+                  ))),
           SizedBox(
             height: 30,
           ),
           Center(
-              child: Text(
-            'Saved',
-            style: TextStyle(color: Colors.white),
-          )),
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SavedView()),
+                    );
+                  },
+                  child: Text(
+                    'Saved',
+                    style: TextStyle(color: Colors.white),
+                  ))),
           SizedBox(
             height: 30,
           ),

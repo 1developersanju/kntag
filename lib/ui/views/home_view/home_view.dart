@@ -18,6 +18,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  Offset offset = Offset.zero;
   List<GroupTagList> containerDetails = [];
   @override
   void initState() {
@@ -95,32 +96,49 @@ class _HomeViewState extends State<HomeView> {
           //       ),
           //       child: Text("3 upcoming events  >")),
           // ),
-          Container(
-            height: currentHeight / 4,
-            // bottom: 200,
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: containerDetails.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const EventDetailsView()),
-            );
-                  },
-                  child: BookClubContainer(
-                    tagText: containerDetails[index].tagText,
-                    joined: containerDetails[index].joined,
-                    location: containerDetails[index].location,
-                    date: containerDetails[index].date,
-                    time: containerDetails[index].time,
-                    spotsLeft: containerDetails[index].spotLeft,
-                    profile: containerDetails[index].myProfile,
-                    userProfile: containerDetails[index].userProfileData,
-                  ),
-                );
-              },
+          GestureDetector(
+            // behavior: HitTestBehavior.translucent,
+            // onPanStart: ((DragStartDetails details) {
+            //   print("Drag Start");
+            //   print(details);
+            // }),
+            // onPanUpdate: ((DragUpdateDetails details) {
+            //   setState(() {
+            //     offset = Offset(-offset.dx + details.delta.dx,
+            //         offset.dy + details.delta.dy);
+            //   });
+            //   print("Drag update");
+            //   print(details);
+            // }),
+            child: Container(
+              margin: const EdgeInsets.all(10.0),
+              height: currentHeight / 4,
+              // bottom: 200,
+              child: PageView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: containerDetails.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EventDetailsView()),
+                      );
+                    },
+                    child: BookClubContainer(
+                      tagText: containerDetails[index].tagText,
+                      joined: containerDetails[index].joined,
+                      location: containerDetails[index].location,
+                      date: containerDetails[index].date,
+                      time: containerDetails[index].time,
+                      spotsLeft: containerDetails[index].spotLeft,
+                      profile: containerDetails[index].myProfile,
+                      userProfile: containerDetails[index].userProfileData,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -32,7 +32,7 @@ class _NotificationViewState extends State<NotificationView> {
         centerTitle: true,
         title: Text(
           "Notification",
-          style: TextStyle(color: titleColor),
+          style: TextStyle(color: blackClr),
         ),
       ),
       body: ListView.builder(

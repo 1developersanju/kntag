@@ -55,7 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
             Container(
               padding: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
               width: currentWidth,
-              height: currentHeight / 2.18,
+              height: currentHeight * 0.45,
               color: Colors.white,
               child: Column(children: [
                 Stack(
@@ -63,33 +63,37 @@ class _ProfileViewState extends State<ProfileView> {
                     Container(
                       color: Colors.white,
                       width: currentWidth,
-                      height: currentHeight / 2.8,
+                      height: currentHeight * 0.36,
                       child: Center(
                         child: Container(
                             decoration: BoxDecoration(
                                 color: bgColor,
                                 borderRadius: BorderRadius.circular(15)),
                             width: currentWidth,
-                            height: currentHeight / 3.5,
+                            height: currentHeight * 0.27,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   "Yuva",
                                   style: TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.blue[900]),
+                                      color: titleColor),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text(
-                                  "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit. Morbi eget nisl nisi.",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey[850]),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Lorem ipsum dolor sit amet, consectetur\nadipiscing elit. Morbi eget nisl nisi.",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: greyText),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 18,
@@ -99,8 +103,8 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     Positioned(
-                      left: currentWidth / 2 - 50,
-                      top: 0,
+                      left: currentWidth * 0.4,
+                      top: currentWidth * 0.02,
                       child: CircleAvatar(
                           radius: 30,
                           child: image != null
@@ -129,13 +133,18 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                     ),
                     Positioned(
-                      top: 8,
-                      left: currentWidth / 12,
+                      top: currentHeight * 0.03,
+                      left: currentWidth * 0.05,
                       child: Column(
                         children: [
                           CircleAvatar(
                             radius: 12,
                             backgroundColor: Colors.orange,
+                            child: Icon(
+                              Icons.star,
+                              color: whiteClr,
+                              size: 15,
+                            ),
                           ),
                           Text(
                             "5.5",
@@ -153,11 +162,16 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     Positioned(
-                      top: 8,
-                      right: currentWidth / 12,
+                      top: currentHeight * 0.03,
+                      right: currentWidth * 0.05,
                       child: Column(
                         children: [
                           CircleAvatar(
+                            child: Icon(
+                              Icons.star,
+                              color: whiteClr,
+                              size: 15,
+                            ),
                             radius: 12,
                             backgroundColor: Colors.green,
                           ),
@@ -185,10 +199,15 @@ class _ProfileViewState extends State<ProfileView> {
                       child: OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
                               textStyle: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w500),
-                              side: BorderSide(color: Colors.black),
-                              primary: Colors.grey[850],
+                              side: BorderSide(
+                                color: greyText,
+                              ),
+                              primary: greyText,
                               backgroundColor: Colors.white,
                               fixedSize:
                                   Size(currentWidth / 3.5, currentHeight / 17)),
@@ -201,10 +220,13 @@ class _ProfileViewState extends State<ProfileView> {
                       child: OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
                               textStyle: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w500),
-                              side: BorderSide(color: Colors.black),
-                              primary: Colors.grey[850],
+                              side: BorderSide(color: greyText),
+                              primary: greyText,
                               backgroundColor: Colors.white,
                               fixedSize:
                                   Size(currentWidth / 3.5, currentHeight / 17)),
@@ -216,10 +238,13 @@ class _ProfileViewState extends State<ProfileView> {
                     OutlinedButton(
                         onPressed: () {},
                         style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
                             textStyle: TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.w500),
-                            side: BorderSide(color: Colors.black),
-                            primary: Colors.grey[850],
+                            side: BorderSide(color: greyText),
+                            primary: greyText,
                             backgroundColor: Colors.white,
                             fixedSize:
                                 Size(currentWidth / 3.5, currentHeight / 17)),
@@ -234,23 +259,27 @@ class _ProfileViewState extends State<ProfileView> {
 
             Container(
               padding: EdgeInsets.only(
-                left: 15,
-                right: 15,
-                top: 20,
+                left: 10,
+                right: 10,
+                top: 10,
               ),
               width: currentWidth,
-              height: currentHeight / 2.18,
+              height: currentHeight * 1.2,
               color: bgColor,
               child: ListView.builder(
-                itemCount: 5,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 6,
                 itemBuilder: (context, index) {
                   return BookclubContainer();
                 },
               ),
             )
           ]),
+          // margin: const EdgeInsets.all(10),
         ),
       ),
+      backgroundColor: bgColor,
     );
   }
 }

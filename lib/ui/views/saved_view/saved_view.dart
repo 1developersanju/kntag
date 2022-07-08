@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/widgets/Profile_view_widgets/book_club_container.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 
 class SavedView extends StatefulWidget {
   const SavedView({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _SavedViewState extends State<SavedView> {
     final currentHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: bgColor,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -27,13 +29,14 @@ class _SavedViewState extends State<SavedView> {
         centerTitle: true,
         title: Text("Saved"),
       ),
+      backgroundColor: bgColor,
       body: Container(
         padding: EdgeInsets.only(
           left: 15,
           right: 15,
           top: 20,
         ),
-        color: Color.fromARGB(255, 194, 204, 212),
+        color: bgColor,
         child: ListView.builder(
           itemCount: 10,
           itemBuilder: (context, index) {

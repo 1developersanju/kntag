@@ -11,6 +11,11 @@ class CreateTagView extends StatefulWidget {
   State<CreateTagView> createState() => _CreateTagViewState();
 }
 
+Future<void> _openSettings(BuildContext ctx) async {
+  await Navigator.push(
+      ctx, MaterialPageRoute(builder: (context) => PostSettingView()));
+}
+
 class _CreateTagViewState extends State<CreateTagView> {
   DateTime startDate = DateTime(2000, 12, 24);
   TimeOfDay startTime = TimeOfDay(hour: 10, minute: 12);
@@ -30,7 +35,7 @@ class _CreateTagViewState extends State<CreateTagView> {
           appBar: AppBar(
             leading: InkWell(
               onTap: () {
-                Navigator.pop(context);
+               // Navigator.pop(context);
               },
               child: const Icon(
                 Icons.arrow_back_ios,
@@ -45,15 +50,14 @@ class _CreateTagViewState extends State<CreateTagView> {
             ),
             actions: [
               PopupMenuButton(
+                onSelected: (value) {
+                  if (value == 'settings') {
+                    _openSettings(context);
+                  }
+                },
                 itemBuilder: (BuildContext context) => [
                   PopupMenuItem(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PostSettingView()),
-                        );
-                      },
+                      // onTap: () => _openSettings(context),
                       child: Text("Settings"))
                 ],
               )
@@ -66,12 +70,16 @@ class _CreateTagViewState extends State<CreateTagView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // 1st TextField for Tag Name
-                  const TextField(
+                  TextField(
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Tag Name",
-                        filled: true,
-                        fillColor: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      enabledBorder: InputBorder.none,
+                      filled: true,
+                      fillColor: whiteClr,
+                      hintText: "Tag Name",
+                    ),
                   ),
 
                   SizedBox(
@@ -79,13 +87,16 @@ class _CreateTagViewState extends State<CreateTagView> {
                   ),
 
                   // 2nd TextField for Tag Description
-                  const TextField(
+                  TextField(
                     maxLines: 4,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Tag Description",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      enabledBorder: InputBorder.none,
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: whiteClr,
+                      hintText: "Tag Description",
                     ),
                   ),
 
@@ -94,12 +105,16 @@ class _CreateTagViewState extends State<CreateTagView> {
                   ),
 
                   // 3rd TextField for Place
-                  const TextField(
+                  TextFormField(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Place",
-                          filled: true,
-                          fillColor: Colors.white)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    enabledBorder: InputBorder.none,
+                    filled: true,
+                    fillColor: whiteClr,
+                    hintText: "Place",
+                  )),
 
                   SizedBox(
                     height: 16,
@@ -138,10 +153,14 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "Date",
-                                      filled: true,
-                                      fillColor: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    enabledBorder: InputBorder.none,
+                                    filled: true,
+                                    fillColor: whiteClr,
+                                    hintText: "Date",
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -164,11 +183,15 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText:
-                                          "${startTime.hour}:${startTime.minute}",
-                                      filled: true,
-                                      fillColor: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    enabledBorder: InputBorder.none,
+                                    filled: true,
+                                    fillColor: whiteClr,
+                                    hintText:
+                                        "${startTime.hour}:${startTime.minute}",
+                                  ),
                                 ),
                               )
                             ],
@@ -208,10 +231,14 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "DATE",
-                                      filled: true,
-                                      fillColor: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    enabledBorder: InputBorder.none,
+                                    filled: true,
+                                    fillColor: whiteClr,
+                                    hintText: "DATE",
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -235,11 +262,15 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     });
                                   },
                                   decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText:
-                                          "${endTime.hour}:${endTime.minute}",
-                                      filled: true,
-                                      fillColor: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    enabledBorder: InputBorder.none,
+                                    filled: true,
+                                    fillColor: whiteClr,
+                                    hintText:
+                                        "${endTime.hour}:${endTime.minute}",
+                                  ),
                                 ),
                               )
                             ],

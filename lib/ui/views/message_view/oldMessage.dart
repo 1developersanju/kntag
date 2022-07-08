@@ -22,7 +22,7 @@ class _OldMessageViewState extends State<OldMessageView> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:bgColor,
+      backgroundColor: bgColor,
       body: ListView.builder(
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {

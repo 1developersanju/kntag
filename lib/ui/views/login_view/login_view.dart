@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/tabbar.dart';
+import 'package:kntag/ui/views/login_view/forgetpassword_view.dart';
+import 'package:kntag/ui/views/login_view/create_account.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 class LoginView extends StatelessWidget {
@@ -13,13 +16,14 @@ class LoginView extends StatelessWidget {
     final currentWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: bgColor,
-      body: LayoutBuilder(builder: (context, constraints) {
-        return Container(
-          padding: EdgeInsets.only(left: 18, right: 18, top: 50, bottom: 15),
-          child: Center(
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Container(
+            padding: EdgeInsets.only(left: 18, right: 18, top: 50, bottom: 15),
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     children: [
@@ -37,27 +41,39 @@ class LoginView extends StatelessWidget {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        enabledBorder: InputBorder.none,
                         filled: true,
-                        fillColor: Color(0xFFFFFFFF),
+                        fillColor: whiteClr,
                         labelText: "Email/User Name"),
                   ),
                   SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        enabledBorder: InputBorder.none,
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: whiteClr,
                         labelText: "Enter Password"),
                   ),
                   SizedBox(
                     height: currentHeight * 0.02,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ResetPasswordtPage()),
+                        );
+                      },
                       child: Text("Forgot Password",
                           style: TextStyle(
-                              color: Colors.black87,
+                              color: greyText,
                               decoration: TextDecoration.underline))),
                   SizedBox(
                     height: currentHeight * 0.02,
@@ -67,7 +83,7 @@ class LoginView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Tabbar()),
+                              builder: (context) =>  MyAppp()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -122,17 +138,23 @@ class LoginView extends StatelessWidget {
                     height: 18,
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CreatAccountPage()),
+                        );
+                      },
                       child: Text(
                         "Register with email",
-                        style: TextStyle(color: Colors.black87),
+                        style: TextStyle(color: greyText),
                       ))
                 ],
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

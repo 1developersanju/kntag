@@ -38,11 +38,11 @@ class _EventDetailsViewState extends State<EventDetailsView> {
         padding: const EdgeInsets.all(15),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: ListView(scrollDirection: Axis.horizontal, children: [
               Container(
-                width: currentWidth * 0.7,
-                height: currentHeight * 1,
+                width: currentWidth * 0.6,
+                height: currentHeight * 0.9,
                 color: Colors.deepOrange,
                 child: Image.network(
                   "https://c4.wallpaperflare.com/wallpaper/779/691/639/movies-film-reel-technology-projector-8mm-wallpaper-preview.jpg",
@@ -55,38 +55,48 @@ class _EventDetailsViewState extends State<EventDetailsView> {
             height: 15,
           ),
           Expanded(
+            flex: 3,
             child: Container(
                 padding: EdgeInsets.only(left: 10, right: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //#Hash tag text
-                    Text(
-                      "#BookClub",  
-                      style: TextStyle(
-                          color: titleColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        "#BookClub",
+                        style: TextStyle(
+                            color: titleColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
 
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //subText for tag timing & date
-                        Text(
-                          "Location : Race Course\n13th Feb 2022 : 07pm to 10pm",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[850],
-                              fontWeight: FontWeight.w500),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Location : Race Course\n13th Feb 2022 : 07pm to 10pm",
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: greyText,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                         Spacer(),
-                        Text(
-                          "14 mins away",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                              color: Colors.grey[850]),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "14 mins away",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: greyText),
+                          ),
                         )
                       ],
                     ),
@@ -95,7 +105,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                     Divider(
                       thickness: 2.5,
                     ),
-
+                    // Spacer(),
                     //arrnging
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,13 +115,13 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                             Text("hosted by:",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 10,
-                                    color: Colors.grey[850])),
+                                    fontSize: 15,
+                                    color: greyText)),
                             Text("DevarajS",
                                 style: TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w900,
-                                    color: Colors.grey[900]))
+                                    color: greyText))
                           ],
                         ),
                         Spacer(),
@@ -121,85 +131,88 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey[850]),
+                    // Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 10),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: greyText),
+                      ),
                     ),
 
-                    SizedBox(
-                      height: 22,
-                    ),
+                    Spacer(),
 
                     //
-                    SizedBox(
-                       width: currentWidth,
-                      height: currentHeight * 0.075,
-                      child: ElevatedButton(
-                        
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(whiteClr),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ))),
-                          onPressed: () {},
-                          child: Row(
-                            children: [
-                              buildStackedImages(),
-                              Spacer(),
-                              Text(
-                                "13 Joined\n12/25 Spot Left",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[850]),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              CircleAvatar(
-                                radius: 15,
-                                backgroundColor: iconCicle,
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 16,
-                                  color: buttonBlue,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: currentWidth,
+                        height: currentHeight * 0.075,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(whiteClr),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ))),
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                buildStackedImages(),
+                                Spacer(),
+                                Text(
+                                  "13 Joined\n12/25 Spot Left",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[850]),
                                 ),
-                              ),
-                            ],
-                          )),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: iconCicle,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 16,
+                                    color: buttonBlue,
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
                     ),
-
-                    SizedBox(
-                      height: 18,
-                    ),
-
-                    SizedBox(
-                      width: currentWidth,
-                      height: currentHeight * 0.075,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(buttonBlue),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ))),
-                          onPressed: () {
-                            print("sent sussess");
-                            final snackBar = SnackBar(
-                              content: const Text('Sent Join Request'),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                          child: Text("Send Join Request")),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: currentWidth,
+                        height: currentHeight * 0.075,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        buttonBlue),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ))),
+                            onPressed: () {
+                              print("sent sussess");
+                              final snackBar = SnackBar(
+                                content: const Text('Sent Join Request'),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            },
+                            child: Text("Send Join Request")),
+                      ),
                     )
                   ],
                 )),

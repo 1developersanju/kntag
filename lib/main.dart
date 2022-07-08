@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/bottomNavBar.dart';
+import 'package:kntag/splash.dart';
 import 'package:kntag/tabbar.dart';
 import 'package:kntag/ui/views/Google%20map/current_location_view.dart';
 import 'package:kntag/ui/views/Google%20map/map_display.dart';
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
             )),
         home: AnimatedSplashScreen(
             duration: 3000,
-            splash: Image.asset("assets/kntag.jpeg"),
+            splash: SplashScreen(),
             nextScreen: LoginView(),
             splashTransition: SplashTransition.fadeTransition,
             backgroundColor: Color.fromARGB(255, 9, 76, 205)));

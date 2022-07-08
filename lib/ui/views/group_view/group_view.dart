@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
+import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 
@@ -64,7 +65,7 @@ class _GroupViewState extends State<GroupView> {
         title: FittedBox(
           child: Text(
             "KnTag",
-            style: TextStyle(color: titleColor),
+            style: TextStyle(color: Colors.black),
           ),
         ),
         // TextField(
@@ -95,7 +96,7 @@ class _GroupViewState extends State<GroupView> {
                 children: [
                   Icon(
                     Icons.location_pin,
-                    color: Colors.black,
+                    color: titleColor,
                   ),
                   Text(
                     "${kmSlider}Km",
@@ -110,11 +111,18 @@ class _GroupViewState extends State<GroupView> {
       body: ListView.builder(
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
-          return TagTile(
-            tagText: containerDetails[index].tagText,
-            joinedCount: containerDetails[index].joined,
-            leftCount: containerDetails[index].spotLeft,
-            userProfile: containerDetails[index].userProfileData,
+          return GestureDetector(
+            onTap: (){  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TagsAndPeopleView()),
+                    );},
+            child: TagTile(
+              tagText: containerDetails[index].tagText,
+              joinedCount: containerDetails[index].joined,
+              leftCount: containerDetails[index].spotLeft,
+              userProfile: containerDetails[index].userProfileData,
+            ),
           );
         },
       ),
@@ -123,7 +131,9 @@ class _GroupViewState extends State<GroupView> {
 }
 
 class MySearchDelegate extends SearchDelegate {
-  List<String> searchResults = ["BookTag", "MusicTag", "GameTag", "ShareTag"];
+  List<String> searchResults = [
+    '#BookClub',
+  ];
 
   @override
   Widget? buildLeading(BuildContext context) {

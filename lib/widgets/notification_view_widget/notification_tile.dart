@@ -30,20 +30,18 @@ class _NotificationTileState extends State<NotificationTile> {
       child: GestureDetector(
         child: Container(
           padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-          width: currentWidth - 20,
+          width: currentWidth * 0.2,
           height: widget.status == "request"
               ? currentHeight / 8
               : currentHeight / 11,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Expanded(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    widget.oppProfile,
-                    
-                  ),
+              CircleAvatar(
+                backgroundImage: NetworkImage(
+                  widget.oppProfile,
                 ),
               ),
               SizedBox(
@@ -65,21 +63,23 @@ class _NotificationTileState extends State<NotificationTile> {
                     // Spacer(),
                     widget.status == "request"
                         ? Expanded(
-                          child: Text(
+                            child: Text(
                               "Has ${widget.status}ed to join",
                               //"13 Joined\n12/25 Spot Left",
-                              style:
-                                  TextStyle(color: Colors.black38, ),
+                              style: TextStyle(
+                                color: Colors.black38,
+                              ),
                             ),
-                        )
+                          )
                         : Expanded(
-                          child: Text(
+                            child: Text(
                               "Has ${widget.status}ed your request",
                               //"13 Joined\n12/25 Spot Left",
-                              style:
-                                  TextStyle(color: Colors.black38,),
+                              style: TextStyle(
+                                color: Colors.black38,
+                              ),
                             ),
-                        ),
+                          ),
                     Expanded(
                       child: Text(
                         "${widget.tagText}",
@@ -90,15 +90,18 @@ class _NotificationTileState extends State<NotificationTile> {
                   ]),
               Spacer(),
               widget.status == "request"
-                  ? Expanded(child: ElevatedButton(onPressed: () {}, child: Text("Approve")))
+                  ? Expanded(
+                    flex: 2,
+                      child: ElevatedButton(
+                          onPressed: () {}, child: Text("Approve")))
                   : SizedBox(),
               widget.status == "request"
                   ? Expanded(
-                    child: IconButton(
-                        iconSize: currentWidth / 18,
-                        onPressed: () {},
-                        icon: Icon(Icons.close)),
-                  )
+                      child: IconButton(
+                          iconSize: currentWidth / 18,
+                          onPressed: () {},
+                          icon: Icon(Icons.close)),
+                    )
                   : SizedBox(),
             ],
           ),
