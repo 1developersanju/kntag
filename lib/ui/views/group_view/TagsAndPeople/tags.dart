@@ -23,19 +23,19 @@ class _TagsState extends State<Tags> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-    body: ListView.builder(
-      itemCount: containerDetails.length,
-      itemBuilder: (context, index) {
-        return MessageTagTile(
-          tagText: containerDetails[index].tagText == 0
-              ? containerDetails[index].tagText
-              : containerDetails[index].tagText,
-          joinedCount: containerDetails[index].joined,
-          leftCount: containerDetails[index].spotLeft,
-          userProfile: containerDetails[index].userProfileData,
-        );
-      },
-    ),
+      body: ListView.builder(
+        itemCount: containerDetails.length,
+        itemBuilder: (context, index) {
+          return MessageTagTile(
+            tagText: containerDetails[index].tagText == 0
+                ? containerDetails[index].tagText
+                : containerDetails[index].tagText,
+            joinedCount: containerDetails[index].joined,
+            leftCount: containerDetails[index].spotLeft,
+            userProfile: containerDetails[index].userProfileData,
+          );
+        },
+      ),
     );
   }
 }

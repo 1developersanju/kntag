@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/core/models/peopleModel.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags.dart';
 import 'package:kntag/ui/views/message_view/activeMessage.dart';
 import 'package:kntag/ui/views/message_view/oldMessage.dart';
@@ -38,72 +39,124 @@ class _TagsAndPeopleViewState extends State<TagsAndPeopleView>
   @override
   Widget build(BuildContext context) {
     int index = currentIndex;
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Book Club",
-          style: TextStyle(color: blackClr),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Book Club",
+            style: TextStyle(color: blackClr),
+          ),
+          elevation: 2,
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
+          backgroundColor: appbarClr,
+          bottom: TabBar(
+            unselectedLabelColor: greyText,
+            labelColor: titleColor,
+            tabs: const [
+              Tab(
+                text: "Tags",
+              ),
+              Tab(
+                text: "People",
+              ),
+            ],
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            controller: _controller,
+          ),
         ),
-        elevation: 2,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
-        backgroundColor: appbarClr,
-        bottom: TabBar(
-          unselectedLabelColor: greyText,
-          labelColor: titleColor,
-          tabs: const [
-            Tab(
-              text: "Tags",
-            ),
-            Tab(
-              text: "People",
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
+        backgroundColor: Colors.amber,
+        body: Center(
+            child: TabBarView(
+          children: _tabs,
           controller: _controller,
-        ),
+        )),
       ),
-      backgroundColor: Colors.amber,
-      body: Center(
-          child: TabBarView(
-        children: _tabs,
-        controller: _controller,
-      )),
     );
   }
 }
 
-class People extends StatelessWidget {
+class People extends StatefulWidget {
   const People({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    String profilepic =
-        "https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
+  State<People> createState() => _PeopleState();
+}
 
-    return Scaffold(
-        backgroundColor: bgColor,
-        body: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                margin: EdgeInsets.only(top: 5, left: 5, right: 5),
-                color: whiteClr,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(profilepic),
-                  ),
-                  title: Container(child: Text("Manobala Namachiva")),
+class _PeopleState extends State<People> {
+  List<GrpPeopledata> containerDetails = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    containerDetails = groupPeope();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25),
+      child: Scaffold(
+          backgroundColor: bgColor,
+          body: ListView.builder(
+            itemCount: containerDetails.length,
+            itemBuilder: (context, index) {
+              return Peopleview(
+                name: containerDetails[index].name,
+                profpic: containerDetails[index].profpic,
+              );
+            },
+          )),
+    );
+  }
+}
+
+class Peopleview extends StatefulWidget {
+  String name;
+  String profpic;
+
+  Peopleview({required this.name, required this.profpic, Key? key});
+
+  @override
+  State<Peopleview> createState() => _PeopleviewState();
+}
+
+class _PeopleviewState extends State<Peopleview> {
+  final _controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(3),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(8.0),
+            margin: EdgeInsets.all(1.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                    backgroundImage: NetworkImage(
+                  widget.profpic,
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.name),
                 ),
-              ),
-            );
-          },
-        ));
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -50,7 +50,7 @@ class _GroupViewState extends State<GroupView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    containerDetails = tagTileDatas();
+    containerDetails = groupTileDatas();
   }
 
   @override
@@ -58,73 +58,79 @@ class _GroupViewState extends State<GroupView> {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: FittedBox(
-          child: Text(
-            "KnTag",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-        // TextField(
-        //   decoration: InputDecoration(
-        //     border: OutlineInputBorder(),
-        //     label: Text("Search")
-        //   ),
-        // ),
-        actions: [
-          // GestureDetector(
-          //   onTap: () {
-          //     showSearch(context: context, delegate: MySearchDelegate());
-          //   },
-          //   child: Container(
-          //       width: currentWidth - 50, height: currentHeight/1000, color: Colors.red),
-          // ),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
 
-          IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: MySearchDelegate());
-              },
-              icon: Icon(Icons.search)),
-          Padding(
-            padding: const EdgeInsets.only(top: 11, right: 10),
-            child: GestureDetector(
-              onTap: () => showAlertBox(),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.location_pin,
-                    color: titleColor,
-                  ),
-                  Text(
-                    "${kmSlider}Km",
-                    style: TextStyle(fontSize: 10, color: Colors.black87),
-                  )
-                ],
+      child: Scaffold(
+        backgroundColor: bgColor,
+        appBar: AppBar(
+          centerTitle: true,
+          title: FittedBox(
+            child: Text(
+              "KnTag",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     border: OutlineInputBorder(),
+          //     label: Text("Search")
+          //   ),
+          // ),
+          actions: [
+            // GestureDetector(
+            //   onTap: () {
+            //     showSearch(context: context, delegate: MySearchDelegate());
+            //   },
+            //   child: Container(
+            //       width: currentWidth - 50, height: currentHeight/1000, color: Colors.red),
+            // ),
+
+            IconButton(
+                onPressed: () {
+                  showSearch(context: context, delegate: MySearchDelegate());
+                },
+                icon: Icon(Icons.search)),
+            Padding(
+              padding: const EdgeInsets.only(top: 11, right: 10),
+              child: GestureDetector(
+                onTap: () => showAlertBox(),
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      color: titleColor,
+                    ),
+                    Text(
+                      "${kmSlider}Km",
+                      style: TextStyle(fontSize: 10, color: Colors.black87),
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: containerDetails.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: (){  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TagsAndPeopleView()),
-                    );},
-            child: TagTile(
-              tagText: containerDetails[index].tagText,
-              joinedCount: containerDetails[index].joined,
-              leftCount: containerDetails[index].spotLeft,
-              userProfile: containerDetails[index].userProfileData,
-            ),
-          );
-        },
+            )
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: containerDetails.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TagsAndPeopleView()),
+                );
+              },
+              child: TagTile(
+                tagText: containerDetails[index].tagText,
+                joinedCount: containerDetails[index].joined,
+                leftCount: containerDetails[index].spotLeft,
+                userProfile: containerDetails[index].userProfileData,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

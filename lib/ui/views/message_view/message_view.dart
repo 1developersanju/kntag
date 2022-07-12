@@ -38,45 +38,49 @@ class _MessageViewState extends State<MessageView>
   @override
   Widget build(BuildContext context) {
     int index = currentIndex;
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Messages",
-          style: TextStyle(color: blackClr),
+    return MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), // Large
+
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Messages",
+            style: TextStyle(color: blackClr),
+          ),
+          elevation: 2,
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
+          backgroundColor: appbarClr,
+          bottom: TabBar(
+            unselectedLabelColor: greyText,
+            labelColor: titleColor,
+            
+            tabs: const [
+              Tab(
+                text: "Old",
+              ),
+              Tab(
+                text: "Active",
+              ),
+              Tab(
+                text: "Upcoming",
+              ),
+            ],
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            controller: _controller,
+          ),
         ),
-        elevation: 2,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
-        backgroundColor: appbarClr,
-        bottom: TabBar(
-          unselectedLabelColor: greyText,
-          labelColor: titleColor,
-          
-          tabs: const [
-            Tab(
-              text: "Old",
-            ),
-            Tab(
-              text: "Active",
-            ),
-            Tab(
-              text: "Upcoming",
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
+        backgroundColor: Colors.amber,
+        body: Center(
+            child: TabBarView(
+          children: _tabs,
           controller: _controller,
-        ),
+        )),
       ),
-      backgroundColor: Colors.amber,
-      body: Center(
-          child: TabBarView(
-        children: _tabs,
-        controller: _controller,
-      )),
     );
   }
 }

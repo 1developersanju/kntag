@@ -26,25 +26,29 @@ class _NotificationViewState extends State<NotificationView> {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Notification",
-          style: TextStyle(color: blackClr),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), // Large
+
+      child: Scaffold(
+        backgroundColor: bgColor,
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Notification",
+            style: TextStyle(color: blackClr),
+          ),
         ),
-      ),
-      body: ListView.builder(
-        itemCount: tileDetails.length,
-        itemBuilder: (context, index) {
-          return NotificationTile(
-            tagText: tileDetails[index].tagText,
-            oppName: tileDetails[index].oppName,
-            oppProfile: tileDetails[index].oppProfile,
-            status: tileDetails[index].status,
-          );
-        },
+        body: ListView.builder(
+          itemCount: tileDetails.length,
+          itemBuilder: (context, index) {
+            return NotificationTile(
+              tagText: tileDetails[index].tagText,
+              oppName: tileDetails[index].oppName,
+              oppProfile: tileDetails[index].oppProfile,
+              status: tileDetails[index].status,
+            );
+          },
+        ),
       ),
     );
   }

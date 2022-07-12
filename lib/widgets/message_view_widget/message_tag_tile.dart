@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 class MessageTagTile extends StatefulWidget {
@@ -27,6 +28,13 @@ class _MessageTagTileState extends State<MessageTagTile> {
     return Padding(
       padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
+          onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EventDetailsView()),
+                        );
+                      },
         child: Container(
           padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
           width: currentWidth - 20,

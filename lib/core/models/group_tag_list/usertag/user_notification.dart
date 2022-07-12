@@ -51,7 +51,7 @@ userTagTileDatas() {
   tagTileDetails.add(tileData);
   //3
   tileData = UserTagList(
-    tagText: "#BookClub",
+    tagText: "#CricketClub",
     date: "2022-06-13",
     status: 'accept',
     oppName: 'Vivekanandan',
@@ -61,7 +61,7 @@ userTagTileDatas() {
 
   //4
   tileData = UserTagList(
-    tagText: "#BookClub",
+    tagText: "#GTG",
     date: "2022-06-13",
     status: 'request',
     oppName: 'Ann',

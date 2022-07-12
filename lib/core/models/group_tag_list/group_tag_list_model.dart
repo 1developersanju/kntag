@@ -1,4 +1,3 @@
-
 class GroupTagList {
   String myProfile;
   String tagText;
@@ -33,8 +32,7 @@ String profilepic3 =
     "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 
 tagTileDatas() {
-  List<GroupTagList> tagTileDetails = [];
-  List oldMessages = [];
+  List<GroupTagList> groupTileDetails = [];
 
   GroupTagList tileData = GroupTagList(
     tagText: "",
@@ -50,7 +48,7 @@ tagTileDatas() {
   //1
   tileData = GroupTagList(
     tagText: "#BookClub",
-    date: "2022-06-13",
+    date: "2022-07-12",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -58,12 +56,12 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
   //2
   tileData = GroupTagList(
-    tagText: "#BookClub",
-    date: "2022-06-13",
+    tagText: "#Movie",
+    date: "2022-08-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -71,11 +69,11 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
   //3
   tileData = GroupTagList(
-    tagText: "#BookClub",
-    date: "2022-06-13",
+    tagText: "#SaturdayParty",
+    date: "2022-04-29",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -83,11 +81,11 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
   //4
   tileData = GroupTagList(
-    tagText: "#BookClub",
+    tagText: "#MovieTonight",
     date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
@@ -96,12 +94,12 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
   //5
   tileData = GroupTagList(
-    tagText: "#BookClub",
-    date: "2022-06-13",
+    tagText: "#ShortFilm",
+    date: "2022-07-12",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -109,12 +107,12 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
   //6
   tileData = GroupTagList(
-    tagText: "#BookClub",
-    date: "2022-06-13",
+    tagText: "#Know More About Space",
+    date: "2022-10-25",
     location: 'Race Course',
     time: '07pm to 10:30pm',
     joined: '13',
@@ -122,11 +120,11 @@ tagTileDatas() {
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
   //7
   tileData = GroupTagList(
-    tagText: "#BookClub",
+    tagText: "#Music for life",
     date: "2022-06-13",
     location: 'Race Course',
     time: '07pm to 10:30pm',
@@ -136,7 +134,115 @@ tagTileDatas() {
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
 
-  tagTileDetails.add(tileData);
+  groupTileDetails.add(tileData);
 
-  return tagTileDetails;
+  return groupTileDetails;
+}
+
+groupTileDatas() {
+  List<GroupTagList> groupTileDetails = [];
+
+  GroupTagList tileData = GroupTagList(
+    tagText: "",
+    date: "",
+    location: '',
+    time: '',
+    joined: '',
+    spotLeft: '',
+    myProfile: '',
+    userProfileData: [],
+  );
+
+  //1
+  tileData = GroupTagList(
+    tagText: "#Movie",
+    date: "2022-07-12",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+
+  //2
+  tileData = GroupTagList(
+    tagText: "#Party",
+    date: "2022-08-13",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+  //3
+  tileData = GroupTagList(
+    tagText: "#Scripting",
+    date: "2022-04-29",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+
+  //4
+  tileData = GroupTagList(
+    tagText: "#Movie Making",
+    date: "2022-06-13",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+
+  //5
+  tileData = GroupTagList(
+    tagText: "#lets ride",
+    date: "2022-07-12",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+
+  //6
+  tileData = GroupTagList(
+    tagText: "#Science and more",
+    date: "2022-10-25",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+  groupTileDetails.add(tileData);
+
+  //7
+  tileData = GroupTagList(
+    tagText: "#fun",
+    date: "2022-06-13",
+    location: 'Race Course',
+    time: '07pm to 10:30pm',
+    joined: '13',
+    spotLeft: '12/25',
+    myProfile: profilepic,
+    userProfileData: [profilepic1, profilepic2, profilepic3],
+  );
+
+  groupTileDetails.add(tileData);
+
+  return groupTileDetails;
 }
