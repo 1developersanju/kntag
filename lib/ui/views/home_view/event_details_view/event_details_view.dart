@@ -28,9 +28,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           title: Text("Tag"),
           leading: InkWell(
             onTap: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => MyAppp()),
-                  (Route<dynamic> route) => true);
+              Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back_ios),
           ),

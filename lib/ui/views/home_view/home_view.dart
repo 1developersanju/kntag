@@ -33,12 +33,12 @@ class _HomeViewState extends State<HomeView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
 
       child: Scaffold(
         drawer: Drawer(child: Drawerpage()),
         extendBodyBehindAppBar: true,
-    
+
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           //leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
@@ -78,14 +78,16 @@ class _HomeViewState extends State<HomeView> {
             Stack(
           children: [
             CurrentLocation(),
-           
             GestureDetector(
-            
               child: Container(
                 margin: const EdgeInsets.all(10.0),
-                height: currentHeight / 4,
+                height: currentHeight * 0.25,
                 // bottom: 200,
                 child: PageView.builder(
+                  controller: PageController(
+                    viewportFraction: 0.93,
+                    initialPage: 0,
+                  ),
                   scrollDirection: Axis.horizontal,
                   itemCount: containerDetails.length,
                   itemBuilder: (context, index) {
