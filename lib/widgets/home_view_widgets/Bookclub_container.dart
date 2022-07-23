@@ -13,7 +13,7 @@ class BookClubContainer extends StatefulWidget {
   String spotsLeft;
   String profile;
   List userProfile;
-
+  String page;
   BookClubContainer({
     required this.tagText,
     required this.location,
@@ -23,6 +23,7 @@ class BookClubContainer extends StatefulWidget {
     required this.joined,
     required this.profile,
     required this.userProfile,
+    required this.page,
   });
   @override
   State<BookClubContainer> createState() => _BookClubContainerState();
@@ -36,146 +37,297 @@ class _BookClubContainerState extends State<BookClubContainer> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const EventDetailsView()),
-        );
+        Route _createRoute() {
+          return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                EventDetailsView(
+              date: widget.date,
+              host: widget.profile,
+              time: widget.time,
+              location: widget.location,
+              title: widget.tagText,
+              MembersList: widget.userProfile,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+          );
+        }
+
+        Navigator.of(context).push(_createRoute());
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 6.0, left: 2.0, bottom: 4),
         child: GestureDetector(
           child: Stack(
             children: [
-              Container(
-                color: transparent,
-                child: Stack(
-                  // alignment: Alignment.bottomCenter,
-                  children: [
-                    Positioned(
+              widget.page == "Home"
+                  ? Center(
                       child: Container(
-                        color: Colors.transparent,
-                        height: currentHeight,
-                        child: Center(
-                          child: Container(
-                            padding: EdgeInsets.all(12),
-                            width: currentWidth - 40,
-                            height: currentHeight * 0.2,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black87.withOpacity(0.100),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  )
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                        color: transparent,
+                        width: currentWidth - 20,
+                        height: currentHeight * 0.30,
+                        child: Stack(
+                          // alignment: Alignment.bottomCenter,
+                          children: [
+                            Positioned(
+                              child: Container(
+                                color: Colors.transparent,
+                                height: currentHeight,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    width: currentWidth - 40,
+                                    height: currentHeight * 0.2,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black87
+                                                .withOpacity(0.100),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          widget.tagText,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.blue[900],
-                                              fontSize: 15),
+                                        Expanded(
+                                          flex: 3,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  widget.tagText,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blue[900],
+                                                      fontSize: 15),
+                                                ),
+                                                Spacer(),
+                                                Text(
+                                                    "Location: ${widget.location}",
+                                                    style: TextStyle(
+                                                        color: greyText)),
+                                                Text(
+                                                  "${widget.date} : ${widget.time}",
+                                                  style: TextStyle(
+                                                      color: greyText),
+                                                ),
+                                                Spacer(),
+                                                Divider(
+                                                  endIndent: 210,
+                                                  color: greyText,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    buildStackedImages(),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                      style: TextStyle(
+                                                          fontSize: 11,
+                                                          color: greyText),
+                                                    ),
+                                                  ],
+                                                )
+                                              ]),
                                         ),
-                                        Spacer(),
-                                        Text("Location: ${widget.location}",
-                                            style: TextStyle(color: greyText)),
-                                        Text(
-                                          "${widget.date} : ${widget.time}",
-                                          style: TextStyle(color: greyText),
-                                        ),
-                                        Spacer(),
-                                        Divider(
-                                          endIndent: 210,
-                                          color: greyText,
-                                        ),
-                                        Row(
-                                          children: [
-                                            buildStackedImages(),
-                                            SizedBox(
-                                              width: 5,
+                                        Expanded(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                              child: Container(
+                                                height: currentHeight * 0.1,
+                                                width: currentWidth * 0.20,
+                                                child: Image.network(
+                                                  profilepic1,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                color: Colors.amber,
+                                              ),
                                             ),
-                                            Text(
-                                              "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
-                                              style: TextStyle(
-                                                  fontSize: 11,
-                                                  color: greyText),
-                                            ),
-                                          ],
+                                          ),
                                         )
-                                      ]),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(9),
-                                      child: Container(
-                                        height: currentHeight * 0.1,
-                                        width: currentWidth * 0.20,
-                                        child: Image.network(
-                                          profilepic1,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        color: Colors.amber,
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                )
-                              ],
+                                ),
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: currentHeight * 0.194,
+                              right: currentWidth * 0.08,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(widget.profile),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: currentHeight * -0.001,
+                              right: currentWidth * 0.0259,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    print("datee: ");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventDetailsView(
+                                          date: widget.date,
+                                          host: widget.profile,
+                                          time: widget.time,
+                                          location: widget.location,
+                                          title: widget.tagText,
+                                          MembersList: widget.userProfile,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30)),
+                                      onPrimary: buttonBlue),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 7,
+                                      right: 7,
+                                    ),
+                                    child: Text(
+                                      "Join",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )),
+                            )
+                          ],
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: currentHeight * 0.194,
-                      right: currentWidth * 0.1,
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(widget.profile),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: currentHeight * -0.001,
-                      right: currentWidth * 0.06,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            print("datee: ");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const EventDetailsView()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              onPrimary: buttonBlue),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: 7,
-                              right: 7,
-                            ),
-                            child: Text(
-                              "Join",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )),
                     )
-                  ],
-                ),
-              ),
+                  : Container(
+                      color: transparent,
+                      width: currentWidth,
+                      height: currentHeight * 0.22,
+                      child: Stack(
+                        // alignment: Alignment.bottomCenter,
+                        children: [
+                          Container(
+                            color: Colors.transparent,
+                            height: currentHeight,
+                            child: Center(
+                              child: Container(
+                                padding: EdgeInsets.all(12),
+                                width: currentWidth - 40,
+                                height: currentHeight * 0.2,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              widget.tagText,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blue[900],
+                                                  fontSize: 15),
+                                            ),
+                                            Spacer(),
+                                            Text("Location: ${widget.location}",
+                                                style:
+                                                    TextStyle(color: greyText)),
+                                            Text(
+                                              "${widget.date} : ${widget.time}",
+                                              style: TextStyle(color: greyText),
+                                            ),
+                                            Spacer(),
+                                            Divider(
+                                              endIndent: 210,
+                                              color: greyText,
+                                            ),
+                                            Row(
+                                              children: [
+                                                buildStackedImages(),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                  style: TextStyle(
+                                                      fontSize: 11,
+                                                      color: greyText),
+                                                ),
+                                              ],
+                                            )
+                                          ]),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(9),
+                                          child: Container(
+                                            height: currentHeight * 0.1,
+                                            width: currentWidth * 0.20,
+                                            child: Image.network(
+                                              profilepic1,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            color: Colors.amber,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: currentHeight * 0.145,
+                            right: currentWidth * 0.115,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Container(
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(widget.profile),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 
 class GestureDetectorPage extends StatelessWidget {
   @override
@@ -70,19 +71,34 @@ class _MainContentState extends State<MainContent> {
                             containerWidth = size.width;
                           });
                         }),
-                        child: Container(
-                          height: size.height * 0.2,
-                          width: containerWidth,
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(6)),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Text(
-                                'Draggable',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
+                        child: Expanded(
+                          child: SizedBox(
+                            child: Container(
+                              margin: const EdgeInsets.all(10.0),
+                              height: size.height * 0.25,
+                              // bottom: 200,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                controller: PageController(
+                                  viewportFraction: 0.93,
+                                  initialPage: 0,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 3,
+                                itemBuilder: (context, index) {
+                                  return BookClubContainer(
+                                    tagText: "containerDetails[index].tagText",
+                                    joined: "containerDetails[index].joined",
+                                    location: "containerDetails[index].location",
+                                    date: "containerDetails[index].date",
+                                    time: "containerDetails[index].time",
+                                    spotsLeft: "containerDetails[index].spotLeft",
+                                    profile: "containerDetails[index].myProfile,",
+                                    userProfile: [],
+                                    // containerDetails[index].userProfileData,
+                                    page: "Home",
+                                  );
+                                },
                               ),
                             ),
                           ),

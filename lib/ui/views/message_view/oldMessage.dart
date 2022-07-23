@@ -4,8 +4,6 @@ import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/message_view_widget/message_tag_tile.dart';
 
 class OldMessageView extends StatefulWidget {
-  OldMessageView({Key? key}) : super(key: key);
-
   @override
   State<OldMessageView> createState() => _OldMessageViewState();
 }
@@ -24,7 +22,7 @@ class _OldMessageViewState extends State<OldMessageView> {
     return Scaffold(
       backgroundColor: bgColor,
       body: ListView.builder(
-        itemCount: containerDetails.length,
+        itemCount: 5,
         itemBuilder: (context, index) {
           return MessageTagTile(
             tagText: containerDetails[index].tagText == 0
@@ -33,6 +31,7 @@ class _OldMessageViewState extends State<OldMessageView> {
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
             userProfile: containerDetails[index].userProfileData,
+            index: 0,
           );
         },
       ),

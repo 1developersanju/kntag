@@ -33,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05), // Large
 
       child: Scaffold(
         drawer: Drawer(child: Drawerpage()),
@@ -100,6 +100,7 @@ class _HomeViewState extends State<HomeView> {
                       spotsLeft: containerDetails[index].spotLeft,
                       profile: containerDetails[index].myProfile,
                       userProfile: containerDetails[index].userProfileData,
+                      page: "Home",
                     );
                   },
                 ),

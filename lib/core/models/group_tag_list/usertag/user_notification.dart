@@ -69,6 +69,6 @@ userTagTileDatas() {
   );
 
   tagTileDetails.add(tileData);
-
+    
   return tagTileDetails;
 }

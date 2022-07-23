@@ -59,7 +59,7 @@ class _GroupViewState extends State<GroupView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05), // Large
 
       child: Scaffold(
         backgroundColor: bgColor,
@@ -119,7 +119,7 @@ class _GroupViewState extends State<GroupView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const TagsAndPeopleView()),
+                      builder: (context) =>  TagsAndPeopleView(title: containerDetails[index].tagText,)),
                 );
               },
               child: TagTile(

@@ -47,60 +47,70 @@ class _NotificationTileState extends State<NotificationTile> {
               SizedBox(
                 width: 15,
               ),
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.oppName,
-                        //"#BookClub",
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.oppName,
+                          //"#BookClub",
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    // Spacer(),
-                    widget.status == "request"
-                        ? Expanded(
-                            child: Text(
-                              "Has ${widget.status}ed to join",
-                              //"13 Joined\n12/25 Spot Left",
-                              style: TextStyle(
-                                color: Colors.black38,
+                      // Spacer(),
+                      widget.status == "request"
+                          ? Expanded(
+                              child: Text(
+                                "Has ${widget.status}ed to join",
+                                //"13 Joined\n12/25 Spot Left",
+                                style: TextStyle(
+                                  color: Colors.black38,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: Text(
+                                "Has ${widget.status}ed your request",
+                                //"13 Joined\n12/25 Spot Left",
+                                style: TextStyle(
+                                  color: Colors.black38,
+                                ),
                               ),
                             ),
-                          )
-                        : Expanded(
-                            child: Text(
-                              "Has ${widget.status}ed your request",
-                              //"13 Joined\n12/25 Spot Left",
-                              style: TextStyle(
-                                color: Colors.black38,
-                              ),
-                            ),
-                          ),
-                    Expanded(
-                      child: Text(
-                        "${widget.tagText}",
-                        //"13 Joined\n12/25 Spot Left",
-                        style: TextStyle(color: Colors.black38, fontSize: 11),
+                      Expanded(
+                        child: Text(
+                          "${widget.tagText}",
+                          //"13 Joined\n12/25 Spot Left",
+                          style: TextStyle(color: Colors.black38, fontSize: 11),
+                        ),
                       ),
-                    ),
-                  ]),
+                    ]),
+              ),
               Spacer(),
               widget.status == "request"
                   ? Expanded(
-                    flex: 2,
+                      flex: 3,
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text("Approve")))
+                          onPressed: () {
+                            print("approve");
+                          },
+                          child: Text(
+                            "Approve",
+                            style: TextStyle(fontSize: 10),
+                          )))
                   : SizedBox(),
               widget.status == "request"
                   ? Expanded(
-                      child: IconButton(
-                          iconSize: currentWidth / 18,
-                          onPressed: () {},
-                          icon: Icon(Icons.close)),
+                      child: GestureDetector(
+                          onTap: () {
+                            print("cancel");
+                          },
+                          child: Icon(Icons.close)),
                     )
                   : SizedBox(),
             ],

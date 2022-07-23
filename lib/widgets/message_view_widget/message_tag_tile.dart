@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
+import 'package:kntag/ui/views/message_view/message_page.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 class MessageTagTile extends StatefulWidget {
@@ -7,13 +8,14 @@ class MessageTagTile extends StatefulWidget {
   String joinedCount;
   String leftCount;
   List userProfile;
+  int index;
 
-  MessageTagTile({
-    required this.tagText,
-    required this.joinedCount,
-    required this.leftCount,
-    required this.userProfile,
-  });
+  MessageTagTile(
+      {required this.tagText,
+      required this.joinedCount,
+      required this.leftCount,
+      required this.userProfile,
+      required this.index});
 
   @override
   State<MessageTagTile> createState() => _MessageTagTileState();
@@ -28,39 +30,49 @@ class _MessageTagTileState extends State<MessageTagTile> {
     return Padding(
       padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
-          onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EventDetailsView()),
-                        );
-                      },
-        child: Container(
-          padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
-          width: currentWidth - 20,
-          height: currentHeight / 8,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8)),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(
-                    widget.tagText,
-                    //"#BookClub",
-                    style: TextStyle(
-                        color: Colors.blue[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  Text(
-                    "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
-                    //"13 Joined\n12/25 Spot Left",
-                    style: TextStyle(color: Colors.black87, fontSize: 11),
-                  ),
-                  ]),
-              ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MessagePage(
+                      userProfile: widget.userProfile,
+                      index: widget.index,
+                      title: widget.tagText,
+                      joinedCount: widget.joinedCount,
+                      leftCount: widget.leftCount,
+                    )),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Container(
+            padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 15),
+            width: currentWidth - 20,
+            height: currentHeight / 8,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(8)),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.tagText,
+                          //"#BookClub",
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        Text(
+                          "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
+                          //"13 Joined\n12/25 Spot Left",
+                          style: TextStyle(color: Colors.black87, fontSize: 11),
+                        ),
+                      ]),
+                ),
                 Spacer(),
                 Column(
                   children: [
@@ -93,8 +105,8 @@ class _MessageTagTileState extends State<MessageTagTile> {
                     Expanded(child: buildStackedImages()),
                   ],
                 )
-              
-            ],
+              ],
+            ),
           ),
         ),
       ),

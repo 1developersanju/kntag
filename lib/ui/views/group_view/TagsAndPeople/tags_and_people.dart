@@ -9,9 +9,8 @@ import 'package:kntag/widgets/colorAndSize.dart';
 // ignore_for_file: unused_local_variable, prefer_const_constructors
 
 class TagsAndPeopleView extends StatefulWidget {
-  const TagsAndPeopleView({
-    Key? key,
-  }) : super(key: key);
+  String title;
+  TagsAndPeopleView({required this.title});
   @override
   _TagsAndPeopleViewState createState() => _TagsAndPeopleViewState();
 }
@@ -40,12 +39,12 @@ class _TagsAndPeopleViewState extends State<TagsAndPeopleView>
   Widget build(BuildContext context) {
     int index = currentIndex;
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25),
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.20),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Book Club",
+            widget.title,
             style: TextStyle(color: blackClr),
           ),
           elevation: 2,
@@ -82,6 +81,7 @@ class _TagsAndPeopleViewState extends State<TagsAndPeopleView>
 }
 
 class People extends StatefulWidget {
+  
   const People({Key? key}) : super(key: key);
 
   @override
@@ -101,7 +101,7 @@ class _PeopleState extends State<People> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25),
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05),
       child: Scaffold(
           backgroundColor: bgColor,
           body: ListView.builder(

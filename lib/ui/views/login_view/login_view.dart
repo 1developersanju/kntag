@@ -23,178 +23,186 @@ class LoginView extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         backgroundColor: bgColor,
         body: LayoutBuilder(builder: (context, constraints) {
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
+          return GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: bgColor,
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyAppp()));
+                      },
+                      child: Text("Skip"))
+                ],
+              ),
               backgroundColor: bgColor,
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MyAppp()));
-                    },
-                    child: Text("Skip"))
-              ],
-            ),
-            resizeToAvoidBottomInset: false,
-            extendBody: true,
-            body: Container(
-              color: bgColor,
-              padding:
-                  EdgeInsets.only(left: 18, right: 18, top: 20, bottom: 15),
-              child: Center(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Expanded(
-                      flex: 4,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Text(
-                              "Create\nConnect\nCelebrate",
-                              style: TextStyle(
-                                  fontSize: currentHeight * 0.06,
-                                  color: loginTextColor),
+              resizeToAvoidBottomInset: false,
+              extendBody: true,
+              body: Container(
+                margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                color: bgColor,
+                padding:
+                    EdgeInsets.only(left: 18, right: 18, top: 20, bottom: 15),
+                child: Center(
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Spacer(),
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: Text(
+                                "Create\nConnect\nCelebrate",
+                                style: TextStyle(
+                                    fontSize: currentHeight * 0.06,
+                                    color: loginTextColor),
+                              ),
                             ),
-                          ),
-                          // Spacer()
-                        ],
+                            // Spacer()
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            enabledBorder: InputBorder.none,
-                            filled: true,
-                            fillColor: whiteClr,
-                            labelText: "Email/User Name"),
+                      SizedBox(
+                        height: 25,
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            enabledBorder: InputBorder.none,
-                            filled: true,
-                            fillColor: whiteClr,
-                            labelText: "Enter Password"),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              enabledBorder: InputBorder.none,
+                              filled: true,
+                              fillColor: whiteClr,
+                              labelText: "Email/User Name"),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: currentHeight * 0.02,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ResetPasswordtPage()),
-                            );
-                          },
-                          child: Text("Forgot Password",
-                              style: TextStyle(
-                                  color: greyText,
-                                  decoration: TextDecoration.underline))),
-                    ),
-                    SizedBox(
-                      height: currentHeight * 0.02,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => MyAppp()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                              primary: buttonBlue,
-                              onPrimary: Color.fromARGB(255, 92, 134, 168),
-                              minimumSize: Size(double.infinity, 50)),
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          )),
-                    ),
-                    SizedBox(height: currentHeight * 0.04),
-                    Expanded(
-                      flex: 2,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: GoogleAuthButton(
+                      SizedBox(height: 20),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              enabledBorder: InputBorder.none,
+                              filled: true,
+                              fillColor: whiteClr,
+                              labelText: "Enter Password"),
+                        ),
+                      ),
+                      SizedBox(
+                        height: currentHeight * 0.02,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: TextButton(
                             onPressed: () {
-                              // your implementation
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ResetPasswordtPage()),
+                              );
                             },
-                            text: 'Login',
-                            style: AuthButtonStyle(
-                              buttonColor: whiteClr,
-                              height: currentHeight * 0.06,
-                              //   buttonType: AuthButtonType.secondary,
-                              iconType: AuthIconType.secondary,
-                              margin: const EdgeInsets.only(bottom: 18),
-                            ),
-                          )),
-                          SizedBox(
-                            width: currentWidth * 0.06,
-                          ),
-                          Expanded(
-                            child: FacebookAuthButton(
-                                onPressed: () {
-                                  // your implementation
-                                },
-                                text: 'Login',
-                                style: AuthButtonStyle(
-                                  height: currentHeight * 0.06,
-                                  buttonColor: whiteClr,
-                                  // buttonType: AuthButtonType.icon,
-                                  iconType: AuthIconType.secondary,
-                                  margin: const EdgeInsets.only(bottom: 18),
-                                )),
-                          ),
-                        ],
+                            child: Text("Forgot Password",
+                                style: TextStyle(
+                                    color: greyText,
+                                    decoration: TextDecoration.underline))),
                       ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    Expanded(
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CreatAccountPage()),
-                            );
-                          },
-                          child: Text(
-                            "Register with email",
-                            style: TextStyle(color: greyText, fontSize: 18),
-                          )),
-                    )
-                  ],
+                      SizedBox(
+                        height: currentHeight * 0.02,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyAppp()),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: buttonBlue,
+                                onPrimary: Color.fromARGB(255, 92, 134, 168),
+                                minimumSize: Size(double.infinity, 50)),
+                            child: Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            )),
+                      ),
+                      SizedBox(height: currentHeight * 0.04),
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                child: GoogleAuthButton(
+                              onPressed: () {
+                                // your implementation
+                              },
+                              text: 'Login',
+                              style: AuthButtonStyle(
+                                buttonColor: whiteClr,
+                                height: currentHeight * 0.06,
+                                //   buttonType: AuthButtonType.secondary,
+                                iconType: AuthIconType.secondary,
+                                margin: const EdgeInsets.only(bottom: 18),
+                              ),
+                            )),
+                            SizedBox(
+                              width: currentWidth * 0.06,
+                            ),
+                            Expanded(
+                              child: FacebookAuthButton(
+                                  onPressed: () {
+                                    // your implementation
+                                  },
+                                  text: 'Login',
+                                  style: AuthButtonStyle(
+                                    height: currentHeight * 0.06,
+                                    buttonColor: whiteClr,
+                                    // buttonType: AuthButtonType.icon,
+                                    iconType: AuthIconType.secondary,
+                                    margin: const EdgeInsets.only(bottom: 18),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Expanded(
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CreatAccountPage()),
+                              );
+                            },
+                            child: Text(
+                              "Register with email",
+                              style: TextStyle(color: greyText, fontSize: 18),
+                            )),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

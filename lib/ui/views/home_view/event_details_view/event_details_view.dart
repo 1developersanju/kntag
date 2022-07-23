@@ -5,8 +5,20 @@ import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 class EventDetailsView extends StatefulWidget {
-  const EventDetailsView({Key? key}) : super(key: key);
-
+  String title;
+  String location;
+  String date;
+  String time;
+  String host;
+  List MembersList;
+  EventDetailsView({
+    required this.date,
+    required this.host,
+    required this.location,
+    required this.time,
+    required this.title,
+    required this.MembersList,
+  });
   @override
   State<EventDetailsView> createState() => _EventDetailsViewState();
 }
@@ -18,7 +30,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), // Large
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.15), // Large
 
       child: Scaffold(
         backgroundColor: bgColor,
@@ -34,7 +46,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           ),
           actions: [
             PopupMenuButton(
-              itemBuilder: (context) => [PopupMenuItem(child: Text("Suggest"))],
+              itemBuilder: (context) => [PopupMenuItem(child: Text(""))],
             )
           ],
         ),
@@ -43,10 +55,10 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: ListView(scrollDirection: Axis.horizontal, children: [
                 Container(
-                  width: currentWidth * 0.6,
+                  width: currentWidth * 0.65,
                   height: currentHeight * 0.9,
                   color: Colors.deepOrange,
                   child: Image.network(
@@ -56,21 +68,19 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                 ),
               ]),
             ),
-            SizedBox(
-              height: 15,
-            ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                   padding: EdgeInsets.only(left: 10, right: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Spacer(),
                       //#Hash tag text
                       Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
-                          "#BookClub",
+                          widget.title,
                           style: TextStyle(
                               color: titleColor,
                               fontSize: 18,
@@ -79,13 +89,14 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       ),
 
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           //subText for tag timing & date
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Location : Race Course\n13th Feb 2022 : 07pm to 10pm",
+                              "Location : ${widget.location}\n${widget.date} : ${widget.time}",
                               style: TextStyle(
                                   fontSize: 13,
                                   color: greyText,
@@ -131,8 +142,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           ),
                           Spacer(),
                           CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "https://44.media.tumblr.com/16dbab1567b517ad54ce0906bcd9102c/tumblr_nmrfvdT1zu1u563huo1_500.gif"),
+                            backgroundImage: NetworkImage("${widget.host}"),
                           )
                         ],
                       ),
@@ -148,7 +158,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         ),
                       ),
 
-                      Spacer(),
+                      //Spacer(),
 
                       //
                       Padding(
@@ -168,15 +178,29 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                   ))),
                               onPressed: () {},
                               child: Row(
+                                //  mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   buildStackedImages(),
                                   Spacer(),
-                                  Text(
-                                    "13 Joined\n12/25 Spot Left",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[850]),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "13 Joined",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[850]),
+                                      ),
+                                      Text(
+                                        "12/25 Spot Left",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[850]),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(
                                     width: 8,
@@ -231,12 +255,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
 
   // Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages() {
-    final double size = 30;
-    final urlImages = [
-      "https://c4.wallpaperflare.com/wallpaper/583/178/494/4k-8k-natasha-romanoff-captain-america-civil-war-wallpaper-preview.jpg",
-      "https://wallpaperaccess.com/full/2388604.jpg",
-      "https://images.wallpapersden.com/image/download/marvel-natasha-romanoff_bGVtZWaUmZqaraWkpJRobWllrWdma2U.jpg"
-    ];
+    final double size = 22;
+    final urlImages = widget.MembersList;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 

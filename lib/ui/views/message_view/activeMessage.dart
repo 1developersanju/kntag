@@ -4,8 +4,6 @@ import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/message_view_widget/message_tag_tile.dart';
 
 class ActiveMessageView extends StatefulWidget {
-  ActiveMessageView({Key? key}) : super(key: key);
-
   @override
   State<ActiveMessageView> createState() => _ActiveMessageViewState();
 }
@@ -27,6 +25,7 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
+            index: 1,
             tagText: containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,

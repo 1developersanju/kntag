@@ -4,8 +4,6 @@ import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/message_view_widget/message_tag_tile.dart';
 
 class UpcomingMessageView extends StatefulWidget {
-  UpcomingMessageView({Key? key}) : super(key: key);
-
   @override
   State<UpcomingMessageView> createState() => _UpcomingMessageViewState();
 }
@@ -31,6 +29,7 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
             userProfile: containerDetails[index].userProfileData,
+            index: 2,
           );
         },
       ),

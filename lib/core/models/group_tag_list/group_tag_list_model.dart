@@ -7,6 +7,7 @@ class GroupTagList {
   String joined;
   String spotLeft;
   List userProfileData;
+
   data() {}
 
   GroupTagList({
@@ -47,10 +48,10 @@ tagTileDatas() {
 
   //1
   tileData = GroupTagList(
-    tagText: "#BookClub",
-    date: "2022-07-12",
+    tagText: "#Gaming",
+    date: "2022-07-22",
     location: 'Race Course',
-    time: '07pm to 10:30pm',
+    time: '08pm to 10:15pm',
     joined: '13',
     spotLeft: '12/25',
     myProfile: profilepic,
@@ -61,11 +62,11 @@ tagTileDatas() {
   //2
   tileData = GroupTagList(
     tagText: "#Movie",
-    date: "2022-08-13",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    date: "2022-07-13",
+    location: 'Gandhi park',
+    time: '06pm to 08pm',
+    joined: '14',
+    spotLeft: '11/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -74,10 +75,10 @@ tagTileDatas() {
   tileData = GroupTagList(
     tagText: "#SaturdayParty",
     date: "2022-04-29",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'RS.puram',
+    time: '06pm to 8:30pm',
+    joined: '5',
+    spotLeft: '20/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -87,10 +88,10 @@ tagTileDatas() {
   tileData = GroupTagList(
     tagText: "#MovieTonight",
     date: "2022-06-13",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'Thadagam road',
+    time: '07pm to 11pm',
+    joined: '20',
+    spotLeft: '05/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -99,11 +100,11 @@ tagTileDatas() {
   //5
   tileData = GroupTagList(
     tagText: "#ShortFilm",
-    date: "2022-07-12",
-    location: 'Race Course',
+    date: "2022-08-22",
+    location: 'Town Hall',
     time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    joined: '3',
+    spotLeft: '22/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -113,10 +114,10 @@ tagTileDatas() {
   tileData = GroupTagList(
     tagText: "#Know More About Space",
     date: "2022-10-25",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'barathi park',
+    time: '08pm to 11:30pm',
+    joined: '24',
+    spotLeft: '01/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -126,10 +127,10 @@ tagTileDatas() {
   tileData = GroupTagList(
     tagText: "#Music for life",
     date: "2022-06-13",
-    location: 'Race Course',
+    location: 'saravanampati',
     time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    joined: '19',
+    spotLeft: '06/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -156,11 +157,11 @@ groupTileDatas() {
   //1
   tileData = GroupTagList(
     tagText: "#Movie",
-    date: "2022-07-12",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    date: "2022-07-01",
+    location: 'prozone',
+    time: '07pm to 10pm',
+    joined: '15',
+    spotLeft: '10/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic3],
   );
@@ -169,11 +170,11 @@ groupTileDatas() {
   //2
   tileData = GroupTagList(
     tagText: "#Party",
-    date: "2022-08-13",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    date: "2022-08-23",
+    location: 'L.G.B colony',
+    time: '6pm to 10:30pm',
+    joined: '17',
+    spotLeft: '08/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -182,10 +183,10 @@ groupTileDatas() {
   tileData = GroupTagList(
     tagText: "#Scripting",
     date: "2022-04-29",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'N.G.G.O colony',
+    time: '07pm to 08pm',
+    joined: '10',
+    spotLeft: '15/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -195,8 +196,8 @@ groupTileDatas() {
   tileData = GroupTagList(
     tagText: "#Movie Making",
     date: "2022-06-13",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
+    location: 'ganapathy',
+    time: '07pm to 11:30pm',
     joined: '13',
     spotLeft: '12/25',
     myProfile: profilepic,
@@ -208,10 +209,10 @@ groupTileDatas() {
   tileData = GroupTagList(
     tagText: "#lets ride",
     date: "2022-07-12",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'gandhi puram',
+    time: '08pm to 12:30pm',
+    joined: '10',
+    spotLeft: '15/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -221,10 +222,10 @@ groupTileDatas() {
   tileData = GroupTagList(
     tagText: "#Science and more",
     date: "2022-10-25",
-    location: 'Race Course',
+    location: 'ooty',
     time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    joined: '25',
+    spotLeft: '00/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -234,10 +235,10 @@ groupTileDatas() {
   tileData = GroupTagList(
     tagText: "#fun",
     date: "2022-06-13",
-    location: 'Race Course',
-    time: '07pm to 10:30pm',
-    joined: '13',
-    spotLeft: '12/25',
+    location: 'barathi nagar',
+    time: '07pm to 10m',
+    joined: '15',
+    spotLeft: '10/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
