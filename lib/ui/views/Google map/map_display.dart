@@ -29,7 +29,7 @@ class _MapDisplayState extends State<MapDisplay> {
       body: Stack(
         
         children:[ GoogleMap(
-          onMapCreated: _onMapCreated,
+          onMapCreated:  _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: _center,
             zoom: 11.0,

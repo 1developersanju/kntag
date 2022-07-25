@@ -29,6 +29,13 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
             userProfile: containerDetails[index].userProfileData,
+            date: containerDetails[index].date,
+            showcaseImg: containerDetails[index].userProfileData,
+            time: containerDetails[index].time,
+            location: containerDetails[index].location,
+            host: containerDetails[index].myProfile,
+            lat: containerDetails[index].latitude,
+            long: containerDetails[index].longitude,
             index: 2,
           );
         },

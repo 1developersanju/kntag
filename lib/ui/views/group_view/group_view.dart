@@ -3,6 +3,7 @@ import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
+import 'package:sizer/sizer.dart';
 
 class GroupView extends StatefulWidget {
   const GroupView({Key? key}) : super(key: key);
@@ -58,79 +59,76 @@ class _GroupViewState extends State<GroupView> {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05), // Large
-
-      child: Scaffold(
-        backgroundColor: bgColor,
-        appBar: AppBar(
-          centerTitle: true,
-          title: FittedBox(
-            child: Text(
-              "KnTag",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          // TextField(
-          //   decoration: InputDecoration(
-          //     border: OutlineInputBorder(),
-          //     label: Text("Search")
-          //   ),
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "KnTag",
+          style: TextStyle(color: Colors.black, fontSize: 16.sp),
+        ),
+        // TextField(
+        //   decoration: InputDecoration(
+        //     border: OutlineInputBorder(),
+        //     label: Text("Search")
+        //   ),
+        // ),
+        actions: [
+          // GestureDetector(
+          //   onTap: () {
+          //     showSearch(context: context, delegate: MySearchDelegate());
+          //   },
+          //   child: Container(
+          //       width: currentWidth - 50, height: currentHeight/1000, color: Colors.red),
           // ),
-          actions: [
-            // GestureDetector(
-            //   onTap: () {
-            //     showSearch(context: context, delegate: MySearchDelegate());
-            //   },
-            //   child: Container(
-            //       width: currentWidth - 50, height: currentHeight/1000, color: Colors.red),
-            // ),
 
-            IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: MySearchDelegate());
-                },
-                icon: Icon(Icons.search)),
-            Padding(
-              padding: const EdgeInsets.only(top: 11, right: 10),
-              child: GestureDetector(
-                onTap: () => showAlertBox(),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      color: titleColor,
-                    ),
-                    Text(
-                      "${kmSlider}Km",
-                      style: TextStyle(fontSize: 10, color: Colors.black87),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-        body: ListView.builder(
-          itemCount: containerDetails.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>  TagsAndPeopleView(title: containerDetails[index].tagText,)),
-                );
+          IconButton(
+              onPressed: () {
+                showSearch(context: context, delegate: MySearchDelegate());
               },
-              child: TagTile(
-                tagText: containerDetails[index].tagText,
-                joinedCount: containerDetails[index].joined,
-                leftCount: containerDetails[index].spotLeft,
-                userProfile: containerDetails[index].userProfileData,
+              icon: Icon(Icons.search)),
+          Padding(
+            padding: const EdgeInsets.only(top: 11, right: 10),
+            child: GestureDetector(
+              onTap: () => showAlertBox(),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.location_pin,
+                    color: titleColor,
+                  ),
+                  Text(
+                    "${kmSlider}Km",
+                    style: TextStyle(fontSize: 7.sp, color: Colors.black87),
+                  )
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          )
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: containerDetails.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TagsAndPeopleView(
+                          title: containerDetails[index].tagText,
+                          memberCount: containerDetails[index].joined,
+                        )),
+              );
+            },
+            child: TagTile(
+              tagText: containerDetails[index].tagText,
+              joinedCount: containerDetails[index].joined,
+              leftCount: containerDetails[index].spotLeft,
+              userProfile: containerDetails[index].userProfileData,
+            ),
+          );
+        },
       ),
     );
   }

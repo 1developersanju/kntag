@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/splash.dart';
 import 'package:kntag/tabbar.dart';
+import 'package:kntag/ui/maps/Maps/simple_usage.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/login_view/create_account.dart';
 import 'package:kntag/ui/views/login_view/forgetpassword_view.dart';
@@ -11,13 +12,15 @@ import 'package:kntag/ui/views/login_view/login_view.dart';
 import '../ui/views/post_view/create_tag_view.dart';
 
 var customRoutes = <String, WidgetBuilder>{
-  '/': (context) =>GestureDetectorPage(),
-  // AnimatedSplashScreen(
-  //     duration: 3000,
-  //     splash: SplashScreen(),
-  //     nextScreen: LoginView(),
-  //     splashTransition: SplashTransition.fadeTransition,
-  //     backgroundColor: Color.fromARGB(255, 9, 76, 205)),
+  '/': (context) => 
+  // marKer(),
+  //  GestureDetectorPage(),
+  AnimatedSplashScreen(
+      duration: 3000,
+      splash: SplashScreen(),
+      nextScreen: LoginView(),
+      splashTransition: SplashTransition.fadeTransition,
+      backgroundColor: Color.fromARGB(255, 9, 76, 205)),
   '/login': (context) => LoginView(),
   '/forgetPass': (context) => ResetPasswordtPage(),
   '/createAccount': (context) => CreatAccountPage(),

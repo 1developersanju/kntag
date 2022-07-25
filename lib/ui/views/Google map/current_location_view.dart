@@ -28,15 +28,22 @@ class _CurrentLocationState extends State<CurrentLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
-      markers: markers,
-      zoomControlsEnabled: false,
-      mapType: MapType.normal,
-      onMapCreated: (GoogleMapController controller) {
-        googleMapController = controller;
-        getCurrentLocation();
-      },
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(target: _center, zoom: 11.5),
+            markers: markers,
+            zoomControlsEnabled: false,
+            myLocationEnabled: true,
+            mapType: MapType.normal,
+            onMapCreated: (GoogleMapController controller) {
+              googleMapController = controller;
+              getCurrentLocation();
+            },
+          ),
+        ),
+      ],
     );
   }
 

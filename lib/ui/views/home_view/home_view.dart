@@ -32,85 +32,81 @@ class _HomeViewState extends State<HomeView> {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05), // Large
+    return Scaffold(
+      drawer: Drawer(child: Drawerpage()),
+      extendBodyBehindAppBar: true,
 
-      child: Scaffold(
-        drawer: Drawer(child: Drawerpage()),
-        extendBodyBehindAppBar: true,
-
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          //leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-          title: Text(
-            "Kntag",
-            style: TextStyle(color: titleColor),
-          ),
-          centerTitle: true,
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfileView()),
-                );
-              },
-              child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://wallpaperaccess.com/full/2024739.jpg")),
-            ),
-            SizedBox(
-              width: 10,
-            )
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        //leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+        title: Text(
+          "Kntag",
+          style: TextStyle(color: titleColor),
         ),
-        body:
-            // Container(
-            //   width: currentWidth,
-            //   height: currentHeight,
-            //   padding: EdgeInsets.only(left: 10, right: 10),
-            //   decoration: BoxDecoration(
-            //       image: DecorationImage(
-            //           image: NetworkImage(
-            //               "https://i.pinimg.com/564x/36/08/7c/36087c294ce01fad38d6565f3885b16c.jpg"),
-            //           fit: BoxFit.cover)),
-            //   child:
-            Stack(
-          children: [
-            CurrentLocation(),
-            GestureDetector(
-              child: Container(
-                margin: const EdgeInsets.all(10.0),
-                height: currentHeight * 0.25,
-                // bottom: 200,
-                child: PageView.builder(
-                  controller: PageController(
-                    viewportFraction: 0.93,
-                    initialPage: 0,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: containerDetails.length,
-                  itemBuilder: (context, index) {
-                    return BookClubContainer(
-                      tagText: containerDetails[index].tagText,
-                      joined: containerDetails[index].joined,
-                      location: containerDetails[index].location,
-                      date: containerDetails[index].date,
-                      time: containerDetails[index].time,
-                      spotsLeft: containerDetails[index].spotLeft,
-                      profile: containerDetails[index].myProfile,
-                      userProfile: containerDetails[index].userProfileData,
-                      page: "Home",
-                    );
-                  },
+        centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileView()),
+              );
+            },
+            child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://wallpaperaccess.com/full/2024739.jpg")),
+          ),
+          SizedBox(
+            width: 10,
+          )
+        ],
+      ),
+      body:
+          // Container(
+          //   width: currentWidth,
+          //   height: currentHeight,
+          //   padding: EdgeInsets.only(left: 10, right: 10),
+          //   decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //           image: NetworkImage(
+          //               "https://i.pinimg.com/564x/36/08/7c/36087c294ce01fad38d6565f3885b16c.jpg"),
+          //           fit: BoxFit.cover)),
+          //   child:
+          Stack(
+        children: [
+          CurrentLocation(),
+          GestureDetector(
+            child: Container(
+              margin: const EdgeInsets.all(10.0),
+              height: currentHeight * 0.25,
+              // bottom: 200,
+              child: PageView.builder(
+                controller: PageController(
+                  viewportFraction: 0.93,
+                  initialPage: 0,
                 ),
+                scrollDirection: Axis.horizontal,
+                itemCount: containerDetails.length,
+                itemBuilder: (context, index) {
+                  return BookClubContainer(
+                    tagText: containerDetails[index].tagText,
+                    joined: containerDetails[index].joined,
+                    location: containerDetails[index].location,
+                    date: containerDetails[index].date,
+                    time: containerDetails[index].time,
+                    spotsLeft: containerDetails[index].spotLeft,
+                    profile: containerDetails[index].myProfile,
+                    userProfile: containerDetails[index].userProfileData,
+                    page: "Home",
+                  );
+                },
               ),
             ),
-          ],
-          alignment: Alignment.bottomCenter,
-        ),
-        // )
+          ),
+        ],
+        alignment: Alignment.bottomCenter,
       ),
+      // )
     );
   }
 }

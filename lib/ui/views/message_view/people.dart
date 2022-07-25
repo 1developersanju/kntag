@@ -22,33 +22,30 @@ class _PeopleState extends State<Peopl> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.05),
-      child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: true,
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.arrow_back_ios)),
-            elevation: 2,
-            title: Text("People"),
-            actions: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
-            ],
-          ),
-          backgroundColor: bgColor,
-          body: ListView.builder(
-            itemCount: int.parse(widget.peoplecount),
-            itemBuilder: (context, index) {
-              return Peopleview(
-                name: containerDetails[index].name,
-                profpic: containerDetails[index].profpic,
-              );
-            },
-          )),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back_ios)),
+          elevation: 2,
+          title: Text("People"),
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+          ],
+        ),
+        backgroundColor: bgColor,
+        body: ListView.builder(
+          itemCount: int.parse(widget.peoplecount),
+          itemBuilder: (context, index) {
+            return Peopleview(
+              name: containerDetails[index].name,
+              profpic: containerDetails[index].profpic,
+            );
+          },
+        ));
   }
 }
 

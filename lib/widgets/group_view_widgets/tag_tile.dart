@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class TagTile extends StatefulWidget {
   String tagText;
@@ -27,41 +28,59 @@ class _TagTileState extends State<TagTile> {
       padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
         child: Container(
+          margin: EdgeInsets.all(5),
           padding: EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
-          width: currentWidth - 20,
-          height: currentHeight / 8,
+          width: currentWidth * 0.20,
+          height: currentHeight * 0.13,
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(8)),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              widget.tagText,
-              //"#BookClub",
-              style: TextStyle(
-                  color: Colors.blue[900],
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Row(
-              children: [
-                Text(
-                  "${widget.joinedCount} Joined\n${widget.leftCount} Spot Left",
-                  //"13 Joined\n12/25 Spot Left",
-                  style: TextStyle(color: Colors.black87, fontSize: 11),
-                ),
-                Spacer(),
-                buildStackedImages()
-              ],
-            )
-          ]),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                widget.tagText,
+                //"#BookClub",
+                style: TextStyle(
+                    color: Colors.blue[900],
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold),
+              ),
+              Spacer(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${widget.joinedCount} Joined",
+                        //"13 Joined\n12/25 Spot Left",
+                        style:
+                            TextStyle(color: Colors.black87, fontSize: 12.sp),
+                      ),
+                      Text(
+                        "${widget.leftCount} Spot Left",
+                        //"13 Joined\n12/25 Spot Left",
+                        style:
+                            TextStyle(color: Colors.black87, fontSize: 12.sp),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  buildStackedImages()
+                ],
+              )
+            ]),
+          ),
         ),
       ),
     );
   }
 
   Widget buildStackedImages() {
-    final double size = 28;
+    final double size = 4.5.h;
     final urlImages = widget.userProfile;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();

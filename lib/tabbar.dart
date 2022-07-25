@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 
 class GestureDetectorPage extends StatelessWidget {
@@ -27,7 +28,7 @@ class _MainContentState extends State<MainContent> {
 
   String dragDirection = '';
   String startDXPoint = '50';
-  String startDYPoint = '50';
+  String startDYPoint = '576';
   String dXPoint = '';
   String dYPoint = '';
   String velocity = '';
@@ -59,68 +60,62 @@ class _MainContentState extends State<MainContent> {
       behavior: HitTestBehavior.translucent,
       child: Stack(
         children: [
-          Positioned(
-              left: double.parse("0.0"),
-              top: double.parse(this.startDYPoint),
-              child: double.parse(startDYPoint) > (0.6) * size.height
-                  ? Padding(
-                      padding: EdgeInsets.only(left: size.width * 0.2),
-                      child: GestureDetector(
-                        onPanUpdate: ((details) {
-                          setState(() {
-                            containerWidth = size.width;
-                          });
-                        }),
-                        child: Expanded(
-                          child: SizedBox(
-                            child: Container(
-                              margin: const EdgeInsets.all(10.0),
-                              height: size.height * 0.25,
-                              // bottom: 200,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                controller: PageController(
-                                  viewportFraction: 0.93,
-                                  initialPage: 0,
-                                ),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 3,
-                                itemBuilder: (context, index) {
-                                  return BookClubContainer(
-                                    tagText: "containerDetails[index].tagText",
-                                    joined: "containerDetails[index].joined",
-                                    location: "containerDetails[index].location",
-                                    date: "containerDetails[index].date",
-                                    time: "containerDetails[index].time",
-                                    spotsLeft: "containerDetails[index].spotLeft",
-                                    profile: "containerDetails[index].myProfile,",
-                                    userProfile: [],
-                                    // containerDetails[index].userProfileData,
-                                    page: "Home",
-                                  );
-                                },
+          double.parse(startDYPoint) > (0.6) * size.height
+              ? Positioned(
+                  // left: size.width * 0.1,
+                  // right: size .width * 0.1,
+                  top: double.parse(this.startDYPoint),
+                  child: GestureDetector(
+                    onPanUpdate: ((details) {
+                      setState(() {
+                        containerWidth = size.width;
+                      });
+                    }),
+                    child: Container(
+                        height: size.height * 0.25,
+                        width: size.width,
+                        decoration: BoxDecoration(
+                            color: transparent,
+                            borderRadius: BorderRadius.circular(6)),
+                        child: PageView.builder(
+                          controller: PageController(
+                            viewportFraction: 0.93,
+                            initialPage: 0,
+                          ),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 6,
+                          itemBuilder: (context, i) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 160.0,
+                                color: Colors.red,
+                                child: Text("$i"),
                               ),
-                            ),
-                          ),
+                            );
+                          },
+                        )),
+                  ),
+                )
+              : Positioned(
+                  top: double.parse(this.startDYPoint),
+                  child: Container(
+                    height: size.height,
+                    width: size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(6)),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(
+                          'Draggable updated',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                       ),
-                    )
-                  : Container(
-                      height: size.height,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(6)),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(
-                            'Draggable updated',
-                            style: TextStyle(fontSize: 14, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    )),
+                    ),
+                  ),
+                )
         ],
       ),
     );

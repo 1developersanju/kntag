@@ -7,6 +7,7 @@ import 'package:kntag/ui/views/message_view/upComingMessage.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 
 import '../../../core/models/group_tag_list/group_tag_list_model.dart';
+import '../../../widgets/message_view_widget/message_tag_tile.dart';
 
 // ignore_for_file: unused_local_variable, prefer_const_constructors
 
@@ -44,15 +45,17 @@ class _MessageViewState extends State<MessageView>
       var getdate = containerDetails[i].date;
       if (formattedDate.compareTo(getdate) == 0) {
         active.add(containerDetails[i]);
-        print("active ${old.length}");
+        // print("active ${active[i].tagText}");
       }
 
       if (formattedDate.compareTo(getdate) < 0) {
         old.add(containerDetails[i]);
+        // print("old ${old[i].tagText}");
       }
 
       if (formattedDate.compareTo(getdate) > 0) {
         upcoming.add(containerDetails[i]);
+        // print("upcoming ${upcoming[i].tagText}");
       }
     }
   }
@@ -62,55 +65,105 @@ class _MessageViewState extends State<MessageView>
   @override
   Widget build(BuildContext context) {
     int index = currentIndex;
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.25), // Large
-
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Messages",
-            style: TextStyle(color: blackClr),
-          ),
-          elevation: 2,
-          actions: [
-            IconButton(
-                onPressed: () => messagesSplit(), icon: Icon(Icons.more_vert))
-          ],
-          backgroundColor: appbarClr,
-          bottom: TabBar(
-            unselectedLabelColor: greyText,
-            labelColor: titleColor,
-            tabs: const [
-              Tab(
-                text: "Old",
-              ),
-              Tab(
-                text: "Active",
-              ),
-              Tab(
-                text: "Upcoming",
-              ),
-            ],
-            onTap: (index) {
-              setState(() {
-                currentIndex = index;
-              });
-            },
-            controller: _controller,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Messages",
+          style: TextStyle(color: blackClr),
         ),
-        backgroundColor: Colors.amber,
-        body: Center(
-            child: TabBarView(
-          children: [
-            OldMessageView(),
-            ActiveMessageView(),
-            UpcomingMessageView(),
+        elevation: 2,
+        actions: [
+          IconButton(
+              onPressed: () => messagesSplit(), icon: Icon(Icons.more_vert))
+        ],
+        backgroundColor: appbarClr,
+        bottom: TabBar(
+          unselectedLabelColor: greyText,
+          labelColor: titleColor,
+          tabs: const [
+            Tab(
+              text: "Old",
+            ),
+            Tab(
+              text: "Active",
+            ),
+            Tab(
+              text: "Upcoming",
+            ),
           ],
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
           controller: _controller,
-        )),
+        ),
       ),
+      backgroundColor: bgColor,
+      body: Center(
+          child: TabBarView(
+        children: [
+          ListView.builder(
+            itemCount: old.length,
+            itemBuilder: (context, index) {
+              return MessageTagTile(
+                tagText: old[index].tagText,
+                joinedCount: old[index].joined,
+                leftCount: old[index].spotLeft,
+                userProfile: old[index].userProfileData,
+                date: old[index].date,
+                showcaseImg: old[index].userProfileData,
+                time: old[index].time,
+                location: old[index].latitude,
+                lat: old[index].latitude,
+                long: old[index].latitude,
+                host: old[index].myProfile,
+                index: 0,
+              );
+            },
+          ),
+          ListView.builder(
+            itemCount: active.length,
+            itemBuilder: (context, index) {
+              return MessageTagTile(
+                tagText: active[index].tagText,
+                joinedCount: active[index].joined,
+                leftCount: active[index].spotLeft,
+                userProfile: active[index].userProfileData,
+                date: active[index].date,
+                showcaseImg: active[index].userProfileData,
+                time: active[index].time,
+                location: active[index].location,
+                lat: active[index].latitude,
+                long: active[index].latitude,
+                host: active[index].myProfile,
+                index: 1,
+              );
+            },
+          ),
+          ListView.builder(
+            itemCount: upcoming.length,
+            itemBuilder: (context, index) {
+              return MessageTagTile(
+                tagText: upcoming[index].tagText,
+                joinedCount: upcoming[index].joined,
+                leftCount: upcoming[index].spotLeft,
+                userProfile: upcoming[index].userProfileData,
+                date: upcoming[index].date,
+                showcaseImg: upcoming[index].userProfileData,
+                time: upcoming[index].time,
+                location: upcoming[index].location,
+                lat: upcoming[index].latitude,
+                long: upcoming[index].longitude,
+                host: upcoming[index].myProfile,
+                index: 2,
+              );
+            },
+          ),
+        ],
+        controller: _controller,
+      )),
     );
   }
 }

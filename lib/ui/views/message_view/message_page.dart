@@ -5,7 +5,9 @@ import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
+import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
+import 'package:kntag/ui/views/notification_view/notification_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:simple_animations/simple_animations.dart';
 
@@ -15,12 +17,23 @@ class MessagePage extends StatefulWidget {
   String title;
   String joinedCount;
   String leftCount;
-  MessagePage(
-      {required this.userProfile,
-      required this.index,
-      required this.title,
-      required this.joinedCount,
-      required this.leftCount});
+  String date;
+  String host;
+  String location;
+  String time;
+  List showcaseImg;
+  MessagePage({
+    required this.userProfile,
+    required this.index,
+    required this.title,
+    required this.joinedCount,
+    required this.leftCount,
+    this.date = "",
+    required this.host,
+    required this.location,
+    required this.showcaseImg,
+    required this.time,
+  });
   @override
   State<MessagePage> createState() => _MessagePageState();
 }
@@ -103,116 +116,135 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     final size = MediaQuery.of(context).size;
 
     final theme = Theme.of(context);
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), // Large
-
-      child: Scaffold(
-        backgroundColor: bgColor,
-        appBar: AppBar(
-          leading: BackButton(),
-          backgroundColor: whiteClr,
-          elevation: 2,
-          centerTitle: true,
-          titleSpacing: 0,
-          title: Text('${widget.title}', style: theme.textTheme.headline6),
-          actions: [
-            IconButton(
-              splashRadius: 20,
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.grey.shade700,
-              ),
-              onPressed: () {},
-            ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(48.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => Peopl(peoplecount: widget.joinedCount,))));
-              },
-              child: Container(
-                  height: 48.0,
-                  alignment: Alignment.center,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: buildStackedImages(),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("${widget.joinedCount} joined"),
-                          Text("${widget.leftCount} spots left")
-                        ],
-                      ),
-                      Spacer(),
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: BottomAppbar())
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: AppBar(
+        leading: BackButton(),
+        backgroundColor: whiteClr,
+        elevation: 2,
+        centerTitle: true,
+        titleSpacing: 0,
+        title: GestureDetector(
+            onTap: (() =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return EventDetailsView(
+                    date: widget.date,
+                    host: widget.host,
+                    location: widget.location,
+                    time: widget.time,
+                    title: widget.title,
+                    MembersList: widget.userProfile,
+                    membersJoined: widget.joinedCount,
+                    spotLeft: widget.leftCount,
+                    ShowcaseImage: [
+                      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+                      "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
+                      "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
                     ],
-                  )),
+                  );
+                }))),
+            child: Text('${widget.title}', style: theme.textTheme.headline6)),
+        actions: [
+          IconButton(
+            splashRadius: 20,
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.grey.shade700,
             ),
+            onPressed: () {},
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => Peopl(
+                            peoplecount: widget.joinedCount,
+                          ))));
+            },
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildStackedImages(),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("${widget.joinedCount} joined"),
+                        Text("${widget.leftCount} spots left")
+                      ],
+                    ),
+                    Spacer(),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BottomAppbar())
+                  ],
+                )),
           ),
         ),
+      ),
 
-        // a message list
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: messages.length > 0
-                        ? ListView.builder(
-                            reverse: true,
-                            shrinkWrap: true,
-                            controller: _scrollController,
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                              return MessageItem(
-                                isMe: index % 2 == 0,
-                                message: messages[index],
-                                time: '21:05',
-                              );
-                            },
-                          )
-                        : Container(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.chat,
-                                    size: 80,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'No messages yet',
-                                    style: theme.textTheme.bodyText2,
-                                  ),
-                                ],
-                              ),
+      // a message list
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            child: Column(
+              children: [
+                Expanded(
+                  child: messages.length > 0
+                      ? ListView.builder(
+                          reverse: true,
+                          shrinkWrap: true,
+                          controller: _scrollController,
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            return MessageItem(
+                              isMe: index % 2 == 0,
+                              message: messages[index],
+                              time: '21:05',
+                            );
+                          },
+                        )
+                      : Container(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.chat,
+                                  size: 80,
+                                  color: Colors.grey.shade400,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'No messages yet',
+                                  style: theme.textTheme.bodyText2,
+                                ),
+                              ],
                             ),
                           ),
-                  ),
-                  BottomArea()
-                ],
-              ),
+                        ),
+                ),
+                BottomArea()
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -325,7 +357,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     } else {
       return ElevatedButton(
           onPressed: () {
-            print("Event Ended");
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => RequestView())));
           },
           style: ElevatedButton.styleFrom(
             shape: new RoundedRectangleBorder(

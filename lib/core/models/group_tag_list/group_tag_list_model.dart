@@ -7,7 +7,8 @@ class GroupTagList {
   String joined;
   String spotLeft;
   List userProfileData;
-
+  String latitude;
+  String longitude;
   data() {}
 
   GroupTagList({
@@ -19,6 +20,8 @@ class GroupTagList {
     required this.spotLeft,
     required this.myProfile,
     required this.userProfileData,
+    required this.latitude,
+    required this.longitude,
   });
 }
 
@@ -40,6 +43,8 @@ tagTileDatas() {
     date: "",
     location: '',
     time: '',
+    latitude: "",
+    longitude: '',
     joined: '',
     spotLeft: '',
     myProfile: '',
@@ -49,12 +54,14 @@ tagTileDatas() {
   //1
   tileData = GroupTagList(
     tagText: "#Gaming",
-    date: "2022-07-22",
+    date: "2022-07-25",
     location: 'Race Course',
     time: '08pm to 10:15pm',
     joined: '13',
     spotLeft: '12/25',
     myProfile: profilepic,
+    latitude: "11.024552419406717",
+    longitude: '76.94530308288358',
     userProfileData: [profilepic1, profilepic3],
   );
   groupTileDetails.add(tileData);
@@ -67,6 +74,8 @@ tagTileDatas() {
     time: '06pm to 08pm',
     joined: '14',
     spotLeft: '11/25',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
   );
@@ -74,7 +83,9 @@ tagTileDatas() {
   //3
   tileData = GroupTagList(
     tagText: "#SaturdayParty",
+    latitude: "10.999390796154014",
     date: "2022-04-29",
+    longitude: '76.97610889402333',
     location: 'RS.puram',
     time: '06pm to 8:30pm',
     joined: '5',
@@ -89,6 +100,8 @@ tagTileDatas() {
     tagText: "#MovieTonight",
     date: "2022-06-13",
     location: 'Thadagam road',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     time: '07pm to 11pm',
     joined: '20',
     spotLeft: '05/25',
@@ -104,6 +117,8 @@ tagTileDatas() {
     location: 'Town Hall',
     time: '07pm to 10:30pm',
     joined: '3',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     spotLeft: '22/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
@@ -113,9 +128,11 @@ tagTileDatas() {
   //6
   tileData = GroupTagList(
     tagText: "#Know More About Space",
-    date: "2022-10-25",
+    date: "2022-07-25",
     location: 'barathi park',
     time: '08pm to 11:30pm',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     joined: '24',
     spotLeft: '01/25',
     myProfile: profilepic,
@@ -128,6 +145,8 @@ tagTileDatas() {
     tagText: "#Music for life",
     date: "2022-06-13",
     location: 'saravanampati',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     time: '07pm to 10:30pm',
     joined: '19',
     spotLeft: '06/25',
@@ -147,6 +166,8 @@ groupTileDatas() {
     tagText: "",
     date: "",
     location: '',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     time: '',
     joined: '',
     spotLeft: '',
@@ -160,6 +181,8 @@ groupTileDatas() {
     date: "2022-07-01",
     location: 'prozone',
     time: '07pm to 10pm',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     joined: '15',
     spotLeft: '10/25',
     myProfile: profilepic,
@@ -174,6 +197,8 @@ groupTileDatas() {
     location: 'L.G.B colony',
     time: '6pm to 10:30pm',
     joined: '17',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     spotLeft: '08/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],
@@ -184,6 +209,8 @@ groupTileDatas() {
     tagText: "#Scripting",
     date: "2022-04-29",
     location: 'N.G.G.O colony',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     time: '07pm to 08pm',
     joined: '10',
     spotLeft: '15/25',
@@ -197,7 +224,9 @@ groupTileDatas() {
     tagText: "#Movie Making",
     date: "2022-06-13",
     location: 'ganapathy',
+    latitude: "10.999390796154014",
     time: '07pm to 11:30pm',
+    longitude: '76.97610889402333',
     joined: '13',
     spotLeft: '12/25',
     myProfile: profilepic,
@@ -211,6 +240,8 @@ groupTileDatas() {
     date: "2022-07-12",
     location: 'gandhi puram',
     time: '08pm to 12:30pm',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     joined: '10',
     spotLeft: '15/25',
     myProfile: profilepic,
@@ -223,6 +254,8 @@ groupTileDatas() {
     tagText: "#Science and more",
     date: "2022-10-25",
     location: 'ooty',
+    latitude: "10.999390796154014",
+    longitude: '76.97610889402333',
     time: '07pm to 10:30pm',
     joined: '25',
     spotLeft: '00/25',
@@ -237,7 +270,9 @@ groupTileDatas() {
     date: "2022-06-13",
     location: 'barathi nagar',
     time: '07pm to 10m',
+    longitude: '76.97610889402333',
     joined: '15',
+    latitude: "10.999390796154014",
     spotLeft: '10/25',
     myProfile: profilepic,
     userProfileData: [profilepic1, profilepic2, profilepic3],

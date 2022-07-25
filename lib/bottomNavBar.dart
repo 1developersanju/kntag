@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/maps/Maps/simple_usage.dart';
 import 'package:kntag/ui/views/group_view/group_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/notification_view/notification_view.dart';
@@ -16,7 +17,7 @@ class MyAppp extends StatelessWidget {
 
   List<Widget> _buildScreens() {
     return [
-      HomeView(),
+      HomeMap(),
       GroupView(),
       CreateTagView(),
       NotificationView(),
@@ -62,8 +63,8 @@ class MyAppp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
-      navBarHeight: 40,
       context,
+      navBarHeight: 40,
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
