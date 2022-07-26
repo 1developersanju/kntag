@@ -63,10 +63,26 @@ class _GroupViewState extends State<GroupView> {
       backgroundColor: bgColor,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          "KnTag",
-          style: TextStyle(color: Colors.black, fontSize: 16.sp),
+        title: Padding(
+          padding: EdgeInsets.all(3), // flex: 4,
+          child: Container(
+            child: TextFormField(
+              maxLines: 1,
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      borderSide: new BorderSide(color: Colors.white)),
+                  filled: true,
+                  fillColor: whiteClr,
+                  hintText: "search",
+                  suffixIcon: Icon(Icons.search)),
+            ),
+          ),
         ),
+        //  Text(
+        //   "KnTag",
+        //   style: TextStyle(color: Colors.black, fontSize: 16.sp),
+        // ),
         // TextField(
         //   decoration: InputDecoration(
         //     border: OutlineInputBorder(),

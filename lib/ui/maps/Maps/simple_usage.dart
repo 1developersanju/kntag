@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:interactive_maps_marker/interactive_maps_marker.dart';
+// import 'package:interactive_maps_marker/interactive_maps_marker.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/drawer.dart';
+import 'package:kntag/ui/maps/Maps/interactive_maps_marker.dart';
 import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
@@ -22,24 +23,18 @@ class _HomeMapState extends State<HomeMap> {
     // TODO: implement initState
     super.initState();
     containerDetails = tagTileDatas();
+
+    var i = {"id": 9};
+
+    for (var i = 0; i < containerDetails.length - 1; i++) {
+      markers.add(MarkerItem(
+          id: i + 1,
+          latitude: double.parse(containerDetails[i].latitude),
+          longitude: double.parse(containerDetails[i].longitude)));
+    }
   }
 
-  final List<MarkerItem> markers = []
-    ..add(MarkerItem(
-        id: 1, latitude: 11.055550354504406, longitude: 76.99404520752002))
-    ..add(MarkerItem(
-        id: 2, latitude: 10.999390796154014, longitude: 76.97610889402333))
-    ..add(MarkerItem(
-        id: 3, latitude: 11.000918267958584, longitude: 76.94993055169468))
-    ..add(MarkerItem(
-        id: 4, latitude: 11.010444150468519, longitude: 76.95182381044455))
-    ..add(MarkerItem(
-        id: 5, latitude: 10.98853523838723, longitude: 76.96270323928009))
-    ..add(MarkerItem(
-      id: 6,
-      latitude: 10.99683893532857,
-      longitude: 76.95929670904742,
-    ));
+  List<MarkerItem> markers = [];
 
   @override
   Widget build(BuildContext context) {

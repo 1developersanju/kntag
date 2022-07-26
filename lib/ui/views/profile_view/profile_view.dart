@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/main.dart';
-import 'package:kntag/widgets/Profile_view_widgets/book_club_container.dart';
 import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
+
+import '../../../core/models/group_tag_list/group_tag_list_model.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -15,6 +17,14 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    containerDetails = tagTileDatas();
+  }
+
+  @override
+  List<GroupTagList> containerDetails = [];
   File? image;
   Future pickimage() async {
     try {
@@ -267,11 +277,19 @@ class _ProfileViewState extends State<ProfileView> {
               height: currentHeight * 1.2,
               color: bgColor,
               child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 6,
+                itemCount: 4,
                 itemBuilder: (context, index) {
-                  return BookclubContainer();
+                  return BookClubContainer(
+                    tagText: containerDetails[index].tagText,
+                    joined: containerDetails[index].joined,
+                    location: containerDetails[index].location,
+                    date: containerDetails[index].date,
+                    time: containerDetails[index].time,
+                    spotsLeft: containerDetails[index].spotLeft,
+                    profile: containerDetails[index].myProfile,
+                    userProfile: containerDetails[index].userProfileData,
+                    page: "tags",
+                  );
                 },
               ),
             )

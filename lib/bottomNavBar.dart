@@ -20,7 +20,9 @@ class MyAppp extends StatelessWidget {
       HomeMap(),
       GroupView(),
       CreateTagView(),
-      NotificationView(),
+      NotificationView(
+        title: "Notifications",
+      ),
       MessageView()
     ];
   }

@@ -5,8 +5,8 @@ import 'package:kntag/widgets/colorAndSize.dart';
 import 'package:kntag/widgets/notification_view_widget/notification_tile.dart';
 
 class NotificationView extends StatefulWidget {
-  const NotificationView({Key? key}) : super(key: key);
-
+  String title;
+  NotificationView({required this.title});
   @override
   State<NotificationView> createState() => _NotificationViewState();
 }
@@ -31,67 +31,33 @@ class _NotificationViewState extends State<NotificationView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Notification",
+          widget.title,
           style: TextStyle(color: blackClr),
         ),
       ),
-      body: ListView.builder(
-        itemCount: tileDetails.length,
-        itemBuilder: (context, index) {
-          return NotificationTile(
-            tagText: tileDetails[index].tagText,
-            oppName: tileDetails[index].oppName,
-            oppProfile: tileDetails[index].oppProfile,
-            status: tileDetails[index].status,
-          );
-        },
-      ),
-    );
-  }
-}
-
-class RequestView extends StatefulWidget {
-  const RequestView({Key? key}) : super(key: key);
-
-  @override
-  State<RequestView> createState() => _RequestViewState();
-}
-
-class _RequestViewState extends State<RequestView> {
-  @override
-  List<UserTagList> tileDetails = [];
-
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    tileDetails = userTagTileDatas();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final currentWidth = MediaQuery.of(context).size.width;
-    final currentHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      backgroundColor: bgColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Notification",
-          style: TextStyle(color: blackClr),
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: tileDetails.length,
-        itemBuilder: (context, index) {
-          return RequestTile(
-            tagText: tileDetails[index].tagText,
-            oppName: tileDetails[index].oppName,
-            oppProfile: tileDetails[index].oppProfile,
-            status: tileDetails[index].status,
-          );
-        },
-      ),
+      body: widget.title == "Notifications"
+          ? ListView.builder(
+              itemCount: tileDetails.length,
+              itemBuilder: (context, index) {
+                return NotificationTile(
+                  tagText: tileDetails[index].tagText,
+                  oppName: tileDetails[index].oppName,
+                  oppProfile: tileDetails[index].oppProfile,
+                  status: tileDetails[index].status,
+                );
+              },
+            )
+          : ListView.builder(
+              itemCount: tileDetails.length,
+              itemBuilder: (context, index) {
+                return RequestTile(
+                  tagText: tileDetails[index].tagText,
+                  oppName: tileDetails[index].oppName,
+                  oppProfile: tileDetails[index].oppProfile,
+                  status: tileDetails[index].status,
+                );
+              },
+            ),
     );
   }
 }

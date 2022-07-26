@@ -357,8 +357,12 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     } else {
       return ElevatedButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => RequestView())));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) => NotificationView(
+                          title: "Requests",
+                        ))));
           },
           style: ElevatedButton.styleFrom(
             shape: new RoundedRectangleBorder(

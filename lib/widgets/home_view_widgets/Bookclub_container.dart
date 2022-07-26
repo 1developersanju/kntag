@@ -146,7 +146,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.blue[900],
-                                                    fontSize: 16.sp,
+                                                    fontSize: 13.sp,
                                                   ),
                                                   textScaleFactor:
                                                       ScaleSize.textScaleFactor(
