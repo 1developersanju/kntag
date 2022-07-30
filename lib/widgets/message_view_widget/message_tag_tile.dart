@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kntag/ui/views/Google%20map/openMap.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/message_view/message_page.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,6 +63,8 @@ class _MessageTagTileState extends State<MessageTagTile> {
                       showcaseImg: widget.showcaseImg,
                       time: widget.time,
                       location: widget.location,
+                      latitude: widget.lat,
+                      longitude: widget.long,
                       host: widget.host,
                     )),
           );
@@ -97,16 +100,16 @@ class _MessageTagTileState extends State<MessageTagTile> {
                             child: Text(
                               "${widget.joinedCount} Joined",
                               //"13 Joined\n12/25 Spot Left",
-                              style: TextStyle(
-                                  color: Colors.black87, fontSize: 11.sp),
+                              style:
+                                  TextStyle(color: greyText, fontSize: 11.sp),
                             ),
                           ),
                           Expanded(
                             child: Text(
                               "${widget.leftCount} Spot Left",
                               //"13 Joined\n12/25 Spot Left",
-                              style: TextStyle(
-                                  color: Colors.black87, fontSize: 11.sp),
+                              style:
+                                  TextStyle(color: greyText, fontSize: 11.sp),
                             ),
                           ),
                         ]),
@@ -119,17 +122,19 @@ class _MessageTagTileState extends State<MessageTagTile> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                MapUtils.openMap(double.parse(widget.lat),
-                                    double.parse(widget.long));
+                                MapsLauncher.launchCoordinates(
+                                    double.parse(widget.lat),
+                                    double.parse(widget.long),
+                                    widget.tagText);
 
                                 print("location tapped");
                               },
                               child: CircleAvatar(
                                   backgroundColor: bgColor,
                                   radius: 2.h,
-                                  child: Icon(
-                                    Icons.location_pin,
-                                    size: 2.h,
+                                  child: Image.asset(
+                                    "assets/LOCATION selected.png",
+                                    height: 3.w,
                                   )),
                             ),
                             // SizedBox(
@@ -138,9 +143,9 @@ class _MessageTagTileState extends State<MessageTagTile> {
                             CircleAvatar(
                                 backgroundColor: bgColor,
                                 radius: 2.h,
-                                child: Icon(
-                                  Icons.message,
-                                  size: 2.h,
+                                child: Image.asset(
+                                  "assets/chat_unselected.png",
+                                  height: 4.w,
                                 )),
                           ],
                         ),
@@ -161,7 +166,7 @@ class _MessageTagTileState extends State<MessageTagTile> {
   }
 
   Widget buildStackedImages() {
-    final double size = 28;
+    final double size = 4.h;
     final urlImages = widget.userProfile;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();

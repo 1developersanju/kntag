@@ -4,7 +4,7 @@ import 'package:kntag/core/models/message_status.dart';
 import 'package:kntag/ui/views/message_view/activeMessage.dart';
 import 'package:kntag/ui/views/message_view/oldMessage.dart';
 import 'package:kntag/ui/views/message_view/upComingMessage.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 
 import '../../../core/models/group_tag_list/group_tag_list_model.dart';
 import '../../../widgets/message_view_widget/message_tag_tile.dart';
@@ -64,9 +64,12 @@ class _MessageViewState extends State<MessageView>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     int index = currentIndex;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           "Messages",
@@ -79,6 +82,8 @@ class _MessageViewState extends State<MessageView>
         ],
         backgroundColor: appbarClr,
         bottom: TabBar(
+          indicatorColor: buttonBlue,
+          indicatorWeight: 4,
           unselectedLabelColor: greyText,
           labelColor: titleColor,
           tabs: const [
@@ -104,63 +109,138 @@ class _MessageViewState extends State<MessageView>
       body: Center(
           child: TabBarView(
         children: [
-          ListView.builder(
-            itemCount: old.length,
-            itemBuilder: (context, index) {
-              return MessageTagTile(
-                tagText: old[index].tagText,
-                joinedCount: old[index].joined,
-                leftCount: old[index].spotLeft,
-                userProfile: old[index].userProfileData,
-                date: old[index].date,
-                showcaseImg: old[index].userProfileData,
-                time: old[index].time,
-                location: old[index].latitude,
-                lat: old[index].latitude,
-                long: old[index].latitude,
-                host: old[index].myProfile,
-                index: 0,
-              );
-            },
-          ),
-          ListView.builder(
-            itemCount: active.length,
-            itemBuilder: (context, index) {
-              return MessageTagTile(
-                tagText: active[index].tagText,
-                joinedCount: active[index].joined,
-                leftCount: active[index].spotLeft,
-                userProfile: active[index].userProfileData,
-                date: active[index].date,
-                showcaseImg: active[index].userProfileData,
-                time: active[index].time,
-                location: active[index].location,
-                lat: active[index].latitude,
-                long: active[index].latitude,
-                host: active[index].myProfile,
-                index: 1,
-              );
-            },
-          ),
-          ListView.builder(
-            itemCount: upcoming.length,
-            itemBuilder: (context, index) {
-              return MessageTagTile(
-                tagText: upcoming[index].tagText,
-                joinedCount: upcoming[index].joined,
-                leftCount: upcoming[index].spotLeft,
-                userProfile: upcoming[index].userProfileData,
-                date: upcoming[index].date,
-                showcaseImg: upcoming[index].userProfileData,
-                time: upcoming[index].time,
-                location: upcoming[index].location,
-                lat: upcoming[index].latitude,
-                long: upcoming[index].longitude,
-                host: upcoming[index].myProfile,
-                index: 2,
-              );
-            },
-          ),
+          old.length != 0
+              ? ListView.builder(
+                  itemCount: old.length,
+                  itemBuilder: (context, index) {
+                    return MessageTagTile(
+                      tagText: old[index].tagText,
+                      joinedCount: old[index].joined,
+                      leftCount: old[index].spotLeft,
+                      userProfile: old[index].userProfileData,
+                      date: old[index].date,
+                      showcaseImg: old[index].userProfileData,
+                      time: old[index].time,
+                      location: old[index].latitude,
+                      lat: old[index].latitude,
+                      long: old[index].latitude,
+                      host: old[index].myProfile,
+                      index: 0,
+                    );
+                  },
+                )
+              : Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat,
+                            size: 80,
+                            color: Colors.grey.shade400,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'You do not have any old chats available',
+                            style: theme.textTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+          active.length != 0
+              ? ListView.builder(
+                  itemCount: active.length,
+                  itemBuilder: (context, index) {
+                    return MessageTagTile(
+                      tagText: active[index].tagText,
+                      joinedCount: active[index].joined,
+                      leftCount: active[index].spotLeft,
+                      userProfile: active[index].userProfileData,
+                      date: active[index].date,
+                      showcaseImg: active[index].userProfileData,
+                      time: active[index].time,
+                      location: active[index].location,
+                      lat: active[index].latitude,
+                      long: active[index].latitude,
+                      host: active[index].myProfile,
+                      index: 1,
+                    );
+                  },
+                )
+              : Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat,
+                            size: 80,
+                            color: Colors.grey.shade400,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'No active chats available',
+                            style: theme.textTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+          upcoming.length != 0
+              ? ListView.builder(
+                  itemCount: upcoming.length,
+                  itemBuilder: (context, index) {
+                    return MessageTagTile(
+                      tagText: upcoming[index].tagText,
+                      joinedCount: upcoming[index].joined,
+                      leftCount: upcoming[index].spotLeft,
+                      userProfile: upcoming[index].userProfileData,
+                      date: upcoming[index].date,
+                      showcaseImg: upcoming[index].userProfileData,
+                      time: upcoming[index].time,
+                      location: upcoming[index].location,
+                      lat: upcoming[index].latitude,
+                      long: upcoming[index].longitude,
+                      host: upcoming[index].myProfile,
+                      index: 2,
+                    );
+                  },
+                )
+              : Center(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat,
+                            size: 80,
+                            color: Colors.grey.shade400,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'No Upcoming chats available',
+                            style: theme.textTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
         ],
         controller: _controller,
       )),

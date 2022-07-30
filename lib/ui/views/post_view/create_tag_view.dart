@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/ui/maps/street_map.dart';
 import 'package:kntag/ui/views/post_view/post_setting_view/post_setting_view.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:sizer/sizer.dart';
 
 //This is code file for Create Tag Page
@@ -33,6 +34,8 @@ class _CreateTagViewState extends State<CreateTagView> {
     var formattedEndDate = "${endDate.year}-${endDate.month}-${endDate.day}";
 
     TextEditingController txtController = TextEditingController();
+    ScreenshotController screenshotController = ScreenshotController();
+
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
@@ -48,17 +51,19 @@ class _CreateTagViewState extends State<CreateTagView> {
               resizeToAvoidBottomInset: false,
               backgroundColor: bgColor,
               appBar: AppBar(
-                leading: InkWell(
-                  onTap: () {
-                    // Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                  ),
-                ),
-                backgroundColor: Colors.transparent,
+                automaticallyImplyLeading: false,
+                // leading: InkWell(
+                //   onTap: () {
+                // Navigator.pop(context);
+                // },
+                // child: const Icon(
+                //   Icons.arrow_back_ios,
+                //   color: Colors.black,
+                // ),
+                // ),
+                // backgroundColor: Colors.transparent,
                 centerTitle: true,
+                backgroundColor: bgColor,
                 title: const Text(
                   "Create Tag",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -90,7 +95,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                       children: [
                         // 1st TextField for Tag Name
                         Flexible(
-                          flex: 6,
+                          flex: 8,
                           child: Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Column(
@@ -99,13 +104,14 @@ class _CreateTagViewState extends State<CreateTagView> {
                                   flex: 4,
                                   child: Container(
                                     child: TextFormField(
-                                      maxLines: 1,
+                                      maxLines: 2,
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            borderSide: new BorderSide(
-                                                color: Colors.white)),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          borderSide: new BorderSide(
+                                              color: Colors.white),
+                                        ),
                                         filled: true,
                                         fillColor: whiteClr,
                                         hintText: "Tag Name",
@@ -120,7 +126,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                 Flexible(
                                   flex: 6,
                                   child: TextField(
-                                    maxLines: 5,
+                                    maxLines: 8,
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                           borderRadius:
@@ -142,6 +148,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                   flex: 4,
                                   child: Container(
                                     child: TextFormField(
+                                        maxLines: 2,
                                         readOnly: true,
                                         enableInteractiveSelection:
                                             false, // will disable paste operation
@@ -185,7 +192,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     Text(
                                       "Start",
                                       style: TextStyle(
-                                          fontSize: 15.sp, color: greyText),
+                                          fontSize: 13.sp, color: greyText),
                                     ),
                                     // SizedBox(
                                     //   height: 3.5,
@@ -298,7 +305,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     Text(
                                       "End",
                                       style: TextStyle(
-                                          fontSize: 15.sp, color: greyText),
+                                          fontSize: 13.sp, color: greyText),
                                     ),
                                     // SizedBox(
                                     //   height: 3.5,
@@ -497,22 +504,41 @@ class _CreateTagViewState extends State<CreateTagView> {
                         Spacer(),
                         //Button for next function
                         Flexible(
-                          flex: 2,
+                          flex: 3,
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     minimumSize: Size(
                                         double.infinity, currentHeight / 12),
-                                    primary: Colors.blue[900]),
+                                    primary: buttonBlue),
                                 onPressed: () {
+                                  screenshotController
+                                      .captureFromWidget(Container(
+                                          padding: const EdgeInsets.all(30.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: buttonBlue, width: 5.0),
+                                          ),
+                                          child: Text(
+                                              "This is an invisible widget")))
+                                      .then((capturedImage) {
+                                    print("image Captured $capturedImage");
+                                    // Handle captured image
+                                  });
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               PostSettingView()));
                                 },
-                                child: Text("Next")),
+                                child: Text(
+                                  "Next",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                  ),
+                                )),
                           ),
                         ),
                         Spacer(),

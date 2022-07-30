@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:sizer/sizer.dart';
 
 class NotificationTile extends StatefulWidget {
@@ -98,6 +98,9 @@ class _NotificationTileState extends State<NotificationTile> {
                   ? Expanded(
                       flex: 3,
                       child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: buttonBlue,
+                          ),
                           onPressed: () {
                             print("approve");
                           },
@@ -222,6 +225,9 @@ class _RequestTileState extends State<RequestTile> {
                           ? Expanded(
                               flex: 3,
                               child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: buttonBlue,
+                                  ),
                                   onPressed: () {
                                     print("approve");
                                   },

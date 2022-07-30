@@ -1,10 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/peopleModel.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags.dart';
 import 'package:kntag/ui/views/message_view/activeMessage.dart';
 import 'package:kntag/ui/views/message_view/oldMessage.dart';
 import 'package:kntag/ui/views/message_view/upComingMessage.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:sizer/sizer.dart';
 
 // ignore_for_file: unused_local_variable, prefer_const_constructors
@@ -44,14 +45,17 @@ class _TagsAndPeopleViewState extends State<TagsAndPeopleView>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           widget.title,
-          style: TextStyle(color: blackClr, fontSize: 14.sp),
+          style: TextStyle(color: blackClr, fontSize: 13.sp),
+          maxLines: 1,
         ),
         elevation: 2,
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
         backgroundColor: appbarClr,
         bottom: TabBar(
+          indicatorColor: buttonBlue,
+          indicatorWeight: 4,
           unselectedLabelColor: blackClr,
           labelColor: titleColor,
           labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),

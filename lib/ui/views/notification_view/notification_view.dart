@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/core/models/group_tag_list/usertag/user_notification.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/notification_view_widget/notification_tile.dart';
 
 class NotificationView extends StatefulWidget {
@@ -29,6 +29,7 @@ class _NotificationViewState extends State<NotificationView> {
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           widget.title,

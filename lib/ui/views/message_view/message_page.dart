@@ -8,7 +8,7 @@ import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/ui/views/notification_view/notification_view.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class MessagePage extends StatefulWidget {
@@ -22,6 +22,8 @@ class MessagePage extends StatefulWidget {
   String location;
   String time;
   List showcaseImg;
+  String latitude;
+  String longitude;
   MessagePage({
     required this.userProfile,
     required this.index,
@@ -33,6 +35,8 @@ class MessagePage extends StatefulWidget {
     required this.location,
     required this.showcaseImg,
     required this.time,
+    required this.latitude,
+    required this.longitude,
   });
   @override
   State<MessagePage> createState() => _MessagePageState();
@@ -136,6 +140,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     MembersList: widget.userProfile,
                     membersJoined: widget.joinedCount,
                     spotLeft: widget.leftCount,
+                    latitude: widget.latitude,
+                    longitude: widget.longitude,
                     ShowcaseImage: [
                       "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
                       "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
@@ -162,6 +168,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                   context,
                   MaterialPageRoute(
                       builder: ((context) => Peopl(
+                            backButtonneeded: true,
                             peoplecount: widget.joinedCount,
                           ))));
             },
@@ -365,6 +372,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                         ))));
           },
           style: ElevatedButton.styleFrom(
+            primary: buttonBlue,
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(30.0),
             ),
@@ -596,13 +604,15 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                             border: InputBorder.none,
                             filled: false,
                             fillColor: Colors.grey.shade100,
-                            // enabledBorder: OutlineInputBorder().
-                            // focusedBorder: OutlineInputBorder(
-                            //   borderRadius: BorderRadius.circular(20),
-                            //   gapPadding: 0,
-                            //   borderSide:
-                            //       BorderSide(color: Colors.grey.shade300),
-                            // ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.white, width: 2.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              gapPadding: 0,
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
                           ),
                           onChanged: (value) {
                             if (value.length > 0) {
@@ -619,10 +629,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                       child: IconButton(
                         splashRadius: 20,
                         icon: isVisible
-                            ? Icon(
-                                CupertinoIcons.paperplane,
-                                color: whiteClr,
-                              )
+                            ? Image.asset("assets/send_icon.png")
                             : Icon(
                                 Icons.send,
                                 color: whiteClr,

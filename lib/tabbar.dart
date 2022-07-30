@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 
 class GestureDetectorPage extends StatelessWidget {

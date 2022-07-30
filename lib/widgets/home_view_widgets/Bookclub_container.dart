@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../ui/views/home_view/event_details_view/event_details_view.dart';
@@ -16,6 +16,8 @@ class BookClubContainer extends StatefulWidget {
   String spotsLeft;
   String profile;
   List userProfile;
+  String latitude;
+  String longitude;
   String page;
   BookClubContainer({
     required this.tagText,
@@ -27,6 +29,8 @@ class BookClubContainer extends StatefulWidget {
     required this.profile,
     required this.userProfile,
     required this.page,
+    required this.latitude,
+    required this.longitude
   });
   @override
   State<BookClubContainer> createState() => _BookClubContainerState();
@@ -47,6 +51,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
               date: widget.date,
               host: widget.profile,
               time: widget.time,
+              latitude: widget.latitude,
+              longitude: widget.longitude,
               location: widget.location,
               title: widget.tagText,
               MembersList: widget.userProfile,
@@ -82,6 +88,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
             builder: (context) => EventDetailsView(
               date: widget.date,
               host: widget.profile,
+              latitude: widget.latitude,
+              longitude: widget.longitude,
               time: widget.time,
               location: widget.location,
               title: widget.tagText,
@@ -133,82 +141,86 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                         color: Colors.white,
                                         borderRadius:
                                             BorderRadius.circular(12)),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  widget.tagText,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.blue[900],
-                                                    fontSize: 13.sp,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    widget.tagText,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.blue[900],
+                                                      fontSize: 15.sp,
+                                                    ),
+                                                    textScaleFactor:
+                                                        ScaleSize.textScaleFactor(
+                                                            context),
                                                   ),
-                                                  textScaleFactor:
-                                                      ScaleSize.textScaleFactor(
-                                                          context),
-                                                ),
-                                                Spacer(),
-                                                Text(
-                                                    "Location: ${widget.location}",
+                                                  Spacer(),
+                                                  Text(
+                                                      "Location: ${widget.location}",
+                                                      style: TextStyle(
+                                                        color: greyText,
+                                                        fontSize: 13.sp,
+                                                      )),
+                                                  Text(
+                                                    "${widget.date} : ${widget.time}",
                                                     style: TextStyle(
                                                       color: greyText,
                                                       fontSize: 13.sp,
-                                                    )),
-                                                Text(
-                                                  "${widget.date} : ${widget.time}",
-                                                  style: TextStyle(
-                                                    color: greyText,
-                                                    fontSize: 13.sp,
+                                                    ),
                                                   ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Divider(
+                                                    endIndent: 210,
+                                                    color: greyText,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      buildStackedImages(),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                        style: TextStyle(
+                                                            fontSize: 11.sp,
+                                                            color: greyText),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
+                                          SizedBox(width: 8,),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(3.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(9),
+                                                child: Container(
+                                                  height: currentHeight * 0.1,
+                                                  width: currentWidth * 0.20,
+                                                  child: Image.network(
+                                                    profilepic1,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  color: Colors.amber,
                                                 ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Divider(
-                                                  endIndent: 210,
-                                                  color: greyText,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    buildStackedImages(),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
-                                                      style: TextStyle(
-                                                          fontSize: 11.sp,
-                                                          color: greyText),
-                                                    ),
-                                                  ],
-                                                )
-                                              ]),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
-                                              child: Container(
-                                                height: currentHeight * 0.1,
-                                                width: currentWidth * 0.20,
-                                                child: Image.network(
-                                                  profilepic1,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                color: Colors.amber,
                                               ),
                                             ),
-                                          ),
-                                        )
-                                      ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -232,6 +244,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                       MaterialPageRoute(
                                         fullscreenDialog: true,
                                         builder: (context) => EventDetailsView(
+                                          latitude: widget.latitude,
+                                          longitude: widget.longitude,
                                           date: widget.date,
                                           host: widget.profile,
                                           time: widget.time,
@@ -255,7 +269,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30)),
-                                      onPrimary: buttonBlue),
+                                      primary: buttonBlue),
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                       left: 7,
@@ -293,83 +307,87 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(12)),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                widget.tagText,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.blue[900],
-                                                    fontSize: 13.sp),
-                                              ),
-                                              Spacer(),
-                                              Text(
-                                                  "Location: ${widget.location}",
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  widget.tagText,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blue[900],
+                                                      fontSize: 15.sp),
+                                                ),
+                                                Spacer(),
+                                                Text(
+                                                    "Location: ${widget.location}",
+                                                    style: TextStyle(
+                                                        color: greyText,
+                                                        fontSize: 12.sp)),
+                                                Text(
+                                                  "${widget.date} : ${widget.time}",
                                                   style: TextStyle(
                                                       color: greyText,
-                                                      fontSize: 12.sp)),
-                                              Text(
-                                                "${widget.date} : ${widget.time}",
-                                                style: TextStyle(
-                                                    color: greyText,
-                                                    fontSize: 12.sp),
+                                                      fontSize: 12.sp),
+                                                ),
+                                                SizedBox(
+                                                  height: 2.sp,
+                                                ),
+                                                Divider(
+                                                  endIndent: 10.sp,
+                                                  color: greyText,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    buildStackedImages(),
+                                                    SizedBox(
+                                                      width: 2.5.sp,
+                                                    ),
+                                                    Text(
+                                                      "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                      style: TextStyle(
+                                                          fontSize: 10.sp,
+                                                          color: greyText),
+                                                    ),
+                                                  ],
+                                                )
+                                              ]),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                              child: Container(
+                                                height: currentHeight * 0.1,
+                                                width: currentWidth * 0.20,
+                                                child: Image.network(
+                                                  profilepic1,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                color: Colors.amber,
                                               ),
-                                              SizedBox(
-                                                height: 2.sp,
-                                              ),
-                                              Divider(
-                                                endIndent: 10.sp,
-                                                color: greyText,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  buildStackedImages(),
-                                                  SizedBox(
-                                                    width: 2.5.sp,
-                                                  ),
-                                                  Text(
-                                                    "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color: greyText),
-                                                  ),
-                                                ],
-                                              )
-                                            ]),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(9),
-                                            child: Container(
-                                              height: currentHeight * 0.1,
-                                              width: currentWidth * 0.20,
-                                              child: Image.network(
-                                                profilepic1,
-                                                fit: BoxFit.cover,
-                                              ),
-                                              color: Colors.amber,
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Positioned(
                               bottom: currentHeight * 0.120,
-                              right: currentWidth * 0.10,
+                              right: currentWidth * 0.09,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(30),
                                 child: Container(

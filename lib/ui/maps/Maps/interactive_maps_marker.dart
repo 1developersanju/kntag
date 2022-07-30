@@ -13,17 +13,24 @@ class MarkerItem {
   int id;
   double latitude;
   double longitude;
+  String imgs;
+  // String image;
 
   MarkerItem(
-      {required this.id, required this.latitude, required this.longitude});
+      {required this.id,
+      required this.latitude,
+      required this.longitude,
+      required this.imgs});
 }
 
 class InteractiveMapsMarker extends StatefulWidget {
   final LatLng center;
   final double itemHeight;
   final double zoom;
+
   @required
   List<MarkerItem> items;
+  List<MarkerItem> imgs;
   @required
   final IndexedWidgetBuilder itemBuilder;
   final EdgeInsetsGeometry itemPadding;
@@ -32,6 +39,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   InteractiveMapsMarker({
     required this.items,
     required this.itemBuilder,
+    required this.imgs,
     this.center = const LatLng(0.0, 0.0),
     this.itemHeight = 116,
     this.zoom = 12.0,
@@ -149,14 +157,13 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   // }
   Future<void> rebuildMarkers(int index) async {
     int current = widget.items[index].id;
+    String markerImages = widget.imgs[index].imgs;
 
-    widget.markerIcon = await readNetworkImage(
-        "https://www.kindacode.com/wp-content/uploads/2021/08/food.jpeg", 90);
+    widget.markerIcon = await readNetworkImage(markerImages, 300);
 
     //  getBytesFromAsset(
     //     'packages/interactive_maps_marker/assets/marker.png', 90);
-    widget.markerIconSelected = await readNetworkImage(
-        'https://www.kindacode.com/wp-content/uploads/2021/08/food.jpeg', 120);
+    widget.markerIconSelected = await readNetworkImage(markerImages, 400);
 
     widget.items.forEach((item) {
       _markers.add(

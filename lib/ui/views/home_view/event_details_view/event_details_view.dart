@@ -1,9 +1,15 @@
 //This is a file for the [event details page] that navigating from home page
 
+// ignore_for_file: must_be_immutable
+
+import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:sizer/sizer.dart';
 
 class EventDetailsView extends StatefulWidget {
   String title;
@@ -15,6 +21,8 @@ class EventDetailsView extends StatefulWidget {
   String spotLeft;
   List MembersList;
   List ShowcaseImage;
+  String latitude;
+  String longitude;
   EventDetailsView({
     required this.date,
     required this.host,
@@ -25,6 +33,8 @@ class EventDetailsView extends StatefulWidget {
     required this.membersJoined,
     required this.spotLeft,
     required this.ShowcaseImage,
+    required this.latitude,
+    required this.longitude,
   });
   @override
   State<EventDetailsView> createState() => _EventDetailsViewState();
@@ -46,6 +56,17 @@ List a = [
 class _EventDetailsViewState extends State<EventDetailsView> {
   @override
   Widget build(BuildContext context) {
+    final Event event = Event(
+      title: widget.title,
+      description: "Kntag's Event",
+      location: widget.location,
+      startDate: DateTime.parse(widget.date),
+      endDate: DateTime.parse(widget.date),
+      androidParams: AndroidParams(
+        emailInvites: [], // on Android, you can add invite emails to your event.
+      ),
+    );
+
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
@@ -107,14 +128,22 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                   children: [
                     Spacer(),
                     //#Hash tag text
-                    Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Text(
-                        widget.title,
-                        style: TextStyle(
-                            color: titleColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        MapsLauncher.launchCoordinates(
+                            double.parse(widget.latitude),
+                            double.parse(widget.longitude),
+                            widget.title);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text(
+                          widget.title,
+                          style: TextStyle(
+                              color: titleColor,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
 
@@ -123,15 +152,44 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         //subText for tag timing & date
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Location : ${widget.location}\n${widget.date} : ${widget.time}",
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: greyText,
-                                fontWeight: FontWeight.w500),
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                MapsLauncher.launchCoordinates(
+                                    double.parse(widget.latitude),
+                                    double.parse(widget.longitude),
+                                    widget.title);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Text(
+                                  " Location : ${widget.location}",
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: greyText,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                print("location tapped");
+                                Add2Calendar.addEvent2Cal(event);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Text(
+                                  "${widget.date} : ${widget.time}",
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: greyText,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Spacer(),
                         Padding(
@@ -140,7 +198,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                             "14 mins away",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 color: greyText),
                           ),
                         )
@@ -150,7 +208,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
 
                     //widget for the line after the subText
                     Divider(
-                      thickness: 2.5,
+                      thickness: 2.3,
                     ),
                     Spacer(),
                     //arrnging
@@ -158,15 +216,16 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("hosted by:",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 11.sp,
                                     color: greyText)),
                             Text("DevarajS",
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w900,
                                     color: greyText))
                           ],
@@ -174,18 +233,20 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         Spacer(),
                         CircleAvatar(
                           backgroundImage: NetworkImage("${widget.host}"),
+                          radius: 2.7.h,
                         )
                       ],
                     ),
                     // Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0, bottom: 10),
-                      child: Text(
+                      child: AutoSizeText(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
                         style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w300,
                             color: greyText),
+                        maxLines: 2,
                       ),
                     ),
 
@@ -216,7 +277,9 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                       expand: false,
                                       builder: (_, controller) {
                                         return Peopl(
-                                            peoplecount: widget.membersJoined);
+                                          peoplecount: widget.membersJoined,
+                                          backButtonneeded: false,
+                                        );
                                       },
                                     );
                                   },
@@ -237,16 +300,16 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                     Text(
                                       "${widget.membersJoined} Joined",
                                       style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey[850]),
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: greyText),
                                     ),
                                     Text(
                                       "${widget.spotLeft} Spot Left",
                                       style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.grey[850]),
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: greyText),
                                     ),
                                   ],
                                 ),
@@ -289,7 +352,10 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             },
-                            child: Text("Send Join Request")),
+                            child: Text(
+                              "Send Join Request",
+                              style: TextStyle(fontSize: 13.sp),
+                            )),
                       ),
                     )
                   ],
@@ -302,7 +368,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
 
   // Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages() {
-    final double size = 22;
+    final double size = 9.w;
     final urlImages = widget.MembersList;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();

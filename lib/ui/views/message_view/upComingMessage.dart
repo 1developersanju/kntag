@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/message_view_widget/message_tag_tile.dart';
 
 class UpcomingMessageView extends StatefulWidget {

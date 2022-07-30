@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 
 class ResetPasswordtPage extends StatefulWidget {
   const ResetPasswordtPage({Key? key}) : super(key: key);

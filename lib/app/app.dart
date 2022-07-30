@@ -5,7 +5,7 @@ import 'package:stacked/stacked_annotations.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: HomeView, initial: true),
+    MaterialRoute(page: HomeMap, initial: true),
     // MaterialRoute(page: SelectionPanelMainView),
     // MaterialRoute(page: VerifyPhoneView),
     // MaterialRoute(page: VerifyOtpView),

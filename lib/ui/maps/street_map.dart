@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_open_street_map/flutter_open_street_map.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 
 class StreetMap extends StatefulWidget {
   @override

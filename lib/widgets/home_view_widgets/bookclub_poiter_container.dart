@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 
 class BookClubPointer extends StatelessWidget {
   // String tagText;

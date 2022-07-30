@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
-import 'package:kntag/widgets/colorAndSize.dart';
+import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/group_view_widgets/tag_tile.dart';
 import 'package:sizer/sizer.dart';
 
@@ -61,68 +61,6 @@ class _GroupViewState extends State<GroupView> {
 
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Padding(
-          padding: EdgeInsets.all(3), // flex: 4,
-          child: Container(
-            child: TextFormField(
-              maxLines: 1,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: new BorderSide(color: Colors.white)),
-                  filled: true,
-                  fillColor: whiteClr,
-                  hintText: "search",
-                  suffixIcon: Icon(Icons.search)),
-            ),
-          ),
-        ),
-        //  Text(
-        //   "KnTag",
-        //   style: TextStyle(color: Colors.black, fontSize: 16.sp),
-        // ),
-        // TextField(
-        //   decoration: InputDecoration(
-        //     border: OutlineInputBorder(),
-        //     label: Text("Search")
-        //   ),
-        // ),
-        actions: [
-          // GestureDetector(
-          //   onTap: () {
-          //     showSearch(context: context, delegate: MySearchDelegate());
-          //   },
-          //   child: Container(
-          //       width: currentWidth - 50, height: currentHeight/1000, color: Colors.red),
-          // ),
-
-          IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: MySearchDelegate());
-              },
-              icon: Icon(Icons.search)),
-          Padding(
-            padding: const EdgeInsets.only(top: 11, right: 10),
-            child: GestureDetector(
-              onTap: () => showAlertBox(),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.location_pin,
-                    color: titleColor,
-                  ),
-                  Text(
-                    "${kmSlider}Km",
-                    style: TextStyle(fontSize: 7.sp, color: Colors.black87),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
       body: ListView.builder(
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
@@ -151,10 +89,8 @@ class _GroupViewState extends State<GroupView> {
 }
 
 class MySearchDelegate extends SearchDelegate {
-  List<String> searchResults = [
-    '#BookClub',
-  ];
-
+  List<GroupTagList> searchResults;
+  MySearchDelegate({required this.searchResults});
   @override
   Widget? buildLeading(BuildContext context) {
     // TODO: implement buildLeading
@@ -199,8 +135,8 @@ class MySearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
     //throw UnimplementedError();
-    List<String> suggestions = searchResults.where((searchResult) {
-      final result = searchResult.toLowerCase();
+    List<GroupTagList> suggestions = searchResults.where((searchResult) {
+      final result = searchResult.tagText.toLowerCase();
       final input = query.toLowerCase();
 
       return result.contains(input);
@@ -211,15 +147,25 @@ class MySearchDelegate extends SearchDelegate {
     return ListView.builder(
       itemCount: suggestions.length,
       itemBuilder: (context, index) {
-        final suggestion = suggestions[index];
+        final suggestion = suggestions[index].tagText;
 
-        return ListTile(
-          title: Text(suggestion),
+        return GestureDetector(
           onTap: () {
-            query = suggestion;
-
-            showResults(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TagsAndPeopleView(
+                        title: suggestions[index].tagText,
+                        memberCount: suggestions[index].joined,
+                      )),
+            );
           },
+          child: TagTile(
+            tagText: suggestions[index].tagText,
+            joinedCount: suggestions[index].joined,
+            leftCount: suggestions[index].spotLeft,
+            userProfile: suggestions[index].userProfileData,
+          ),
         );
       },
     );

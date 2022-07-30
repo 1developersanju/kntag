@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/peopleModel.dart';
 
-import '../../../widgets/colorAndSize.dart';
+import '../../../colorAndSize.dart';
 
 class Peopl extends StatefulWidget {
+  bool backButtonneeded;
   String peoplecount;
-  Peopl({required this.peoplecount});
+  Peopl({required this.peoplecount, required this.backButtonneeded});
   @override
   State<Peopl> createState() => _PeopleState();
 }
@@ -24,17 +25,18 @@ class _PeopleState extends State<Peopl> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back_ios)),
+          automaticallyImplyLeading:
+              widget.backButtonneeded == true ? true : false,
+          leading: widget.backButtonneeded == true
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_ios))
+              : SizedBox(),
           elevation: 2,
           title: Text("People"),
-          actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
-          ],
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
         ),
         backgroundColor: bgColor,
         body: ListView.builder(
