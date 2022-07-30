@@ -1,5 +1,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/app/services/decide_login.dart';
 import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/splash.dart';
 import 'package:kntag/tabbar.dart';
@@ -18,7 +19,7 @@ var customRoutes = <String, WidgetBuilder>{
           duration: 3000,
           splash: SplashScreen(),
           
-          nextScreen: LoginView(),
+          nextScreen: DecideLogin(),
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: Color.fromARGB(255, 9, 76, 205)),
   '/login': (context) => LoginView(),

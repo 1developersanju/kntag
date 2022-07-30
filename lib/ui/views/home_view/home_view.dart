@@ -11,6 +11,8 @@ import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:sizer/sizer.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class HomeMap extends StatefulWidget {
   @override
   State<HomeMap> createState() => _HomeMapState();
@@ -41,6 +43,7 @@ class _HomeMapState extends State<HomeMap> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     final currentHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -68,9 +71,11 @@ class _HomeMapState extends State<HomeMap> {
                   MaterialPageRoute(builder: (context) => const ProfileView()),
                 );
               },
-              child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://wallpaperaccess.com/full/2024739.jpg")),
+              child: Hero(
+                tag: "profile",
+                child: CircleAvatar(
+                    backgroundImage: NetworkImage("${user!.photoURL}")),
+              ),
             ),
           ),
         ],

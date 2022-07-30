@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127977951351",
+    "project_id": "kntag-d5521",
+    "storage_bucket": "kntag-d5521.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127977951351:android:3b9adbbf80a80553d03672",
+        "android_client_info": {
+          "package_name": "com.application.kntag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127977951351-spljkjahi1hk3o659226h1ad0hbfqhiu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFMs6KBpD_o4x0rIQHrzodzdYeSwxp9XQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127977951351-spljkjahi1hk3o659226h1ad0hbfqhiu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

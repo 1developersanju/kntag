@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kntag/app/custom_routes.dart';
 import 'package:kntag/colorAndSize.dart';
-import 'package:kntag/ui/views/home_view/home_view.dart';
-import 'package:kntag/ui/views/login_view/forgetpassword_view.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/splash.dart';
@@ -14,9 +14,11 @@ import 'package:kntag/tabbar.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'app/services/google_login.dart';
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -56,38 +58,41 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return WillPopScope(
         onWillPop: showExitPopup,
-        child: MaterialApp(
-          // print current route for clarity.
+        child: ChangeNotifierProvider(
+          create: (context) => GoogleLoginProvider(),
+          child: MaterialApp(
+            // print current route for clarity.
 
-          initialRoute: '/',
+            initialRoute: '/',
 
-          routes: customRoutes,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              inputDecorationTheme: InputDecorationTheme(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 3, color: Colors.white),
+            routes: customRoutes,
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                inputDecorationTheme: InputDecorationTheme(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 3, color: buttonBlue),
+                  ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 3, color: buttonBlue),
-                ),
-              ),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                  backgroundColor: Colors.white60,
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: Colors.blue[900],
-                  unselectedItemColor: Color.fromRGBO(0, 0, 0, 0.867)),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.white,
-                elevation: 0.0,
-                iconTheme: IconThemeData(color: Colors.black),
-                titleSpacing: 100,
-                titleTextStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              )),
-          // GestureDetectorPage()
+                bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                    backgroundColor: Colors.white60,
+                    type: BottomNavigationBarType.fixed,
+                    selectedItemColor: Colors.blue[900],
+                    unselectedItemColor: Color.fromRGBO(0, 0, 0, 0.867)),
+                appBarTheme: const AppBarTheme(
+                  backgroundColor: Colors.white,
+                  elevation: 0.0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  titleSpacing: 100,
+                  titleTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                )),
+            // GestureDetectorPage()
+          ),
         ),
       );
     });

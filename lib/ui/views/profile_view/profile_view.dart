@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:sizer/sizer.dart';
@@ -43,6 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
 
@@ -96,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Yuva",
+                                          "${user!.displayName}",
                                           style: TextStyle(
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.bold,
@@ -128,32 +129,37 @@ class _ProfileViewState extends State<ProfileView> {
                         Positioned(
                           left: 42.w,
                           top: 2.h,
-                          child: image != null
-                              ? CircleAvatar(
-                                  radius: 30,
-                                  child: GestureDetector(
-                                      onTap: (() {
-                                        pickimage();
-                                      }),
-                                      child: ClipOval(
-                                        child: Image.file(
-                                          image!,
-                                          height: currentHeight / 9.5,
-                                          width: currentWidth / 6,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ))
+                          child: 
+                          // image != null
+                              // ? CircleAvatar(
+                              //     radius: 30,
+                              //     child: GestureDetector(
+                              //         onTap: (() {
+                              //           pickimage();
+                              //         }),
+                              //         child: ClipOval(
+                              //           child: Image.file(
+                              //             image!,
+                              //             height: currentHeight / 9.5,
+                              //             width: currentWidth / 6,
+                              //             fit: BoxFit.cover,
+                              //           ),
+                              //         ))
 
-                                  //  backgroundImage: NetworkImage(
-                                  //    "https://wallpaperaccess.com/full/2024739.jpg"),
-                                  )
-                              : CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDN8fHByb2ZpbGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"),
-                                  //  backgroundImage: NetworkImage(
-                                  //    "https://wallpaperaccess.com/full/2024739.jpg"),
-                                ),
+                              //     //  backgroundImage: NetworkImage(
+                              //     //    "https://wallpaperaccess.com/full/2024739.jpg"),
+                              //     )
+                              // : 
+                              Hero(
+                                tag: "profile",
+                                child: CircleAvatar(
+                                    radius: 40,
+                                    backgroundImage: NetworkImage(
+                                        "${user.photoURL}"),
+                                    //  backgroundImage: NetworkImage(
+                                    //    "https://wallpaperaccess.com/full/2024739.jpg"),
+                                  ),
+                              ),
                         ),
                         Positioned(
                           top: 5.h,
