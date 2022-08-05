@@ -40,6 +40,8 @@ class _TagsState extends State<Tags> {
             itemCount: 4,
             itemBuilder: (context, index) {
               return BookClubContainer(
+                peopleProfileImg: containerDetails[index].profileImgs,
+                peopleName: containerDetails[index].memberName,
                 latitude: containerDetails[index].latitude,
                 longitude: containerDetails[index].longitude,
                 tagText: containerDetails[index].tagText,

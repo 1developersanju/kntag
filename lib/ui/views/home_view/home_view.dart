@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kntag/app/services/dialog.dart';
 // import 'package:interactive_maps_marker/interactive_maps_marker.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
-import 'package:kntag/drawer.dart';
+// import 'package:kntag/drawer.dart';
 import 'package:kntag/ui/maps/Maps/interactive_maps_marker.dart';
 import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:kntag/colorAndSize.dart';
@@ -28,15 +29,15 @@ class _HomeMapState extends State<HomeMap> {
 
     var i = {"id": 9};
 
-    for (var i = 0; i < containerDetails.length - 1; i++) {
-      markers.add(MarkerItem(
-        id: i + 1,
-        latitude: double.parse(containerDetails[i].latitude),
-        longitude: double.parse(containerDetails[i].longitude),
-        imgs:
-            "https://github.com/1developersanju/img/blob/main/marker.png?raw=true",
-      ));
-    }
+    // for (var i = 0; i < containerDetails.length - 1; i++) {
+    //   markers.add(MarkerItem(
+    //     id: i + 1,
+    //     latitude: double.parse(containerDetails[i].latitude),
+    //     longitude: double.parse(containerDetails[i].longitude),
+    //     imgs:
+    //         "https://github.com/1developersanju/img/blob/main/marker.png?raw=true",
+    //   ));
+    // }
   }
 
   List<MarkerItem> markers = [];
@@ -47,9 +48,10 @@ class _HomeMapState extends State<HomeMap> {
     final currentHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      drawer: Drawer(child: Drawerpage()),
+      // drawer: Drawer(child: Drawerpage()),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         //leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
         title: Text(
@@ -65,18 +67,23 @@ class _HomeMapState extends State<HomeMap> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfileView()),
-                );
-              },
-              child: Hero(
-                tag: "profile",
-                child: CircleAvatar(
-                    backgroundImage: NetworkImage("${user!.photoURL}")),
-              ),
-            ),
+                onTap: () {
+                  print(user?.displayName);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileView()),
+                  );
+                },
+                child: Hero(
+                  tag: "profile",
+                  child: FirebaseAuth.instance.currentUser != null
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage("${user?.photoURL}"))
+                      : GestureDetector(
+                          onTap: () => DialogBox.loginDialog(context),
+                          child: CircleAvatar(child: Icon(Icons.person))),
+                )),
           ),
         ],
       ),
@@ -94,6 +101,8 @@ class _HomeMapState extends State<HomeMap> {
             // margin: const EdgeInsets.all(10.0),
             height: currentHeight * 0.5,
             child: BookClubContainer(
+              peopleProfileImg: containerDetails[index].profileImgs,
+              peopleName: containerDetails[index].memberName,
               latitude: containerDetails[index].latitude,
               longitude: containerDetails[index].longitude,
               tagText: containerDetails[index].tagText,

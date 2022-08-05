@@ -25,6 +25,8 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
+                peopleProfileImg: containerDetails[index].profileImgs,
+            peopleName: containerDetails[index].memberName,
             tagText: containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,
@@ -36,7 +38,7 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
             host: containerDetails[index].myProfile,
             lat: containerDetails[index].latitude,
             long: containerDetails[index].longitude,
-            index: 2,
+            index: "2",
           );
         },
       ),

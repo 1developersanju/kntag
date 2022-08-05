@@ -1,0 +1,26 @@
+{
+    "Users":{
+        "UID1":{
+            "username":"",
+            "profileimage":"",
+            "about":"",
+            "createdtags":{
+                "tagID1":{
+                    "tagname":"",
+                    "hostname":"",
+                    "membersUID":[],
+                    "totalslots":0,
+                    "tagdescription":"",
+                    "map":{"lattitude":0.0,"longditude":0.0,"landmark":""},
+                    "time":{"from":"","to":"","datefrom":"","dateto":""}
+                }
+            },
+            "joinedtags":{
+                "tagID1":""
+            }
+        }
+    },
+    "tags":{
+        "tagID1":"#uidof user"
+    }
+}   

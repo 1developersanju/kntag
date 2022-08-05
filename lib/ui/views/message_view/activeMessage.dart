@@ -19,14 +19,15 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
   List<GroupTagList> containerDetails = [];
 
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: bgColor,
       body: ListView.builder(
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
-            index: 1,
+            peopleProfileImg: containerDetails[index].profileImgs,
+            index: "1",
+            peopleName: containerDetails[index].memberName,
             tagText: containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,
             leftCount: containerDetails[index].spotLeft,

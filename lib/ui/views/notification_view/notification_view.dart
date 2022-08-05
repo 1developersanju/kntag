@@ -25,40 +25,45 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+    var itemCount = 0;
 
     return Scaffold(
-      backgroundColor: bgColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(
-          widget.title,
-          style: TextStyle(color: blackClr),
+        backgroundColor: bgColor,
+        appBar: AppBar(
+          backgroundColor: bgColor,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text(
+            widget.title,
+            style: TextStyle(color: blackClr),
+          ),
         ),
-      ),
-      body: widget.title == "Notifications"
-          ? ListView.builder(
-              itemCount: tileDetails.length,
-              itemBuilder: (context, index) {
-                return NotificationTile(
-                  tagText: tileDetails[index].tagText,
-                  oppName: tileDetails[index].oppName,
-                  oppProfile: tileDetails[index].oppProfile,
-                  status: tileDetails[index].status,
-                );
-              },
-            )
-          : ListView.builder(
-              itemCount: tileDetails.length,
-              itemBuilder: (context, index) {
-                return RequestTile(
-                  tagText: tileDetails[index].tagText,
-                  oppName: tileDetails[index].oppName,
-                  oppProfile: tileDetails[index].oppProfile,
-                  status: tileDetails[index].status,
-                );
-              },
-            ),
-    );
+        body: widget.title == "Notifications"
+            ? ListView.builder(
+                itemCount: itemCount,
+                itemBuilder: (context, index) {
+                  return itemCount != 0
+                      ? NotificationTile(
+                          tagText: tileDetails[index].tagText,
+                          oppName: tileDetails[index].oppName,
+                          oppProfile: tileDetails[index].oppProfile,
+                          status: tileDetails[index].status,
+                        )
+                      : Center(
+                          child: Text("You have'nt received any notifications"),
+                        );
+                },
+              )
+            : ListView.builder(
+                itemCount: tileDetails.length,
+                itemBuilder: (context, index) {
+                  return RequestTile(
+                    tagText: tileDetails[index].tagText,
+                    oppName: tileDetails[index].oppName,
+                    oppProfile: tileDetails[index].oppProfile,
+                    status: tileDetails[index].status,
+                  );
+                },
+              ));
   }
 }

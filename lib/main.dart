@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kntag/app/custom_routes.dart';
+import 'package:kntag/app/services/decide_login.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/splash.dart';
 import 'package:kntag/tabbar.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
@@ -30,69 +30,46 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> showExitPopup() async {
-      return await showDialog(
-            //show confirm dialogue
-            //the return value will be from "Yes" or "No" options
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Exit App'),
-              content: Text('Do you want to exit an App?'),
-              actions: [
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  //return false when click on "NO"
-                  child: Text('No'),
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(exit(0)),
-                  //return true when click on "Yes"
-                  child: Text('Yes'),
-                ),
-              ],
-            ),
-          ) ??
-          false; //if showDialouge had returned null, then return false
-    }
+   
 
     return Sizer(builder: (context, orientation, deviceType) {
-      return WillPopScope(
-        onWillPop: showExitPopup,
-        child: ChangeNotifierProvider(
-          create: (context) => GoogleLoginProvider(),
-          child: MaterialApp(
-            // print current route for clarity.
+      return ChangeNotifierProvider(
+        create: (context) => GoogleLoginProvider(),
+        child: MaterialApp(
+          // print current route for clarity.
 
-            initialRoute: '/',
-
-            routes: customRoutes,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                inputDecorationTheme: InputDecorationTheme(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 3, color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 3, color: buttonBlue),
-                  ),
+          home: AnimatedSplashScreen(
+              duration: 3000,
+              splash: SplashScreen(),
+              nextScreen: DecideLogin(),
+              splashTransition: SplashTransition.fadeTransition,
+              backgroundColor: Color.fromARGB(255, 9, 76, 205)),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              inputDecorationTheme: InputDecorationTheme(
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: Colors.white),
                 ),
-                bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                    backgroundColor: Colors.white60,
-                    type: BottomNavigationBarType.fixed,
-                    selectedItemColor: Colors.blue[900],
-                    unselectedItemColor: Color.fromRGBO(0, 0, 0, 0.867)),
-                appBarTheme: const AppBarTheme(
-                  backgroundColor: Colors.white,
-                  elevation: 0.0,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  titleSpacing: 100,
-                  titleTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                )),
-            // GestureDetectorPage()
-          ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: buttonBlue),
+                ),
+              ),
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: Colors.white60,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: Colors.blue[900],
+                  unselectedItemColor: Color.fromRGBO(0, 0, 0, 0.867)),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.white,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: Colors.black),
+                titleSpacing: 100,
+                titleTextStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              )),
+          // GestureDetectorPage()
         ),
       );
     });

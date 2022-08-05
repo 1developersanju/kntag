@@ -19,19 +19,22 @@ class BookClubContainer extends StatefulWidget {
   String latitude;
   String longitude;
   String page;
-  BookClubContainer({
-    required this.tagText,
-    required this.location,
-    required this.date,
-    required this.time,
-    required this.spotsLeft,
-    required this.joined,
-    required this.profile,
-    required this.userProfile,
-    required this.page,
-    required this.latitude,
-    required this.longitude
-  });
+  List peopleName;
+  List peopleProfileImg;
+  BookClubContainer(
+      {required this.tagText,
+      required this.location,
+      required this.date,
+      required this.time,
+      required this.spotsLeft,
+      required this.joined,
+      required this.profile,
+      required this.userProfile,
+      required this.page,
+      required this.latitude,
+      required this.longitude,
+      required this.peopleName,
+      required this.peopleProfileImg});
   @override
   State<BookClubContainer> createState() => _BookClubContainerState();
 }
@@ -48,6 +51,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
           return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 EventDetailsView(
+              peopleProfileImg: widget.peopleProfileImg,
+              peopleName: widget.peopleName,
               date: widget.date,
               host: widget.profile,
               time: widget.time,
@@ -86,6 +91,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
           MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => EventDetailsView(
+              peopleProfileImg: widget.peopleProfileImg,
+              peopleName: widget.peopleName,
               date: widget.date,
               host: widget.profile,
               latitude: widget.latitude,
@@ -142,7 +149,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                         borderRadius:
                                             BorderRadius.circular(12)),
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top:8.0,bottom: 8),
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0, bottom: 8),
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -154,12 +162,13 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                   Text(
                                                     widget.tagText,
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: Colors.blue[900],
                                                       fontSize: 15.sp,
                                                     ),
-                                                    textScaleFactor:
-                                                        ScaleSize.textScaleFactor(
+                                                    textScaleFactor: ScaleSize
+                                                        .textScaleFactor(
                                                             context),
                                                   ),
                                                   Spacer(),
@@ -199,26 +208,26 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                   )
                                                 ]),
                                           ),
-                                          SizedBox(width: 8,),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(3.0),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(9),
-                                                child: Container(
-                                                  height: currentHeight * 0.1,
-                                                  width: currentWidth * 0.20,
-                                                  child: Image.network(
-                                                    profilepic1,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                  color: Colors.amber,
-                                                ),
-                                              ),
-                                            ),
-                                          )
+                                          // SizedBox(width: 8,),
+                                          // Expanded(
+                                          //   flex: 1,
+                                          //   child: Padding(
+                                          //     padding: const EdgeInsets.all(3.0),
+                                          //     child: ClipRRect(
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(9),
+                                          //       child: Container(
+                                          //         height: currentHeight * 0.1,
+                                          //         width: currentWidth * 0.20,
+                                          //         child: Image.network(
+                                          //           profilepic1,
+                                          //           fit: BoxFit.cover,
+                                          //         ),
+                                          //         color: Colors.amber,
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // )
                                         ],
                                       ),
                                     ),
@@ -244,6 +253,9 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                       MaterialPageRoute(
                                         fullscreenDialog: true,
                                         builder: (context) => EventDetailsView(
+                                          peopleProfileImg:
+                                              widget.peopleProfileImg,
+                                          peopleName: widget.peopleName,
                                           latitude: widget.latitude,
                                           longitude: widget.longitude,
                                           date: widget.date,

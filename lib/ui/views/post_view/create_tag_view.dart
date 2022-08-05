@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/app/db.dart';
+import 'package:kntag/app/services/dialog.dart';
 import 'package:kntag/ui/maps/street_map.dart';
 import 'package:kntag/ui/views/post_view/post_setting_view/post_setting_view.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 //This is code file for Create Tag Page
 
@@ -14,15 +17,13 @@ class CreateTagView extends StatefulWidget {
   State<CreateTagView> createState() => _CreateTagViewState();
 }
 
-Future<void> _openSettings(BuildContext ctx) async {
-  await Navigator.push(
-      ctx, MaterialPageRoute(builder: (context) => PostSettingView()));
-}
-
 class _CreateTagViewState extends State<CreateTagView> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
   DateTime startDate = DateTime(2000, 12, 24);
 
-  TimeOfDay startTime = TimeOfDay(hour: 10, minute: 12);
+  TimeOfDay startTime = TimeOfDay(hour: 00, minute: 12);
   String textFromSecondScreen = '';
 
   DateTime endDate = DateTime(2000, 12, 24);
@@ -68,20 +69,20 @@ class _CreateTagViewState extends State<CreateTagView> {
                   "Create Tag",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                actions: [
-                  PopupMenuButton(
-                    onSelected: (value) {
-                      if (value == 'settings') {
-                        _openSettings(context);
-                      }
-                    },
-                    itemBuilder: (BuildContext context) => [
-                      PopupMenuItem(
-                          // onTap: () => _openSettings(context),
-                          child: Text("Settings"))
-                    ],
-                  )
-                ],
+                // actions: [
+                //   PopupMenuButton(
+                //     onSelected: (value) {
+                //       if (value == 'settings') {
+                //         // _openSettings(context);
+                //       }
+                //     },
+                //     itemBuilder: (BuildContext context) => [
+                //       PopupMenuItem(
+                //           // onTap: () => _openSettings(context),
+                //           child: Text("Settings"))
+                //     ],
+                //   )
+                // ],
               ),
               body: SingleChildScrollView(
                 child: SizedBox(
@@ -104,6 +105,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                   flex: 4,
                                   child: Container(
                                     child: TextFormField(
+                                      controller: titleController,
                                       maxLines: 2,
                                       decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
@@ -126,6 +128,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                 Flexible(
                                   flex: 6,
                                   child: TextField(
+                                    controller: descriptionController,
                                     maxLines: 8,
                                     decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
@@ -152,11 +155,17 @@ class _CreateTagViewState extends State<CreateTagView> {
                                         readOnly: true,
                                         enableInteractiveSelection:
                                             false, // will disable paste operation
-                                        onTap: () {
-                                          FocusScope.of(context)
-                                              .requestFocus(new FocusNode());
-                                          goToSecondScreen(context);
-                                        },
+                                        onTap: FirebaseAuth
+                                                    .instance.currentUser !=
+                                                null
+                                            ? () {
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                        new FocusNode());
+                                                goToSecondScreen(context);
+                                              }
+                                            : () =>
+                                                DialogBox.loginDialog(context),
                                         decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
                                               borderRadius:
@@ -408,31 +417,31 @@ class _CreateTagViewState extends State<CreateTagView> {
                         SizedBox(
                           height: 10,
                         ),
-                        Expanded(
-                          flex: 3,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 5,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)),
-                                    child: Container(
-                                      color: Colors.white,
-                                      height: currentHeight * 0.2,
-                                      width: currentWidth * 0.26,
-                                      child: Center(
-                                          child: Text(
-                                        "+image",
-                                        style: TextStyle(color: greyText),
-                                      )),
-                                    ),
-                                  ),
-                                );
-                              }),
-                        ),
+                        // Expanded(
+                        //   flex: 3,
+                        //   child: ListView.builder(
+                        //       scrollDirection: Axis.horizontal,
+                        //       itemCount: 5,
+                        //       itemBuilder: (BuildContext context, int index) {
+                        //         return Padding(
+                        //           padding: const EdgeInsets.all(8.0),
+                        //           child: ClipRRect(
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(6)),
+                        //             child: Container(
+                        //               color: Colors.white,
+                        //               height: currentHeight * 0.2,
+                        //               width: currentWidth * 0.26,
+                        //               child: Center(
+                        //                   child: Text(
+                        //                 "+image",
+                        //                 style: TextStyle(color: greyText),
+                        //               )),
+                        //             ),
+                        //           ),
+                        //         );
+                        //       }),
+                        // ),
 
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
@@ -498,9 +507,9 @@ class _CreateTagViewState extends State<CreateTagView> {
                         // SizedBox(
                         //   height: 10,
                         // ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
                         Spacer(),
                         //Button for next function
                         Flexible(
@@ -512,27 +521,52 @@ class _CreateTagViewState extends State<CreateTagView> {
                                     minimumSize: Size(
                                         double.infinity, currentHeight / 12),
                                     primary: buttonBlue),
-                                onPressed: () {
-                                  screenshotController
-                                      .captureFromWidget(Container(
-                                          padding: const EdgeInsets.all(30.0),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: buttonBlue, width: 5.0),
-                                          ),
-                                          child: Text(
-                                              "This is an invisible widget")))
-                                      .then((capturedImage) {
-                                    print("image Captured $capturedImage");
-                                    // Handle captured image
-                                  });
+                                onPressed: FirebaseAuth.instance.currentUser !=
+                                        null
+                                    ? () {
+                                        MngDB().create_tag();
+                                        screenshotController
+                                            .captureFromWidget(Container(
+                                                padding:
+                                                    const EdgeInsets.all(30.0),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: buttonBlue,
+                                                      width: 5.0),
+                                                ),
+                                                child: Text(
+                                                    "This is an invisible widget")))
+                                            .then((capturedImage) {
+                                          print(
+                                              "image Captured $capturedImage");
+                                          // Handle captured image
+                                        });
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PostSettingView()));
-                                },
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PostSettingView(
+                                                      description:
+                                                          descriptionController
+                                                              .text,
+                                                      StartDate: DateTime.now()
+                                                          .toString(),
+                                                      endDate: DateTime.now()
+                                                          .toString(),
+                                                      endTime: "00:00",
+                                                      place:
+                                                          textFromSecondScreen,
+                                                      latitude: "0000",
+                                                      longitude: "0000",
+                                                      starttime: "00:00",
+                                                      title:
+                                                          titleController.text,
+                                                    )));
+                                      }
+                                    : () {
+                                        DialogBox.loginDialog(context);
+                                      },
                                 child: Text(
                                   "Next",
                                   style: TextStyle(
@@ -541,7 +575,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                 )),
                           ),
                         ),
-                        Spacer(),
+                        // Spacer(),
                       ],
                     ),
                   ),

@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/app/db.dart';
+import 'package:kntag/app/services/dialog.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:sizer/sizer.dart';
 
 class PostSettingView extends StatefulWidget {
-  const PostSettingView({Key? key}) : super(key: key);
-
+  String title;
+  String place;
+  String StartDate;
+  String endDate;
+  String starttime;
+  String endTime;
+  String latitude;
+  String longitude;
+  String description;
+  PostSettingView({
+    required this.title,
+    required this.place,
+    required this.StartDate,
+    required this.endDate,
+    required this.starttime,
+    required this.endTime,
+    required this.latitude,
+    required this.longitude,
+    required this.description,
+  });
   @override
   State<PostSettingView> createState() => _PostSettingViewState();
 }
@@ -14,7 +34,7 @@ class _PostSettingViewState extends State<PostSettingView> {
   List<bool> isSecondCardEnabled = [];
   List showTo = ['All', 'Male', 'female'];
   List joinSettings = ['Anyone can join', 'Request to join'];
-  int _counter = 0;
+  int _counter = 5;
   void incrementcounter() {
     setState(() {
       _counter++;
@@ -43,11 +63,11 @@ class _PostSettingViewState extends State<PostSettingView> {
         backgroundColor: bgColor,
         centerTitle: true,
         title: Text("Post Settings"),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [PopupMenuItem(child: Text("change"))],
-          )
-        ],
+        // actions: [
+        //   PopupMenuButton(
+        //     itemBuilder: (context) => [PopupMenuItem(child: Text("change"))],
+        //   )
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
@@ -224,7 +244,21 @@ class _PostSettingViewState extends State<PostSettingView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      DialogBox.showLoading(context, "Creating Tag");
+                      MngDB().updateItem(
+                          title: widget.title,
+                          place: widget.place,
+                          StartDate: widget.StartDate,
+                          endDate: widget.endDate,
+                          starttime: widget.starttime,
+                          endTime: widget.endDate,
+                          latitude: widget.latitude,
+                          longitude: widget.longitude,
+                          maxmembers: _counter,
+                          description: widget.description,
+                          userId: []);
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: buttonBlue,
                       fixedSize: Size(currentWidth, currentHeight / 14),

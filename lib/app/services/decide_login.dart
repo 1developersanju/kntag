@@ -4,6 +4,8 @@ import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 
+import '../../bottomNavBarNormal.dart';
+
 // ignore_for_file: file_names, use_key_in_widget_constructors
 
 class DecideLogin extends StatelessWidget {
@@ -21,7 +23,7 @@ class DecideLogin extends StatelessWidget {
                 color: buttonBlue,
               ));
             } else if (snapshot.hasData) {
-              return MyAppp();
+              return MyNavigationBar();
             } else if (snapshot.hasError) {
               return const Center(
                 child: Text("Something Went wrong"),

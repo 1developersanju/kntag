@@ -1,34 +1,31 @@
-import 'package:kntag/ui/views/home_view/home_view.dart';
-import 'package:stacked/stacked_annotations.dart';
-import 'package:stacked_services/stacked_services.dart';
-import 'package:stacked/stacked_annotations.dart';
+class User {
+  String username;
+  String about;
+  List createdtags;
+  List joinedtags;
+  String profileimg;
 
-@StackedApp(
-  routes: [
-    MaterialRoute(page: HomeMap, initial: true),
-    // MaterialRoute(page: SelectionPanelMainView),
-    // MaterialRoute(page: VerifyPhoneView),
-    // MaterialRoute(page: VerifyOtpView),
-  ],
-  dependencies: [
-    Singleton(classType: NavigationService),
-    Singleton(classType: BottomSheetService),
-    Singleton(classType: DialogService),
-    Singleton(classType: SnackbarService),
-    // Singleton(classType: ImagePickerService),
-    // LazySingleton(classType: AuthenticationAPI),
-    // LazySingleton(classType: ChatAPI),
-    // Singleton(classType: AuthenticationService),
-    // Singleton(classType: SocketService),
-    // Singleton(classType: BottomNavBarService),
-    // LazySingleton(classType: GroupChatService),
-    // LazySingleton(classType: VouchersAPI),
-    // Singleton(classType: UrlLauncherService),
-    // LazySingleton(classType: MediaUploadAPI),
-    // Presolve(
-    //     classType: LocalStorageService,
-    //     presolveUsing: LocalStorageService.getInstance)
-  ],
-  logger: StackedLogger(),
-)
-class App {}
+  User({
+    required this.createdtags,
+    required this.about,
+    required this.joinedtags,
+    required this.username,
+    required this.profileimg,
+  });
+
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "profileimg": profileimg,
+        "about": about,
+        "joinedtags": joinedtags,
+        "createdtags": createdtags,
+      };
+
+  static User fromJson(Map<String, dynamic> json) => User(
+        username: json["username"],
+        createdtags: json["createdtags"],
+        joinedtags: json["joinedtags"],
+        about: json["about"],
+        profileimg: json["profileimg"],
+      );
+}

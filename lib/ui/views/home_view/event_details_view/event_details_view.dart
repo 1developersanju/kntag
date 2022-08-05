@@ -5,11 +5,12 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../core/models/peopleModel.dart';
 
 class EventDetailsView extends StatefulWidget {
   String title;
@@ -23,6 +24,8 @@ class EventDetailsView extends StatefulWidget {
   List ShowcaseImage;
   String latitude;
   String longitude;
+  List peopleName;
+  List peopleProfileImg;
   EventDetailsView({
     required this.date,
     required this.host,
@@ -35,6 +38,8 @@ class EventDetailsView extends StatefulWidget {
     required this.ShowcaseImage,
     required this.latitude,
     required this.longitude,
+    required this.peopleName,
+    required this.peopleProfileImg,
   });
   @override
   State<EventDetailsView> createState() => _EventDetailsViewState();
@@ -91,34 +96,34 @@ class _EventDetailsViewState extends State<EventDetailsView> {
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Expanded(
-            flex: 3,
-            child: PageView.builder(
-              padEnds: false,
-              controller: PageController(
-                viewportFraction: 4.2 / 6,
-              ),
-              physics: widget.ShowcaseImage.length == 1
-                  ? NeverScrollableScrollPhysics()
-                  : BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext ctx, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                      width: widget.ShowcaseImage.length == 1
-                          ? currentWidth * 0.9
-                          : currentWidth * 0.65,
-                      height: currentHeight * 0.9,
-                      child: Image.network(
-                        widget.ShowcaseImage[index],
-                        fit: BoxFit.cover,
-                      )),
-                );
-              },
-              itemCount: widget.ShowcaseImage.length,
-            ),
-          ),
+          // Expanded(
+          //   flex: 3,
+          //   child: PageView.builder(
+          //     padEnds: false,
+          //     controller: PageController(
+          //       viewportFraction: 4.2 / 6,
+          //     ),
+          //     physics: widget.ShowcaseImage.length == 1
+          //         ? NeverScrollableScrollPhysics()
+          //         : BouncingScrollPhysics(),
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (BuildContext ctx, int index) {
+          //       return Padding(
+          //         padding: const EdgeInsets.all(5.0),
+          //         child: Container(
+          //             width: widget.ShowcaseImage.length == 1
+          //                 ? currentWidth * 0.9
+          //                 : currentWidth * 0.65,
+          //             height: currentHeight * 0.9,
+          //             child: Image.network(
+          //               widget.ShowcaseImage[index],
+          //               fit: BoxFit.cover,
+          //             )),
+          //       );
+          //     },
+          //     itemCount: widget.ShowcaseImage.length,
+          //   ),
+          // ),
           Expanded(
             flex: 4,
             child: Container(
@@ -126,7 +131,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Spacer(),
+                    // Spacer(),
                     //#Hash tag text
                     GestureDetector(
                       onTap: () {
@@ -157,24 +162,6 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                MapsLauncher.launchCoordinates(
-                                    double.parse(widget.latitude),
-                                    double.parse(widget.longitude),
-                                    widget.title);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Text(
-                                  " Location : ${widget.location}",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: greyText,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
                                 print("location tapped");
                                 Add2Calendar.addEvent2Cal(event);
                               },
@@ -189,11 +176,37 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                 ),
                               ),
                             ),
+                            GestureDetector(
+                              onTap: () {
+                                MapsLauncher.launchCoordinates(
+                                    double.parse(widget.latitude),
+                                    double.parse(widget.longitude),
+                                    widget.title);
+                              },
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Text(
+                                      " Location : ${widget.location}",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: greyText,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         Spacer(),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(
+                            top: 8.0,
+                            left: 8,
+                            right: 8,
+                          ),
                           child: Text(
                             "14 mins away",
                             style: TextStyle(
@@ -204,13 +217,13 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         )
                       ],
                     ),
-                    Spacer(),
+                    // Spacer(),
 
                     //widget for the line after the subText
                     Divider(
                       thickness: 2.3,
                     ),
-                    Spacer(),
+                    // Spacer(),
                     //arrnging
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +263,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       ),
                     ),
 
-                    //Spacer(),
+                    Spacer(),
 
                     //
                     Padding(
@@ -275,10 +288,29 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                   builder: (_) {
                                     return DraggableScrollableSheet(
                                       expand: false,
-                                      builder: (_, controller) {
-                                        return Peopl(
-                                          peoplecount: widget.membersJoined,
-                                          backButtonneeded: false,
+                                      builder: (BuildContext context,
+                                          ScrollController scrollController) {
+                                        return Container(
+                                          color: bgColor,
+                                          child: ListView.builder(
+                                            controller: scrollController,
+                                            itemCount:
+                                                int.parse(widget.membersJoined),
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  print("${widget.peopleName}");
+                                                },
+                                                child: Peopleview(
+                                                  name:
+                                                      widget.peopleName[index],
+                                                  profpic: widget
+                                                      .peopleProfileImg[index],
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
                                     );
@@ -329,6 +361,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                             )),
                       ),
                     ),
+                    // Spacer(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(

@@ -8,8 +8,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 3), () => Navigator.pushNamed(context, '/login'));
-
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kntag/core/models/message_status.dart';
+import 'package:kntag/core/models/peopleModel.dart';
 import 'package:kntag/ui/views/message_view/activeMessage.dart';
 import 'package:kntag/ui/views/message_view/oldMessage.dart';
 import 'package:kntag/ui/views/message_view/upComingMessage.dart';
@@ -41,23 +42,23 @@ class _MessageViewState extends State<MessageView>
   messagesSplit() {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    for (var i = 0; i <= containerDetails.length - 1; i++) {
-      var getdate = containerDetails[i].date;
-      if (formattedDate.compareTo(getdate) == 0) {
-        active.add(containerDetails[i]);
-        // print("active ${active[i].tagText}");
-      }
+    // for (var i = 0; i <= containerDetails.length - 1; i++) {
+    //   var getdate = containerDetails[i].date;
+    //   if (formattedDate.compareTo(getdate) == 0) {
+    //     active.add(containerDetails[i]);
+    //     // print("active ${active[i].tagText}");
+    //   }
 
-      if (formattedDate.compareTo(getdate) < 0) {
-        old.add(containerDetails[i]);
-        // print("old ${old[i].tagText}");
-      }
+    //   if (formattedDate.compareTo(getdate) < 0) {
+    //     old.add(containerDetails[i]);
+    //     // print("old ${old[i].tagText}");
+    //   }
 
-      if (formattedDate.compareTo(getdate) > 0) {
-        upcoming.add(containerDetails[i]);
-        // print("upcoming ${upcoming[i].tagText}");
-      }
-    }
+    //   if (formattedDate.compareTo(getdate) > 0) {
+    //     upcoming.add(containerDetails[i]);
+    //     // print("upcoming ${upcoming[i].tagText}");
+    //   }
+    // }
   }
 
   final List<Widget> _tabs = [];
@@ -76,10 +77,10 @@ class _MessageViewState extends State<MessageView>
           style: TextStyle(color: blackClr),
         ),
         elevation: 2,
-        actions: [
-          IconButton(
-              onPressed: () => messagesSplit(), icon: Icon(Icons.more_vert))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () => messagesSplit(), icon: Icon(Icons.more_vert))
+        // ],
         backgroundColor: appbarClr,
         bottom: TabBar(
           indicatorColor: buttonBlue,
@@ -114,6 +115,8 @@ class _MessageViewState extends State<MessageView>
                   itemCount: old.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      peopleProfileImg: containerDetails[index].profileImgs,
+                      peopleName: old[index].memberName,
                       tagText: old[index].tagText,
                       joinedCount: old[index].joined,
                       leftCount: old[index].spotLeft,
@@ -125,7 +128,7 @@ class _MessageViewState extends State<MessageView>
                       lat: old[index].latitude,
                       long: old[index].latitude,
                       host: old[index].myProfile,
-                      index: 0,
+                      index: "0",
                     );
                   },
                 )
@@ -145,7 +148,7 @@ class _MessageViewState extends State<MessageView>
                             height: 20,
                           ),
                           Text(
-                            'You do not have any old chats available',
+                            'You do not have any old chats!!!',
                             style: theme.textTheme.bodyText2,
                           ),
                         ],
@@ -155,9 +158,12 @@ class _MessageViewState extends State<MessageView>
                 ),
           active.length != 0
               ? ListView.builder(
-                  itemCount: active.length,
+                  itemCount: 0,
+                  //  active.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      peopleProfileImg: containerDetails[index].profileImgs,
+                      peopleName: active[index].memberName,
                       tagText: active[index].tagText,
                       joinedCount: active[index].joined,
                       leftCount: active[index].spotLeft,
@@ -169,7 +175,7 @@ class _MessageViewState extends State<MessageView>
                       lat: active[index].latitude,
                       long: active[index].latitude,
                       host: active[index].myProfile,
-                      index: 1,
+                      index: "1",
                     );
                   },
                 )
@@ -202,6 +208,8 @@ class _MessageViewState extends State<MessageView>
                   itemCount: upcoming.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      peopleProfileImg: containerDetails[index].profileImgs,
+                      peopleName: upcoming[index].memberName,
                       tagText: upcoming[index].tagText,
                       joinedCount: upcoming[index].joined,
                       leftCount: upcoming[index].spotLeft,
@@ -213,7 +221,7 @@ class _MessageViewState extends State<MessageView>
                       lat: upcoming[index].latitude,
                       long: upcoming[index].longitude,
                       host: upcoming[index].myProfile,
-                      index: 2,
+                      index: "2",
                     );
                   },
                 )

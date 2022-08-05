@@ -6,7 +6,10 @@ import 'dart:typed_data';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:kntag/app/services/dialog.dart';
+import 'package:kntag/colorAndSize.dart';
+import 'package:sizer/sizer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import './utils.dart';
 
 class MarkerItem {
@@ -84,6 +87,8 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
 
   @override
   Widget build(BuildContext context) {
+    final currentWidth = MediaQuery.of(context).size.width;
+    final currentHeight = MediaQuery.of(context).size.height;
     return StreamBuilder<int>(
       initialData: null,
       builder: (context, snapshot) {
@@ -96,11 +101,55 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                 padding: widget.itemPadding,
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.25,
-                  child: PageView.builder(
-                      itemCount: widget.items.length,
-                      controller: pageController,
-                      onPageChanged: _pageChanged,
-                      itemBuilder: widget.itemBuilder),
+                  child: widget.items.length != 0
+                      ? PageView.builder(
+                          itemCount: widget.items.length,
+                          controller: pageController,
+                          onPageChanged: _pageChanged,
+                          itemBuilder: widget.itemBuilder)
+                      : Container(
+                          padding: EdgeInsets.all(12),
+                          width: currentWidth * 0.9,
+                          height: currentHeight * 0.2,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black87.withOpacity(0.100),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3),
+                                )
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "Be the first person to create a tag in your location",
+                                  style: TextStyle(
+                                      fontFamily: "Singolare", fontSize: 15.sp),
+                                ),
+                                OutlinedButton(
+                                    onPressed: () {
+                                      FirebaseAuth.instance.currentUser == null
+                                          ? DialogBox.loginDialog(context)
+                                          : print("Create Tag");
+                                    },
+                                    child: Text("Create Tag"),
+                                    style: ButtonStyle(
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(18.0),
+                                                side: BorderSide(
+                                                    color: Colors.red)))))
+                              ],
+                            ),
+                          ),
+                        ),
                 ),
               ),
             )
