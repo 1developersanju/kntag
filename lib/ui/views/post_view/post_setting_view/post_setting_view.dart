@@ -30,8 +30,11 @@ class PostSettingView extends StatefulWidget {
 }
 
 class _PostSettingViewState extends State<PostSettingView> {
-  List<bool> isCardEnabled = [];
-  List<bool> isSecondCardEnabled = [];
+  List<bool> isSecondCardEnabled = [
+    true,
+    false,
+  ];
+  List<bool> isCardEnabled = [true, false, false];
   List showTo = ['All', 'Male', 'female'];
   List joinSettings = ['Anyone can join', 'Request to join'];
   int _counter = 5;
@@ -45,9 +48,20 @@ class _PostSettingViewState extends State<PostSettingView> {
     setState(() {
       _counter--;
     });
-    if (_counter == -1) {
+    if (_counter == 0) {
+      var snackBar = SnackBar(
+        backgroundColor: bgColor,
+        duration: Duration(seconds: 1),
+        content: Text(
+          textAlign: TextAlign.center,
+          "Note : 'Member count cannot be less than 1'",
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       setState(() {
-        _counter = 0;
+        _counter = 1;
       });
     }
   }

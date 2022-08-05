@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kntag/bottomNavBar.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 

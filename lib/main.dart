@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kntag/app/custom_routes.dart';
@@ -8,12 +6,10 @@ import 'package:kntag/colorAndSize.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:kntag/splash.dart';
 import 'package:kntag/tabbar.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-
 import 'app/services/google_login.dart';
 
 void main() async {
@@ -78,5 +74,3 @@ class MyApp extends StatelessWidget {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------
-
-
