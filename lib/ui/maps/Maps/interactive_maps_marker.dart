@@ -39,6 +39,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final double zoom;
   @required
   List<MarkerItem> items;
+  int itemcount;
   List<MarkerItem> imgs;
   @required
   final IndexedWidgetBuilder itemBuilder;
@@ -46,6 +47,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final Alignment contentAlignment;
 
   InteractiveMapsMarker({
+    required this.itemcount,
     required this.changePage,
     required this.items,
     required this.itemBuilder,
@@ -84,7 +86,11 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   void initState() {
     rebuildMarkers(currentIndex);
     getCurrentLocation();
+    rebuildMarkers(currentIndex + 1);
+    rebuildMarkers(currentIndex);
+
     super.initState();
+    setState(() {});
   }
 
   @override
@@ -156,6 +162,10 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
+                  onLongPress: () {
+                    print("item count ${widget.items.length}");
+                    print("item count ${widget.items}");
+                  },
                   onTap: () {
                     print("tappedd");
                     mapController.animateCamera(CameraUpdate.newCameraPosition(
@@ -241,9 +251,8 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: PageView.builder(
-                          itemCount: widget.items.length == 0
-                              ? 1
-                              : widget.items.length,
+                          itemCount:
+                              widget.itemcount == 0 ? 1 : widget.itemcount,
                           controller: pageController,
                           onPageChanged: _pageChanged,
                           itemBuilder: widget.itemBuilder)),

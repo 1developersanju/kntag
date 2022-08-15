@@ -93,6 +93,7 @@ class _StreetMapState extends State<StreetMap> {
 
                   Navigator.of(context)
                       .pop("${place.subLocality},${place.locality}");
+                  setState(() {});
                 })
             : Center(
                 child: CircularProgressIndicator(),

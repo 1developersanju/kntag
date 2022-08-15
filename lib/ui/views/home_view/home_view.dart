@@ -59,7 +59,7 @@ class _HomeMapState extends State<HomeMap> {
 
   Position? _currentPosition;
 
-  addmarkers(userS) {
+  addmarkers(userS) async {
     for (var i = 0; i < userS.children.toList().length; i++) {
       markers.add(MarkerItem(
         id: i,
@@ -134,6 +134,7 @@ class _HomeMapState extends State<HomeMap> {
                       child: CircularProgressIndicator(),
                     )
                   : InteractiveMapsMarker(
+                      itemcount: userS.children.toList().length,
                       changePage: _changeTab,
                       items: markers,
                       center: LatLng(_currentPosition?.latitude ?? 0,
