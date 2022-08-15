@@ -241,9 +241,9 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: PageView.builder(
-                          itemCount: widget.items.length != 0
-                              ? widget.items.length
-                              : 1,
+                          itemCount: widget.items.length == 0
+                              ? 1
+                              : widget.items.length,
                           controller: pageController,
                           onPageChanged: _pageChanged,
                           itemBuilder: widget.itemBuilder)),

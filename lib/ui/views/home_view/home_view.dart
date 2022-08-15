@@ -66,8 +66,7 @@ class _HomeMapState extends State<HomeMap> {
         latitude: double.parse(
             userS.children.toList()[i].child('map/latitude').value),
         longitude: double.parse(
-          userS.children.toList()[i].child('map/londitude').value,
-        ),
+            userS.children.toList()[i].child('map/londitude').value),
         imgs:
             "https://github.com/1developersanju/img/blob/main/marker.png?raw=true",
       ));
