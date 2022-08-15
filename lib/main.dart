@@ -15,6 +15,8 @@ import 'app/services/google_login.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: transparent));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -26,8 +28,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Sizer(builder: (context, orientation, deviceType) {
       return ChangeNotifierProvider(
         create: (context) => GoogleLoginProvider(),

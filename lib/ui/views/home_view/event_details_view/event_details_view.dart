@@ -5,6 +5,7 @@
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/app/db.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -24,14 +25,24 @@ class EventDetailsView extends StatefulWidget {
   List ShowcaseImage;
   String latitude;
   String longitude;
+  String hostid;
   List peopleName;
   List peopleProfileImg;
+  String tagDesc;
+  String hostName;
+  List membersUid;
+  String tagId;
   EventDetailsView({
+    required this.hostName,
+    required this.membersUid,
+    required this.tagId,
     required this.date,
+    required this.tagDesc,
     required this.host,
     required this.location,
     required this.time,
     required this.title,
+    required this.hostid,
     required this.MembersList,
     required this.membersJoined,
     required this.spotLeft,
@@ -87,11 +98,11 @@ class _EventDetailsViewState extends State<EventDetailsView> {
           },
           child: Icon(Icons.arrow_back_ios),
         ),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) => [PopupMenuItem(child: Text(""))],
-          )
-        ],
+        // actions: [
+        //   PopupMenuButton(
+        //     itemBuilder: (context) => [PopupMenuItem(child: Text(""))],
+        //   )
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -200,19 +211,21 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                             ),
                           ],
                         ),
-                        Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 8.0,
-                            left: 8,
-                            right: 8,
-                          ),
-                          child: Text(
-                            "14 mins away",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
-                                color: greyText),
+                        // Spacer(),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8.0,
+                              left: 8,
+                              right: 8,
+                            ),
+                            child: Text(
+                              "14 mins away",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp,
+                                  color: greyText),
+                            ),
                           ),
                         )
                       ],
@@ -236,7 +249,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                     fontWeight: FontWeight.w400,
                                     fontSize: 11.sp,
                                     color: greyText)),
-                            Text("DevarajS",
+                            Text("${widget.hostName}",
                                 style: TextStyle(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w900,
@@ -254,12 +267,12 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0, bottom: 10),
                       child: AutoSizeText(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nunc placerat",
+                        widget.tagDesc,
                         style: TextStyle(
-                            fontSize: 12.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w300,
                             color: greyText),
-                        maxLines: 2,
+                        maxLines: 15,
                       ),
                     ),
 
@@ -367,28 +380,58 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       child: SizedBox(
                         width: currentWidth,
                         height: currentHeight * 0.075,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        buttonBlue),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ))),
-                            onPressed: () {
-                              print("sent sussess");
-                              final snackBar = SnackBar(
-                                content: const Text('Sent Join Request'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            },
-                            child: Text(
-                              "Send Join Request",
-                              style: TextStyle(fontSize: 13.sp),
-                            )),
+                        child: widget.hostid == user?.uid ||
+                                widget.membersUid.contains("${user?.uid}")
+                            ?ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Colors.green),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ))),
+                                onPressed: () {
+                                  widget.hostid == user?.uid
+                                      ? print("equal")
+                                      : print("not equal");
+                                  // jointag(widget.tagId);
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text('view tag'),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                },
+                                child: Text(
+                                  "View Tag",
+                                  style: TextStyle(fontSize: 13.sp),
+                                )) :ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            buttonBlue),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ))),
+                                onPressed: () {
+                                  print("sent sussess");
+                                  jointag(widget.tagId);
+                                  final snackBar = SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: const Text('joined successfully'),
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                },
+                                child: Text(
+                                  "Join Tag",
+                                  style: TextStyle(fontSize: 13.sp),
+                                ))
+                            
                       ),
                     )
                   ],

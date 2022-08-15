@@ -25,7 +25,8 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
-                peopleProfileImg: containerDetails[index].profileImgs,
+            tagId: "",
+            peopleProfileImg: containerDetails[index].profileImgs,
             peopleName: containerDetails[index].memberName,
             tagText: containerDetails[index].tagText,
             joinedCount: containerDetails[index].joined,

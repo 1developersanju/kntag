@@ -25,6 +25,7 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
+            tagId: "",
             peopleProfileImg: containerDetails[index].profileImgs,
             index: "1",
             peopleName: containerDetails[index].memberName,

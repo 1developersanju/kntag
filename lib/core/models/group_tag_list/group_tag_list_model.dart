@@ -80,6 +80,14 @@ tagTileDatas() {
       profilepic1,
       profilepic2,
       profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
     ],
     memberName: [
       "Sanjeev",
@@ -149,6 +157,14 @@ tagTileDatas() {
       profilepic1,
       profilepic2,
       profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
     ],
     memberName: [
       "Sanjeev",
@@ -183,7 +199,7 @@ tagTileDatas() {
       "Rajanand",
     ],
     tagText: "#Movie",
-    date: "2022-07-13",
+    date: "2022-08-11",
     location: 'Gandhi park',
     time: '06pm to 08pm',
     joined: '14',
@@ -195,7 +211,16 @@ tagTileDatas() {
   );
   groupTileDetails.add(tileData);
   //3
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -263,7 +288,16 @@ tagTileDatas() {
   groupTileDetails.add(tileData);
 
   //4
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -331,7 +365,16 @@ tagTileDatas() {
   groupTileDetails.add(tileData);
 
   //5
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -399,7 +442,16 @@ tagTileDatas() {
   groupTileDetails.add(tileData);
 
   //6
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -457,8 +509,8 @@ tagTileDatas() {
     date: "2022-07-25",
     location: 'barathi park',
     time: '08pm to 11:30pm',
-    latitude: "11.019757974505831",
-    longitude: '11.019757974505831',
+    latitude: "10.983500149370222",
+    longitude: '76.6927464805292',
     joined: '24',
     spotLeft: '01/25',
     myProfile: profilepic,
@@ -467,7 +519,20 @@ tagTileDatas() {
   groupTileDetails.add(tileData);
 
   //7
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+           profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -557,7 +622,8 @@ groupTileDatas() {
   );
 
   //1
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
       profilepic,
       profilepic1,
       profilepic2,
@@ -574,6 +640,13 @@ groupTileDatas() {
       profilepic1,
       profilepic2,
       profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
       profilepic,
       profilepic1,
       profilepic2,
@@ -625,7 +698,16 @@ groupTileDatas() {
   groupTileDetails.add(tileData);
 
   //2
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -692,7 +774,16 @@ groupTileDatas() {
   );
   groupTileDetails.add(tileData);
   //3
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -760,7 +851,16 @@ groupTileDatas() {
   groupTileDetails.add(tileData);
 
   //4
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -828,7 +928,16 @@ groupTileDatas() {
   groupTileDetails.add(tileData);
 
   //5
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -896,7 +1005,16 @@ groupTileDatas() {
   groupTileDetails.add(tileData);
 
   //6
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,
@@ -964,7 +1082,16 @@ groupTileDatas() {
   groupTileDetails.add(tileData);
 
   //7
-  tileData = GroupTagList( profileImgs: [
+  tileData = GroupTagList(
+    profileImgs: [
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
+      profilepic,
+      profilepic1,
+      profilepic2,
+      profilepic3,
       profilepic,
       profilepic1,
       profilepic2,

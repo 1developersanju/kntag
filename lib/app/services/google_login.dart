@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kntag/app/db.dart' as u;
+import 'package:kntag/app/db.dart';
 
 class GoogleLoginProvider extends ChangeNotifier {
   final googleLogin = GoogleSignIn();
@@ -29,8 +29,10 @@ class GoogleLoginProvider extends ChangeNotifier {
       final FirebaseAuth _auth = FirebaseAuth.instance;
       final User user = await _auth.currentUser!;
       final uid = user.uid;
+      login();
+      print("working");
       // MngDB().create_tag();
-      u.MngDB().userloged();
+      // u.MngDB().userloged();
       // getCurrentUser();
     } catch (error) {
       print(error.toString());
@@ -39,9 +41,10 @@ class GoogleLoginProvider extends ChangeNotifier {
 
   @override
   notifyListeners();
-  Future logout() async {
-    await googleLogin.disconnect();
+  logout() async {
+    // await googleLogin.disconnect();
     FirebaseAuth.instance.signOut();
+    await _auth.signOut();
   }
 }
 

@@ -1,4 +1,4 @@
-package com.application.kntag
+package com.kntag.application
 
 import io.flutter.embedding.android.FlutterActivity
 

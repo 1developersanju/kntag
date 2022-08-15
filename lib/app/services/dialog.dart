@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kntag/ui/views/login_view/login_view.dart';
 
@@ -9,6 +11,9 @@ class DialogBox {
       context: parentContext,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
         return AlertDialog(
           title: const Text('Hey Guest!!'),
           content: SingleChildScrollView(

@@ -29,8 +29,10 @@ class MessagePage extends StatefulWidget {
   String longitude;
   List peopleName;
   List peopleProfileImg;
+  String tagId;
   MessagePage(
       {required this.userProfile,
+      required this.tagId,
       required this.index,
       required this.title,
       required this.joinedCount,
@@ -145,6 +147,11 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                 ? (() => Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return EventDetailsView(
+                        membersUid: [],
+                        tagDesc: "",
+                        hostName: "",
+                        hostid: "",
+                        tagId: widget.tagId,
                         peopleProfileImg: widget.peopleProfileImg,
                         peopleName: widget.peopleName,
                         date: widget.date,

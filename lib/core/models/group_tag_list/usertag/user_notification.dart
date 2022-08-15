@@ -45,7 +45,7 @@ userTagTileDatas() {
     tagText: "#BookClub",
     date: "2022-06-13",
     status: 'request',
-    oppName: 'Yuvan',
+    oppName: 'Anand',
     oppProfile: profilepic,
   );
   tagTileDetails.add(tileData);
@@ -69,6 +69,6 @@ userTagTileDatas() {
   );
 
   tagTileDetails.add(tileData);
-    
+
   return tagTileDetails;
 }

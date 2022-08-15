@@ -42,23 +42,23 @@ class _MessageViewState extends State<MessageView>
   messagesSplit() {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    // for (var i = 0; i <= containerDetails.length - 1; i++) {
-    //   var getdate = containerDetails[i].date;
-    //   if (formattedDate.compareTo(getdate) == 0) {
-    //     active.add(containerDetails[i]);
-    //     // print("active ${active[i].tagText}");
-    //   }
+    for (var i = 0; i <= containerDetails.length - 1; i++) {
+      var getdate = containerDetails[i].date;
+      if (formattedDate.compareTo(getdate) == 0) {
+        active.add(containerDetails[i]);
+        // print("active ${active[i].tagText}");
+      }
 
-    //   if (formattedDate.compareTo(getdate) < 0) {
-    //     old.add(containerDetails[i]);
-    //     // print("old ${old[i].tagText}");
-    //   }
+      if (formattedDate.compareTo(getdate) < 0) {
+        old.add(containerDetails[i]);
+        // print("old ${old[i].tagText}");
+      }
 
-    //   if (formattedDate.compareTo(getdate) > 0) {
-    //     upcoming.add(containerDetails[i]);
-    //     // print("upcoming ${upcoming[i].tagText}");
-    //   }
-    // }
+      if (formattedDate.compareTo(getdate) > 0) {
+        upcoming.add(containerDetails[i]);
+        // print("upcoming ${upcoming[i].tagText}");
+      }
+    }
   }
 
   final List<Widget> _tabs = [];
@@ -115,6 +115,7 @@ class _MessageViewState extends State<MessageView>
                   itemCount: old.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: old[index].memberName,
                       tagText: old[index].tagText,
@@ -158,10 +159,11 @@ class _MessageViewState extends State<MessageView>
                 ),
           active.length != 0
               ? ListView.builder(
-                  itemCount: 0,
+                  itemCount: active.length,
                   //  active.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: active[index].memberName,
                       tagText: active[index].tagText,
@@ -208,6 +210,7 @@ class _MessageViewState extends State<MessageView>
                   itemCount: upcoming.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: upcoming[index].memberName,
                       tagText: upcoming[index].tagText,

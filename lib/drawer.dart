@@ -33,11 +33,11 @@ class _DrawerpageState extends State<Drawerpage> {
           Center(
               child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileView()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const ProfileView()),
+                    // );
                   },
                   child: Text(
                     'Profile',

@@ -1,148 +1,220 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kntag/app/services/google_login.dart';
-import 'dart:math' as math;
+import 'package:flutter/material.dart';
+import 'package:kntag/app/services/shared_pref.dart';
+import 'package:kntag/colorAndSize.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-FirebaseFirestore db = FirebaseFirestore.instance;
-
-final FirebaseAuth auth = FirebaseAuth.instance;
-final CollectionReference _mainCollection = db.collection('Users');
-
-final CollectionReference _tagCollection = db.collection('Tags');
 final user = FirebaseAuth.instance.currentUser;
-var randomId = math.Random().nextInt(99999).toString();
-// print("randomID::$randomId");
-var tagId = user!.uid + "Tag" + randomId;
+final databaseReference = FirebaseDatabase.instance;
 
-class MngDB {
-  void getStarted_addData() async {
-    final user = <String, dynamic>{
-      "UID1": {
-        "username": "",
-        "profileimage": "",
-        "about": "",
-        "createdtags": {
-          "tagID1": {
-            "tagname": "",
-            "hostname": "",
-            "membersUID": [],
-            "totalslots": 0,
-            "tagdescription": "",
-            "map": {"lattitude": 0.0, "longditude": 0.0, "landmark": ""},
-            "time": {"from": "", "to": "", "datefrom": "", "dateto": ""}
-          }
-        },
-        "joinedtags": {"tagID1": ""}
-      },
-      "tags": {"tagID1": "#uidof user"}
-    };
+var random = Random().nextInt(9999);
+DatabaseReference userRef = FirebaseDatabase.instance.ref("users/${user?.uid}");
+// DatabaseReference tagRef = FirebaseDatabase.instance
+//     .ref("tags/${(user?.uid).toString() + "Tag" + random.toString()}");
 
-    // Add a new document with a generated ID
-    db.collection("kntag_test_data").doc("test1").set(user);
+FirebaseDatabase db = FirebaseDatabase.instance;
 
-    // [END get_started_add_data_1]
+createUser() async {
+  await userRef.set({
+    "UserName": "${user?.displayName}",
+    "Description": "Something about you...!",
+    "ProfileImage": "${user?.photoURL}",
+    "createdTags": arrset([]),
+    "totaltags": 0,
+    "totaljoinedtags": 0,
+    "JoinedTags": arrset([]),
+  });
+  print("added");
+}
+
+updateUserOnCreate(createdTagId, joinedTagId) async {
+  DatabaseReference userRef =
+      FirebaseDatabase.instance.ref("users/${user?.uid}");
+
+  DatabaseReference userRefaddCreatedTags =
+      FirebaseDatabase.instance.ref("users/${user?.uid}").child('createdTags');
+
+  DatabaseEvent event = await userRef.once();
+
+  var totaltags = event.snapshot.child('totaltags').value;
+
+  var increment = int.parse(totaltags.toString()) + 1;
+  print("snapshot: ${increment}");
+  userRefaddCreatedTags.update({"$increment": createdTagId});
+  userRef.update({
+    // "Description": "",
+    "totaltags": increment,
+
+    // "JoinedTags": arrset([]),
+  });
+  print("update");
+}
+
+updateUserOnJoin(joinedTagId) async {
+  DatabaseReference userRef =
+      FirebaseDatabase.instance.ref("users/${user?.uid}");
+
+  DatabaseReference userRefaddCreatedTags =
+      FirebaseDatabase.instance.ref("users/${user?.uid}").child('JoinedTags');
+
+  DatabaseEvent event = await userRef.once();
+
+  var totaltags = event.snapshot.child('totaljoinedtags').value;
+
+  var increment = int.parse(totaltags.toString()) + 1;
+  print("snapshot: ${increment}");
+  userRefaddCreatedTags.update({'$increment': joinedTagId});
+  userRef.update({
+    // "Description": "",
+    "totaljoinedtags": increment,
+
+    // "JoinedTags": arrset([]),
+  });
+  print("update joined user");
+}
+
+updateTagOnJoin() {}
+deleteTag() {}
+getUsers() {}
+getTags() {}
+
+arrset(arra) {
+  return (json.encode({'arr': arra}));
+}
+
+arrget(arra) {
+  return (json.decode(arra.arr));
+}
+
+newuser() async {
+  print("entered new user function");
+  final userRef = FirebaseDatabase.instance.ref();
+  final snapshot = await userRef.child('users/${user?.uid}').get();
+  // print("USER ID ${user?.uid}");
+  if (snapshot.value == null) {
+    print("heyyy ${snapshot.value}");
+    createUser();
+    return true;
+  } else {
+    print("old user ${snapshot}");
+
+    print("old user ${snapshot.value}");
+    return false;
+  }
+}
+
+login() async {
+  print("entered login");
+  // Future create_file(String fileName, String text) {
+  //   return File(fileName).create().then((File file) {
+  //     file.writeAsStringSync(text);
+  //     return 'The file "$fileName" has been created with "$text" in its body.';
+  //   });
+  // }
+
+  final userRef = FirebaseDatabase.instance.ref();
+
+  final snapshot = await userRef.child('users/${user?.uid}').get();
+
+  if (newuser() == true) {
+    createUser();
+    print("created new user ${newuser()}");
+  } else {
+    // createUser();
+    print("userr found : ${user!.displayName} ${newuser()}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userName', user!.displayName.toString());
+
+    // saveStringValue("value123");
+
+    // print("logging in ${UserSimplePreferences.getUserName()}");
+
+    print("snapshot value");
+  }
+}
+
+createTag(values, context) async {
+  print("entered create tag ${values['name']}");
+
+  DatabaseReference tagRef = FirebaseDatabase.instance
+      .ref("tags/${(user?.uid).toString() + "Tag" + random.toString()}");
+
+  await tagRef.set({
+    "tagname": values['name'],
+    "hostname": values['host'],
+    "hostId": values['hostId'],
+    "membersttl": 0,
+    "membersUID": {},
+    "totalslots": values['slots'],
+    "tagdescription": values['description'],
+    "map": {
+      "latitude": values['latitude'],
+      "londitude": values['longitude'],
+      "landmark": values['landmark'],
+    },
+    "time": {
+      "from": values['timefrm'],
+      "to": values['timeto'],
+      "datefrom": values['datefrm'],
+      "dateto": values['dateto'],
+    }
+  });
+
+  updateUserOnCreate(tagRef.key, '');
+  print("tagrefrence: ${tagRef.key}");
+  //return promise
+  var snackBar = SnackBar(
+    backgroundColor: buttonBlue,
+    content: Text('Tag created Successfully...!'),
+  );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+  showSnackbar(context) {
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void userloged() {
-    print("uid: ${user?.uid}");
+  showSnackbar(context);
+}
 
-    final docRef = db.doc("users/${user?.uid}");
+jointag(tagId) async {
+  DatabaseReference tagRef = FirebaseDatabase.instance.ref("tags/${tagId}");
 
-    docRef.get().then(
-          (res) => (res.data() == null) ? newUser(user!.uid) : oldUser(),
-          onError: (e) => print("Error completing: $e"),
-        );
-  }
+  DatabaseReference tagRefAdduserUid =
+      FirebaseDatabase.instance.ref("tags/${tagId}").child('membersUID');
 
-  void newUser(String userId) async {
-    print('newUser');
-    var data = {
-      "username": user?.displayName,
-      "profileimg": user?.photoURL,
-      "about": 'I dont like events. Events like me',
-      "joinedtags": [],
-      "createdtags": []
-    };
+  DatabaseEvent event = await tagRef.once();
 
-    DocumentReference documentReferencer = _mainCollection.doc(userId);
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
-  }
+  var totalmembers = event.snapshot.child('membersttl').value;
+  var totalslots = event.snapshot.child('totalslots').value;
 
-  void oldUser() {
-    print('oldUser');
-  }
+  var increment = int.parse(totalmembers.toString()) + 1;
+  tagRefAdduserUid.update({"$increment": user?.uid});
 
-  create_tag() async {
-    var data = {
-      "TagName": '',
-      "TagDescription": '',
-      "Place": '',
-      "StartDate": "",
-      "EndDate": "",
-      "StartTime": "",
-      "EndTime": "",
-      "Latitude": "",
-      "Longitude": "",
-      "MaxMembers": 5,
-      "HostId": "",
-      "MembersList": [],
-    };
+  var ttlSlots =
+      int.parse(totalslots.toString()) - int.parse(totalmembers.toString());
+  print("snapshot: ${ttlSlots}");
 
-    DocumentReference documentReferencer = _tagCollection.doc(tagId);
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
-  }
+  await tagRef.update({
+    "membersttl": increment,
+    "totalslots": ttlSlots,
+  });
+  updateUserOnJoin(tagId);
+  // DatabaseReference tagRef =
+  //     FirebaseDatabase.instance.ref("tags/${values.tagid}");
+  // var memttl = tagRef.child("membersttl").get();
+  // var tguid = tagRef.child("memberUID").get();
+  // print("members total::${memttl}");
+  // tagRef.update({
+  //   "membersttl": memttl,
+  //   "membersUID": tguid,
+  // });
+  // userRef.update({
 
-  void updateItem({
-    required String title,
-    required String place,
-    required String StartDate,
-    required String endDate,
-    required String starttime,
-    required String endTime,
-    required String latitude,
-    required String longitude,
-    required int maxmembers,
-    required String description,
-    required List userId,
-    // required String docId,
-  }) async {
-    DocumentReference documentReferencer = _tagCollection.doc(tagId);
-
-    Map<String, dynamic> data = <String, dynamic>{
-      "TagName": title,
-      "TagDescription": description,
-      "Place": place,
-      "StartDate": StartDate,
-      "EndDate": endDate,
-      "StartTime": starttime,
-      "EndTime": endTime,
-      "Latitude": latitude,
-      "Longitude": longitude,
-      "MaxMembers": 5,
-      "HostId": "${user?.uid}",
-      "MembersList": [],
-    };
-
-    await documentReferencer
-        .update(data)
-        .whenComplete(() => print("Note item updated in the database"))
-        .catchError((e) => print(e));
-  }
-
-  readItems() {
-    CollectionReference notesItemCollection =
-        _mainCollection.doc(user?.uid).collection('Users');
-
-    // return notesItemCollection.snapshots();
-
-    var userData =
-        FirebaseFirestore.instance.collection("Users").doc(user?.uid).get();
-    return userData;
-  }
+  // });
 }

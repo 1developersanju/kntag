@@ -15,6 +15,7 @@ class MessageTagTile extends StatefulWidget {
   String index;
   String date;
   String host;
+  String tagId;
   String location;
   String time;
   List showcaseImg;
@@ -25,6 +26,7 @@ class MessageTagTile extends StatefulWidget {
   MessageTagTile(
       {required this.tagText,
       required this.joinedCount,
+      required this.tagId,
       required this.leftCount,
       required this.userProfile,
       required this.index,
@@ -56,6 +58,7 @@ class _MessageTagTileState extends State<MessageTagTile> {
             context,
             MaterialPageRoute(
                 builder: (context) => MessagePage(
+                      tagId: widget.tagId,
                       peopleProfileImg: widget.peopleProfileImg,
                       peopleName: widget.peopleName,
                       userProfile: widget.userProfile,

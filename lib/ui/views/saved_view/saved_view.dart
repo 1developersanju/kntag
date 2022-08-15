@@ -53,6 +53,11 @@ class _SavedViewState extends State<SavedView> {
             itemCount: 4,
             itemBuilder: (context, index) {
               return BookClubContainer(
+                tagDesc: "",
+                hostName: "",
+                uid: "",
+                hostid: "",
+                tagId: "",
                 peopleProfileImg: containerDetails[index].profileImgs,
                 peopleName: containerDetails[index].memberName,
                 latitude: containerDetails[index].latitude,
@@ -66,6 +71,7 @@ class _SavedViewState extends State<SavedView> {
                 profile: containerDetails[index].myProfile,
                 userProfile: containerDetails[index].userProfileData,
                 page: "tags",
+                membersUid: [],
               );
             },
           ),

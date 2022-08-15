@@ -260,18 +260,18 @@ class _PostSettingViewState extends State<PostSettingView> {
                 child: ElevatedButton(
                     onPressed: () {
                       DialogBox.showLoading(context, "Creating Tag");
-                      MngDB().updateItem(
-                          title: widget.title,
-                          place: widget.place,
-                          StartDate: widget.StartDate,
-                          endDate: widget.endDate,
-                          starttime: widget.starttime,
-                          endTime: widget.endDate,
-                          latitude: widget.latitude,
-                          longitude: widget.longitude,
-                          maxmembers: _counter,
-                          description: widget.description,
-                          userId: []);
+                      // MngDB().updateItem(
+                      //     title: widget.title,
+                      //     place: widget.place,
+                      //     StartDate: widget.StartDate,
+                      //     endDate: widget.endDate,
+                      //     starttime: widget.starttime,
+                      //     endTime: widget.endDate,
+                      //     latitude: widget.latitude,
+                      //     longitude: widget.longitude,
+                      //     maxmembers: _counter,
+                      //     description: widget.description,
+                      //     userId: []);
                     },
                     style: ElevatedButton.styleFrom(
                       primary: buttonBlue,

@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/app/db.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:sizer/sizer.dart';
@@ -12,7 +14,9 @@ class BookClubContainer extends StatefulWidget {
   String location;
   String date;
   String time;
+  String hostid;
   String joined;
+  String hostName;
   String spotsLeft;
   String profile;
   List userProfile;
@@ -20,9 +24,19 @@ class BookClubContainer extends StatefulWidget {
   String longitude;
   String page;
   List peopleName;
+  String tagId;
+  String uid;
+  List membersUid;
   List peopleProfileImg;
+  String tagDesc;
   BookClubContainer(
       {required this.tagText,
+      required this.membersUid,
+      required this.uid,
+      required this.tagDesc,
+      required this.tagId,
+      required this.hostid,
+      required this.hostName,
       required this.location,
       required this.date,
       required this.time,
@@ -51,6 +65,11 @@ class _BookClubContainerState extends State<BookClubContainer> {
           return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 EventDetailsView(
+              membersUid: widget.membersUid,
+              tagDesc: widget.tagDesc,
+              hostName: widget.hostName,
+              hostid: widget.hostid,
+              tagId: widget.tagId,
               peopleProfileImg: widget.peopleProfileImg,
               peopleName: widget.peopleName,
               date: widget.date,
@@ -91,6 +110,11 @@ class _BookClubContainerState extends State<BookClubContainer> {
           MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => EventDetailsView(
+              membersUid: widget.membersUid,
+              tagDesc: widget.tagDesc,
+              hostName: widget.hostName,
+              hostid: widget.hostid,
+              tagId: widget.tagId,
               peopleProfileImg: widget.peopleProfileImg,
               peopleName: widget.peopleName,
               date: widget.date,
@@ -159,7 +183,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  AutoSizeText(
                                                     widget.tagText,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -167,23 +191,27 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                       color: Colors.blue[900],
                                                       fontSize: 15.sp,
                                                     ),
-                                                    textScaleFactor: ScaleSize
-                                                        .textScaleFactor(
-                                                            context),
+                                                    // textScaleFactor: ScaleSize
+                                                    //     .textScaleFactor(
+                                                    //         context),
+                                                    maxLines: 1,
                                                   ),
                                                   Spacer(),
-                                                  Text(
-                                                      "Location: ${widget.location}",
-                                                      style: TextStyle(
-                                                        color: greyText,
-                                                        fontSize: 13.sp,
-                                                      )),
-                                                  Text(
+                                                  AutoSizeText(
+                                                    "Location: ${widget.location}",
+                                                    style: TextStyle(
+                                                      color: greyText,
+                                                      fontSize: 13.sp,
+                                                    ),
+                                                    maxLines: 2,
+                                                  ),
+                                                  AutoSizeText(
                                                     "${widget.date} : ${widget.time}",
                                                     style: TextStyle(
                                                       color: greyText,
                                                       fontSize: 13.sp,
                                                     ),
+                                                    maxLines: 1,
                                                   ),
                                                   SizedBox(
                                                     height: 10,
@@ -243,57 +271,105 @@ class _BookClubContainerState extends State<BookClubContainer> {
                               ),
                             ),
                             Positioned(
-                              bottom: currentHeight * 0.001,
-                              right: currentWidth * 0.045,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    print("datee: ");
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        fullscreenDialog: true,
-                                        builder: (context) => EventDetailsView(
-                                          peopleProfileImg:
-                                              widget.peopleProfileImg,
-                                          peopleName: widget.peopleName,
-                                          latitude: widget.latitude,
-                                          longitude: widget.longitude,
-                                          date: widget.date,
-                                          host: widget.profile,
-                                          time: widget.time,
-                                          location: widget.location,
-                                          title: widget.tagText,
-                                          MembersList: widget.userProfile,
-                                          membersJoined: widget.joined,
-                                          spotLeft: widget.spotsLeft,
-                                          ShowcaseImage: [
-                                            "https://cdn.pixabay.com/photo/2013/11/28/10/03/autumn-219972_960_720.jpg",
-                                            "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
-                                            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
-                                            "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
-                                            "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      primary: buttonBlue),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 7,
-                                      right: 7,
-                                    ),
-                                    child: Text(
-                                      "Join",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 10.sp),
-                                    ),
-                                  )),
-                            )
+                                bottom: currentHeight * 0.001,
+                                right: currentWidth * 0.045,
+                                child: widget.hostid == widget.uid ||
+                                        widget.membersUid
+                                            .contains("${widget.uid}")
+                                    ? ElevatedButton(
+                                        onPressed: () {
+                                          widget.membersUid ==
+                                                  ["null", "${widget.uid}"]
+                                              ? print("true")
+                                              : print("false");
+
+                                          widget.hostid != user?.uid
+                                              ? print("equal")
+                                              : print("not equal");
+                                          // jointag(widget.tagId);
+                                          final snackBar = SnackBar(
+                                            backgroundColor: Colors.green,
+                                            content: Text('view tag'),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                            primary: Colors.green),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 7,
+                                            right: 7,
+                                          ),
+                                          child: Text(
+                                            "joined",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10.sp),
+                                          ),
+                                        ))
+                                    : ElevatedButton(
+                                        onPressed: () {
+                                          print("datee: ${widget.membersUid}");
+                                          widget.membersUid ==
+                                                  [null, "${widget.uid}"]
+                                              ? print("true")
+                                              : print("false");
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              fullscreenDialog: true,
+                                              builder: (context) =>
+                                                  EventDetailsView(
+                                                membersUid: widget.membersUid,
+                                                tagDesc: widget.tagDesc,
+                                                hostName: widget.hostName,
+                                                hostid: widget.hostid,
+                                                tagId: widget.tagId,
+                                                peopleProfileImg:
+                                                    widget.peopleProfileImg,
+                                                peopleName: widget.peopleName,
+                                                latitude: widget.latitude,
+                                                longitude: widget.longitude,
+                                                date: widget.date,
+                                                host: widget.profile,
+                                                time: widget.time,
+                                                location: widget.location,
+                                                title: widget.tagText,
+                                                MembersList: widget.userProfile,
+                                                membersJoined: widget.joined,
+                                                spotLeft: widget.spotsLeft,
+                                                ShowcaseImage: [
+                                                  "https://cdn.pixabay.com/photo/2013/11/28/10/03/autumn-219972_960_720.jpg",
+                                                  "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
+                                                  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+                                                  "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
+                                                  "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                            primary: buttonBlue),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 7,
+                                            right: 7,
+                                          ),
+                                          child: Text(
+                                            "Join",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10.sp),
+                                          ),
+                                        )))
                           ],
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/group_view/group_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/message_view/message_page.dart';
@@ -7,6 +8,7 @@ import 'package:kntag/ui/views/notification_view/notification_view.dart';
 import 'package:kntag/ui/views/post_view/create_tag_view.dart';
 
 class MyNavigationBar extends StatefulWidget {
+  
   @override
   _MyNavigationBarState createState() => _MyNavigationBarState();
 }
@@ -22,10 +24,24 @@ String profilepic3 =
     "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    HomeMap(),
-    MessagePage(
+  
+  late List<Widget> _pages;
+  late Widget _page1;
+  late Widget _page2;
+  late Widget _page3;
+  late Widget _page4;
+  late Widget _page5;
+  late int _currentIndex;
+  late Widget _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _page1 = HomeMap(changePage: _changeTab);
+    // InteractiveMapsMarker(changePage: _changeTab);
+
+    _page2 = MessagePage(
+        tagId: "",
         userProfile: [
           profilepic,
           profilepic1,
@@ -50,7 +66,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         ],
         index: "knchat",
         title: "KnChat",
-        joinedCount: "2",
+        joinedCount: "3",
         leftCount: "leftCount",
         host: "host",
         location: "location",
@@ -70,18 +86,21 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           "latitude",
           "latitude",
         ],
-        peopleProfileImg: []),
-    // GroupView(),
-    CreateTagView(),
-    NotificationView(
+        peopleProfileImg: []);
+    _page3 = CreateTagView(changePage: _changeTab);
+    _page4 = NotificationView(
       title: "Notifications",
-    ),
-    MessageView()
-  ];
+    );
+    _page5 = MessageView();
+    _pages = [_page1, _page2, _page3, _page4, _page5];
+    _currentIndex = 0;
+    _currentPage = _page1;
+  }
 
-  void _onItemTapped(int index) {
+  void _changeTab(int index) {
     setState(() {
-      _selectedIndex = index;
+      _currentIndex = index;
+      _currentPage = _pages[index];
     });
   }
 
@@ -89,9 +108,15 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _currentPage,
       ),
       bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          selectedItemColor: Colors.black,
+          iconSize: 25,
+          onTap: (index) {
+            _changeTab(index);
+          },
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               label: " ",
@@ -160,10 +185,6 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             ),
           ],
           type: BottomNavigationBarType.shifting,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          iconSize: 25,
-          onTap: _onItemTapped,
           elevation: 5),
     );
   }

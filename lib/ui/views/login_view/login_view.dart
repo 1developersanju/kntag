@@ -100,7 +100,9 @@ class LoginView extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: GoogleAuthButton(
-                              onPressed: () {
+                              onPressed: () async {
+                                // RealDB().setData();
+
                                 final provider =
                                     Provider.of<GoogleLoginProvider>(context,
                                         listen: false);
@@ -111,7 +113,6 @@ class LoginView extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DecideLogin()));
-                                // your implementation
                               },
                               text: 'Login with Google',
                               style: AuthButtonStyle(
