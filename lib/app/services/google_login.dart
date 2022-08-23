@@ -42,9 +42,10 @@ class GoogleLoginProvider extends ChangeNotifier {
   @override
   notifyListeners();
   logout() async {
-    // await googleLogin.disconnect();
+    await googleLogin.disconnect();
     FirebaseAuth.instance.signOut();
     await _auth.signOut();
+    print("logged Out");
   }
 }
 

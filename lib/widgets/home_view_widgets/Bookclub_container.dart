@@ -61,6 +61,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
 
     return GestureDetector(
       onTap: () {
+        print("Host id found::${widget.tagId}");
+
         Route _createRoute() {
           return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
@@ -222,7 +224,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                   ),
                                                   Row(
                                                     children: [
-                                                      buildStackedImages(),
+                                                      buildStackedImages(22),
                                                       SizedBox(
                                                         width: 5,
                                                       ),
@@ -271,229 +273,364 @@ class _BookClubContainerState extends State<BookClubContainer> {
                               ),
                             ),
                             Positioned(
-                                bottom: currentHeight * 0.001,
-                                right: currentWidth * 0.045,
-                                child: widget.hostid == widget.uid ||
-                                        widget.membersUid
-                                            .contains("${widget.uid}")
-                                    ? ElevatedButton(
-                                        onPressed: () {
-                                          widget.membersUid ==
-                                                  ["null", "${widget.uid}"]
-                                              ? print("true")
-                                              : print("false");
+                              bottom: currentHeight * 0.001,
+                              right: currentWidth * 0.045,
+                              child: widget.hostid == widget.uid ||
+                                      widget.membersUid
+                                          .contains("${widget.uid}")
+                                  ? ElevatedButton(
+                                      onPressed: () {
+                                        widget.membersUid ==
+                                                ["null", "${widget.uid}"]
+                                            ? print("true")
+                                            : print("false");
 
-                                          widget.hostid != user?.uid
-                                              ? print("equal")
-                                              : print("not equal");
-                                          // jointag(widget.tagId);
-                                          final snackBar = SnackBar(
-                                            backgroundColor: Colors.green,
-                                            content: Text('view tag'),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30)),
-                                            primary: Colors.green),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 7,
-                                            right: 7,
-                                          ),
-                                          child: Text(
-                                            "joined",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10.sp),
-                                          ),
-                                        ))
-                                    : ElevatedButton(
-                                        onPressed: () {
-                                          print("datee: ${widget.membersUid}");
-                                          widget.membersUid ==
-                                                  [null, "${widget.uid}"]
-                                              ? print("true")
-                                              : print("false");
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              fullscreenDialog: true,
-                                              builder: (context) =>
-                                                  EventDetailsView(
-                                                membersUid: widget.membersUid,
-                                                tagDesc: widget.tagDesc,
-                                                hostName: widget.hostName,
-                                                hostid: widget.hostid,
-                                                tagId: widget.tagId,
-                                                peopleProfileImg:
-                                                    widget.peopleProfileImg,
-                                                peopleName: widget.peopleName,
-                                                latitude: widget.latitude,
-                                                longitude: widget.longitude,
-                                                date: widget.date,
-                                                host: widget.profile,
-                                                time: widget.time,
-                                                location: widget.location,
-                                                title: widget.tagText,
-                                                MembersList: widget.userProfile,
-                                                membersJoined: widget.joined,
-                                                spotLeft: widget.spotsLeft,
-                                                ShowcaseImage: [
-                                                  "https://cdn.pixabay.com/photo/2013/11/28/10/03/autumn-219972_960_720.jpg",
-                                                  "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
-                                                  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
-                                                  "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
-                                                  "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-                                                ],
-                                              ),
+                                        widget.hostid != user?.uid
+                                            ? print("equal")
+                                            : print("not equal");
+                                        // jointag(widget.tagId);
+                                        final snackBar = SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Text('view tag'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          primary: Colors.green),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 7,
+                                          right: 7,
+                                        ),
+                                        child: Text(
+                                          "joined",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10.sp),
+                                        ),
+                                      ))
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        print("datee: ${widget.membersUid}");
+                                        widget.membersUid ==
+                                                [null, "${widget.uid}"]
+                                            ? print("true")
+                                            : print("false");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            fullscreenDialog: true,
+                                            builder: (context) =>
+                                                EventDetailsView(
+                                              membersUid: widget.membersUid,
+                                              tagDesc: widget.tagDesc,
+                                              hostName: widget.hostName,
+                                              hostid: widget.hostid,
+                                              tagId: widget.tagId,
+                                              peopleProfileImg:
+                                                  widget.peopleProfileImg,
+                                              peopleName: widget.peopleName,
+                                              latitude: widget.latitude,
+                                              longitude: widget.longitude,
+                                              date: widget.date,
+                                              host: widget.profile,
+                                              time: widget.time,
+                                              location: widget.location,
+                                              title: widget.tagText,
+                                              MembersList: widget.userProfile,
+                                              membersJoined: widget.joined,
+                                              spotLeft: widget.spotsLeft,
+                                              ShowcaseImage: [
+                                                "https://cdn.pixabay.com/photo/2013/11/28/10/03/autumn-219972_960_720.jpg",
+                                                "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
+                                                "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+                                                "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
+                                                "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
+                                              ],
                                             ),
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30)),
-                                            primary: buttonBlue),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 7,
-                                            right: 7,
                                           ),
-                                          child: Text(
-                                            "Join",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10.sp),
-                                          ),
-                                        )))
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          primary: buttonBlue),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 7,
+                                          right: 7,
+                                        ),
+                                        child: Text(
+                                          "Join",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10.sp),
+                                        ),
+                                      ),
+                                    ),
+                            )
                           ],
                         ),
                       ),
                     )
-                  : Padding(
-                      padding: const EdgeInsets.only(
-                          top: 12.0, bottom: 8, left: 11, right: 11),
+                  // not home
+                  : Center(
                       child: Container(
                         color: transparent,
-                        width: currentWidth,
-                        height: currentHeight * 0.18,
+                        width: 90.w,
+                        height: 25.h,
                         child: Stack(
                           // alignment: Alignment.bottomCenter,
                           children: [
-                            Container(
-                              color: Colors.transparent,
-                              height: currentHeight,
-                              child: Center(
-                                child: Container(
-                                  padding: EdgeInsets.all(12),
-                                  width: currentWidth * 0.90,
-                                  height: currentHeight * 0.2,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  widget.tagText,
-                                                  style: TextStyle(
+                            Positioned(
+                              child: Container(
+                                color: Colors.transparent,
+                                height: currentHeight,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(12),
+                                    width: 90.w,
+                                    height: 20.h,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black87
+                                                .withOpacity(0.100),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: Offset(0, 3),
+                                          )
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0, bottom: 8),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  AutoSizeText(
+                                                    widget.tagText,
+                                                    style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.blue[900],
-                                                      fontSize: 15.sp),
-                                                ),
-                                                Spacer(),
-                                                Text(
+                                                      fontSize: 15.sp,
+                                                    ),
+                                                    // textScaleFactor: ScaleSize
+                                                    //     .textScaleFactor(
+                                                    //         context),
+                                                    maxLines: 1,
+                                                  ),
+                                                  Spacer(),
+                                                  AutoSizeText(
                                                     "Location: ${widget.location}",
                                                     style: TextStyle(
-                                                        color: greyText,
-                                                        fontSize: 12.sp)),
-                                                Text(
-                                                  "${widget.date} : ${widget.time}",
-                                                  style: TextStyle(
                                                       color: greyText,
-                                                      fontSize: 12.sp),
-                                                ),
-                                                SizedBox(
-                                                  height: 2.sp,
-                                                ),
-                                                Divider(
-                                                  endIndent: 10.sp,
-                                                  color: greyText,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    buildStackedImages(),
-                                                    SizedBox(
-                                                      width: 2.5.sp,
+                                                      fontSize: 13.sp,
                                                     ),
-                                                    Text(
-                                                      "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
-                                                      style: TextStyle(
-                                                          fontSize: 10.sp,
-                                                          color: greyText),
+                                                    maxLines: 2,
+                                                  ),
+                                                  AutoSizeText(
+                                                    "${widget.date} : ${widget.time}",
+                                                    style: TextStyle(
+                                                      color: greyText,
+                                                      fontSize: 13.sp,
                                                     ),
-                                                  ],
-                                                )
-                                              ]),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
-                                              child: Container(
-                                                height: currentHeight * 0.1,
-                                                width: currentWidth * 0.20,
-                                                child: Image.network(
-                                                  profilepic1,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                color: Colors.amber,
-                                              ),
-                                            ),
+                                                    maxLines: 1,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Divider(
+                                                    endIndent: 210,
+                                                    color: greyText,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      buildStackedImages(30),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      // Text(
+                                                      //   "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                      //   style: TextStyle(
+                                                      //       fontSize: 11.sp,
+                                                      //       color: greyText),
+                                                      // ),
+                                                    ],
+                                                  )
+                                                ]),
                                           ),
-                                        )
-                                      ],
+                                          // SizedBox(width: 8,),
+                                          // Expanded(
+                                          //   flex: 1,
+                                          //   child: Padding(
+                                          //     padding: const EdgeInsets.all(3.0),
+                                          //     child: ClipRRect(
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(9),
+                                          //       child: Container(
+                                          //         height: currentHeight * 0.1,
+                                          //         width: currentWidth * 0.20,
+                                          //         child: Image.network(
+                                          //           profilepic1,
+                                          //           fit: BoxFit.cover,
+                                          //         ),
+                                          //         color: Colors.amber,
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                             Positioned(
-                              bottom: currentHeight * 0.120,
-                              right: currentWidth * 0.09,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(widget.profile),
-                                    ),
-                                  ),
-                                ),
+                              bottom: currentHeight * 0.20,
+                              right: currentWidth * 0.08,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(widget.profile),
                               ),
                             ),
                           ],
                         ),
                       ),
                     )
+              // : Padding(
+              //     padding: const EdgeInsets.only(
+              //         top: 12.0, bottom: 8, left: 11, right: 11),
+              //     child: Container(
+              //       color: transparent,
+              //       width: currentWidth,
+              //       height: currentHeight * 0.18,
+              //       child: Stack(
+              //         // alignment: Alignment.bottomCenter,
+              //         children: [
+              //           Container(
+              //             color: Colors.transparent,
+              //             height: currentHeight,
+              //             child: Center(
+              //               child: Container(
+              //                 padding: EdgeInsets.all(12),
+              //                 width: currentWidth * 0.90,
+              //                 height: currentHeight * 0.2,
+              //                 decoration: BoxDecoration(
+              //                     color: Colors.white,
+              //                     borderRadius: BorderRadius.circular(12)),
+              //                 child: Padding(
+              //                   padding: const EdgeInsets.all(8.0),
+              //                   child: Row(
+              //                     children: [
+              //                       Expanded(
+              //                         flex: 3,
+              //                         child: Column(
+              //                             crossAxisAlignment:
+              //                                 CrossAxisAlignment.start,
+              //                             children: [
+              //                               Text(
+              //                                 widget.tagText,
+              //                                 style: TextStyle(
+              //                                     fontWeight:
+              //                                         FontWeight.bold,
+              //                                     color: Colors.blue[900],
+              //                                     fontSize: 15.sp),
+              //                               ),
+              //                               Spacer(),
+              //                               Text(
+              //                                   "Location: ${widget.location}",
+              //                                   style: TextStyle(
+              //                                       color: greyText,
+              //                                       fontSize: 12.sp)),
+              //                               Text(
+              //                                 "${widget.date} : ${widget.time}",
+              //                                 style: TextStyle(
+              //                                     color: greyText,
+              //                                     fontSize: 12.sp),
+              //                               ),
+              //                               SizedBox(
+              //                                 height: 2.sp,
+              //                               ),
+              //                               Divider(
+              //                                 endIndent: 10.sp,
+              //                                 color: greyText,
+              //                               ),
+              //                               Row(
+              //                                 children: [
+              //                                   buildStackedImages(),
+              //                                   SizedBox(
+              //                                     width: 2.5.sp,
+              //                                   ),
+              //                                   Text(
+              //                                     "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+              //                                     style: TextStyle(
+              //                                         fontSize: 10.sp,
+              //                                         color: greyText),
+              //                                   ),
+              //                                 ],
+              //                               )
+              //                             ]),
+              //                       ),
+              //                       Expanded(
+              //                         flex: 1,
+              //                         child: Padding(
+              //                           padding: const EdgeInsets.all(3.0),
+              //                           child: ClipRRect(
+              //                             borderRadius:
+              //                                 BorderRadius.circular(9),
+              //                             child: Container(
+              //                               height: currentHeight * 0.1,
+              //                               width: currentWidth * 0.20,
+              //                               child: Image.network(
+              //                                 profilepic1,
+              //                                 fit: BoxFit.cover,
+              //                               ),
+              //                               color: Colors.amber,
+              //                             ),
+              //                           ),
+              //                         ),
+              //                       )
+              //                     ],
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //           Positioned(
+              //             bottom: currentHeight * 0.120,
+              //             right: currentWidth * 0.09,
+              //             child: ClipRRect(
+              //               borderRadius: BorderRadius.circular(30),
+              //               child: Container(
+              //                 color: Colors.white,
+              //                 child: Padding(
+              //                   padding: const EdgeInsets.all(2.0),
+              //                   child: CircleAvatar(
+              //                     backgroundImage:
+              //                         NetworkImage(widget.profile),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   )
             ],
           ),
         ),
@@ -502,8 +639,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
   }
 
   //Method for calling StackedWidgets class & for passing image url
-  Widget buildStackedImages() {
-    final double size = 22;
+  Widget buildStackedImages(double size) {
     final urlImages = widget.userProfile;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();

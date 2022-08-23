@@ -60,13 +60,21 @@ class _HomeMapState extends State<HomeMap> {
   Position? _currentPosition;
 
   addmarkers(userS) async {
-    for (var i = 0; i < userS.children.toList().length; i++) {
+    for (var i = 0; i < userS.child("tags").children.toList().length; i++) {
       markers.add(MarkerItem(
         id: i,
-        latitude: double.parse(
-            userS.children.toList()[i].child('map/latitude').value),
-        longitude: double.parse(
-            userS.children.toList()[i].child('map/londitude').value),
+        latitude: double.parse(userS
+            .child("tags")
+            .children
+            .toList()[i]
+            .child('map/latitude')
+            .value),
+        longitude: double.parse(userS
+            .child("tags")
+            .children
+            .toList()[i]
+            .child('map/londitude')
+            .value),
         imgs:
             "https://github.com/1developersanju/img/blob/main/marker.png?raw=true",
       ));
@@ -107,7 +115,20 @@ class _HomeMapState extends State<HomeMap> {
     }
   }
 
+  List tagMembers = [];
+  List tagMembersProfile = [];
+
   List<MarkerItem> markers = [];
+  Future<Map<String, dynamic>> future() async {
+    final tags = await FirebaseDatabase.instance.ref('tags').get();
+    final data = Map<String, dynamic>.from(tags.value as Map);
+    final hostID = data['8ux4wwBY03NN2xpM01LXK58rkgF2Tag3947']['hostId'];
+    final users = await FirebaseDatabase.instance.ref('users/$hostID').get();
+    return <String, dynamic>{
+      'tags': Map<String, dynamic>.from(tags.value as Map),
+      'users': Map<String, dynamic>.from(users.value as Map)
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,21 +141,26 @@ class _HomeMapState extends State<HomeMap> {
       // drawer: Drawer(child: Drawerpage()),
       extendBodyBehindAppBar: true,
 
-      body: FutureBuilder(
-          future: dbRef.child("tags").once(),
+      body: StreamBuilder(
+          stream: dbRef.onValue,
           builder: (ctx, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               final userS = snapshot.data.snapshot;
+
               addmarkers(userS);
               return _currentPosition == null
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
                   : InteractiveMapsMarker(
-                      itemcount: userS.children.toList().length,
+                      initialLocation: markers.isEmpty
+                          ? LatLng(_currentPosition?.latitude ?? 0,
+                              _currentPosition?.longitude ?? 0)
+                          : LatLng(markers[0].latitude, markers[0].longitude),
+                      itemcount: userS.child("tags").children.toList().length,
                       changePage: _changeTab,
                       items: markers,
                       center: LatLng(_currentPosition?.latitude ?? 0,
@@ -146,66 +172,130 @@ class _HomeMapState extends State<HomeMap> {
                       //   return BottomTile(item: item);
                       // },
                       itemBuilder: (BuildContext context, int index) {
-                        return markers.length != 0
+                        var hostid = userS
+                            .child("tags")
+                            .children
+                            .toList()[index]
+                            .child('hostId')
+                            .value;
+                        var membersUid = userS
+                            .child("tags")
+                            .children
+                            .toList()[index]
+                            .child('membersUID')
+                            .value;
+
+                        var membersTotal = userS
+                            .child("tags")
+                            .children
+                            .toList()[index]
+                            .child('membersttl')
+                            .value;
+                        try {
+                          for (int i = 1; i <= membersTotal; i++) {
+                            tagMembers.add(userS
+                                .child("users/${membersUid[i]}/UserName")
+                                .value);
+                          }
+                          print("tagees $tagMembers");
+                          for (int i = 1; i <= membersTotal; i++) {
+                            tagMembersProfile.add(userS
+                                .child("users/${membersUid[i]}/ProfileImage")
+                                .value);
+                          }
+                          print("tagees $tagMembers");
+                        } catch (e) {
+                          print("EXCEPTION: : $e");
+                        }
+
+                        return markers.isNotEmpty
                             ? Container(
                                 // margin: const EdgeInsets.all(10.0),
                                 height: currentHeight * 0.5,
                                 child: BookClubContainer(
-                                  membersUid: userS.children
+                                  membersUid: userS
+                                          .child("tags")
+                                          .children
                                           .toList()[index]
                                           .child('membersUID')
                                           .value ??
-                                      [],
-                                  uid: user!.uid,
-                                  tagDesc: userS.children
+                                      [''],
+                                  uid: "${user?.uid}",
+                                  tagDesc: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('tagdescription')
                                       .value,
-                                  hostName: userS.children
-                                      .toList()[index]
-                                      .child('hostname')
+                                  hostName: userS
+                                      .child("users/$hostid/UserName")
                                       .value,
-                                  hostid: userS.children
+                                  hostid: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('hostId')
                                       .value,
-                                  tagId: userS.children.toList()[index].key,
-                                  peopleProfileImg:
-                                      containerDetails[index].profileImgs,
-                                  peopleName:
-                                      containerDetails[index].memberName,
-                                  latitude: userS.children
+                                  tagId: userS
+                                      .child("tags")
+                                      .children
+                                      .toList()[index]
+                                      .key,
+                                  peopleProfileImg: tagMembersProfile,
+                                  peopleName: tagMembers,
+                                  latitude: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('map/latitude')
                                       .value,
-                                  longitude: userS.children
+                                  longitude: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('map/londitude')
                                       .value,
-                                  tagText: userS.children
+                                  tagText: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('tagname')
                                       .value,
-                                  joined: userS.children
+                                  joined: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('membersttl')
                                       .value
                                       .toString(),
-                                  location: userS.children
+                                  location: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('map/landmark')
                                       .value,
-                                  date: userS.children
+                                  date: userS
+                                      .child("tags")
+                                      .children
                                       .toList()[index]
                                       .child('time/datefrom')
                                       .value,
                                   time:
-                                      "${userS.children.toList()[index].child('time/from').value}:${userS.children.toList()[index].child('time/to').value}",
+                                      "${userS.child("tags").children.toList()[index].child('time/from').value}:${userS.child("tags").children.toList()[index].child('time/to').value}",
                                   spotsLeft:
-                                      "${userS.children.toList()[index].child('totalslots').value.toString()}/25",
-                                  profile: "https://kntag.com/images/logo.png",
-                                  userProfile:
-                                      containerDetails[index].userProfileData,
+                                      "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
+                                  profile: userS
+                                      .child("users/$hostid/ProfileImage")
+                                      .value,
+                                  userProfile: [
+                                    userS
+                                            .child(
+                                                "users/${membersUid}/ProfileImage")
+                                            .value ??
+                                        userS
+                                            .child("users/$hostid/ProfileImage")
+                                            .value,
+                                  ],
                                   page: "Home",
                                 ),
                               )

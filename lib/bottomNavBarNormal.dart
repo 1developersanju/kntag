@@ -8,7 +8,6 @@ import 'package:kntag/ui/views/notification_view/notification_view.dart';
 import 'package:kntag/ui/views/post_view/create_tag_view.dart';
 
 class MyNavigationBar extends StatefulWidget {
-  
   @override
   _MyNavigationBarState createState() => _MyNavigationBarState();
 }
@@ -24,7 +23,6 @@ String profilepic3 =
     "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  
   late List<Widget> _pages;
   late Widget _page1;
   late Widget _page2;

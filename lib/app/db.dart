@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -146,9 +145,11 @@ createTag(values, context) async {
 
   await tagRef.set({
     "tagname": values['name'],
+    "hostProfile": values['hostProfile'],
     "hostname": values['host'],
     "hostId": values['hostId'],
     "membersttl": 0,
+    "membresProflie": {},
     "membersUID": {},
     "totalslots": values['slots'],
     "tagdescription": values['description'],
@@ -187,7 +188,8 @@ jointag(tagId) async {
 
   DatabaseReference tagRefAdduserUid =
       FirebaseDatabase.instance.ref("tags/${tagId}").child('membersUID');
-
+  DatabaseReference tagRefAdduserProfile =
+      FirebaseDatabase.instance.ref("tags/${tagId}").child('memberProfile');
   DatabaseEvent event = await tagRef.once();
 
   var totalmembers = event.snapshot.child('membersttl').value;
@@ -195,7 +197,7 @@ jointag(tagId) async {
 
   var increment = int.parse(totalmembers.toString()) + 1;
   tagRefAdduserUid.update({"$increment": user?.uid});
-
+  tagRefAdduserProfile.update({"$increment": user?.photoURL});
   var ttlSlots =
       int.parse(totalslots.toString()) - int.parse(totalmembers.toString());
   print("snapshot: ${ttlSlots}");
@@ -217,4 +219,9 @@ jointag(tagId) async {
   // userRef.update({
 
   // });
+}
+
+chat() {
+  DatabaseReference knchat =
+      FirebaseDatabase.instance.ref("knchat}");
 }

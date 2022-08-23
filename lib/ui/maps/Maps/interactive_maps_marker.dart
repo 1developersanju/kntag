@@ -12,7 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kntag/app/db.dart';
 import 'package:kntag/app/services/dialog.dart';
 import 'package:kntag/colorAndSize.dart';
-import 'package:kntag/ui/views/profile_view/profile_view.dart';
+import 'package:kntag/ui/views/profile_view/profile_test.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './utils.dart';
@@ -35,6 +35,8 @@ class InteractiveMapsMarker extends StatefulWidget {
   final void Function(int) changePage;
 
   final LatLng center;
+  final LatLng initialLocation;
+
   final double itemHeight;
   final double zoom;
   @required
@@ -47,6 +49,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final Alignment contentAlignment;
 
   InteractiveMapsMarker({
+    required this.initialLocation,
     required this.itemcount,
     required this.changePage,
     required this.items,
@@ -84,13 +87,14 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   ValueNotifier selectedMarker = ValueNotifier<int>(0);
   @override
   void initState() {
-    rebuildMarkers(currentIndex);
+    setState(() {});
+
+    rebuildMarkers(0);
     getCurrentLocation();
     rebuildMarkers(currentIndex + 1);
-    rebuildMarkers(currentIndex);
+    rebuildMarkers(currentIndex + 1 - 1);
 
     super.initState();
-    setState(() {});
   }
 
   @override
@@ -169,7 +173,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   onTap: () {
                     print("tappedd");
                     mapController.animateCamera(CameraUpdate.newCameraPosition(
-                        CameraPosition(target: widget.center, zoom: 17)
+                        CameraPosition(target: widget.center, zoom: 12)
                         //17 is new zoom level
                         ));
                   },
@@ -211,6 +215,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfileView(
+                                    userId: user!.uid,
                                     changePage: (int index) {
                                       // setState(() {
                                       //   currentIndexs = index;
@@ -239,7 +244,6 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         actions: [],
       ),
       body: StreamBuilder<int>(
-        initialData: null,
         builder: (context, snapshot) {
           return Stack(
             children: <Widget>[
@@ -279,7 +283,9 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   myLocationButtonEnabled: false,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: widget.center,
+                    target: widget.itemcount != 0
+                        ? widget.center
+                        : widget.initialLocation,
                     zoom: widget.zoom,
                   ),
                 );
@@ -311,6 +317,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   //   );
   // }
   Future<void> rebuildMarkers(int index) async {
+    print("located rebuildMarkers");
     int current = widget.items[index].id;
     String markerImages = widget.imgs[index].imgs;
 
@@ -319,8 +326,11 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
     //  getBytesFromAsset(
     //     'packages/interactive_maps_marker/assets/marker.png', 90);
     widget.markerIconSelected = await readNetworkImage(markerImages, 400);
+    print("got rebuildMarkers images");
 
     widget.items.forEach((item) {
+      print("entered rebuildMarkers foreach loop");
+
       _markers.add(
         Marker(
           markerId: MarkerId(item.id.toString()),
@@ -340,6 +350,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
               : BitmapDescriptor.fromBytes(widget.markerIcon),
         ),
       );
+      print("end rebuildMarkers");
     });
 
     // setState(() {

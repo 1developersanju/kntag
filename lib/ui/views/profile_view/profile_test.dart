@@ -23,6 +23,7 @@ class ProfileView extends StatefulWidget {
   final void Function(int) changePage;
 
   ProfileView({required this.changePage, required this.userId});
+
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -60,15 +61,19 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    List tagMembers = [];
+    List tagMembersProfile = [];
+    List createdTagsNames = [];
+    List createdTagslocation = [];
+    List createdTagsdate = [];
+    List createdTagstime = [];
+    List createdTagsdescription = [];
+
     final user = FirebaseAuth.instance.currentUser;
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
     final dbRef = FirebaseDatabase.instance.ref();
     final dbTagRef = FirebaseDatabase.instance.ref().child("tags");
-
-    List tagMembers = [];
-    List tagMembersProfile = [];
-    List createdTagsNames = [];
 
     return
         // wrong call in wrong place!
@@ -106,20 +111,18 @@ class _ProfileViewState extends State<ProfileView> {
               title: Text("Profile"),
             ),
             body: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  StreamBuilder(
-                      stream: dbRef.onValue,
-                      builder: (ctx, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        if (snapshot.hasData) {
-                          final userS = snapshot.data.snapshot;
-                          return Container(
+              child: StreamBuilder(
+                  stream: dbRef.onValue,
+                  builder: (ctx, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasData) {
+                      final userS = snapshot.data.snapshot;
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
                             color: Color.fromARGB(255, 88, 108, 125),
                             child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -404,7 +407,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     width: currentWidth,
                                     // height: currentHeight,
                                     color: bgColor,
-
                                     child: userS
                                                 .child(
                                                     "users/${widget.userId}/totaltags")
@@ -420,23 +422,11 @@ class _ProfileViewState extends State<ProfileView> {
                                                     "users/${widget.userId}/totaltags")
                                                 .value,
                                             itemBuilder: (context, index) {
-                                              var hostid = userS
+                                              var membersUid = userS
                                                   .child("tags")
                                                   .children
                                                   .toList()[index]
-                                                  .child('hostId')
-                                                  .value;
-                                              var membersUserid = userS
-                                                  .child("tags")
-                                                  .children
-                                                  .toList()[index]
-                                                  .child('tagname')
-                                                  .value;
-                                              var createdTagList = userS
-                                                  .child("users")
-                                                  .children
-                                                  .toList()[index]
-                                                  .child('createdTags')
+                                                  .child('membersUID')
                                                   .value;
                                               var membersTotal = userS
                                                   .child("tags")
@@ -445,82 +435,115 @@ class _ProfileViewState extends State<ProfileView> {
                                                   .child('membersttl')
                                                   .value;
                                               var createdtagCount = userS
-                                                  .child("users")
-                                                  .children
-                                                  .toList()[index]
-                                                  .child('totaltags')
+                                                  .child(
+                                                      "users/${widget.userId}/totaltags")
                                                   .value;
                                               var tagid = userS
                                                   .child(
                                                       "users/${widget.userId}/createdTags")
                                                   .value;
                                               try {
+                                                //members user name
                                                 for (int i = 1;
-                                                    i < membersTotal - 1;
+                                                    i <= membersTotal;
                                                     i++) {
                                                   tagMembers.add(userS
                                                       .child(
-                                                          "users/${membersUserid[i]}/UserName")
+                                                          "users/${membersUid[i]}/UserName")
                                                       .value);
                                                 }
+                                                //members profile
                                                 print("tagees $tagMembers");
-                                                //
                                                 for (int i = 1;
                                                     i <= membersTotal;
                                                     i++) {
                                                   tagMembersProfile.add(userS
                                                       .child(
-                                                          "users/${membersUserid[i]}/ProfileImage")
+                                                          "users/${membersUid[i]}/ProfileImage")
                                                       .value);
                                                 }
-                                                print(
-                                                    "tagees $tagMembersProfile");
-
+                                                //tag name
                                                 for (int i = 1;
                                                     i <= createdtagCount;
                                                     i++) {
                                                   createdTagsNames.add(userS
                                                       .child(
-                                                          "tags/${tagid[i]}/tagName")
+                                                          "tags/${tagid[i]}/tagname")
                                                       .value);
                                                 }
-                                                print(
-                                                    "tagees $tagMembersProfile");
+                                                //tag location
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagslocation.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/map/landmark")
+                                                      .value);
+                                                }
+                                                //tag date
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagsdate.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/time/datefrom")
+                                                      .value);
+                                                }
+                                                //tag time
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagstime.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/time/to")
+                                                      .value);
+                                                }
+                                                //tag description
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagsdescription.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/tagdescription")
+                                                      .value);
+                                                }
                                               } catch (e) {
                                                 print("EXCEPTION: : $e");
                                               }
-
                                               return BookClubContainer(
                                                 membersUid: [],
                                                 uid: "",
                                                 tagDesc: "",
-                                                hostName: "",
+                                                hostName: "${userS.child("users/${widget.userId}/UserName").value}",
                                                 hostid: "",
-                                                tagId: "${createdtagCount}",
+                                                tagId: "",
                                                 peopleProfileImg:
-                                                    tagMembersProfile,
-                                                peopleName: tagMembers,
+                                                    containerDetails[index]
+                                                        .profileImgs,
+                                                peopleName:
+                                                    containerDetails[index]
+                                                        .memberName,
                                                 latitude:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/map/latitude").value}",
+                                                    containerDetails[index]
+                                                        .latitude,
                                                 longitude:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/map/londitude").value}",
-                                                tagText: "${createdTagsNames[index]}",
-                                                joined:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/membersttl").value.toString()}",
+                                                    containerDetails[index]
+                                                        .longitude,
+                                                tagText:
+                                                    createdTagsNames[index],
+                                                joined: containerDetails[index]
+                                                    .joined,
                                                 location:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/map/landmark").value}",
-                                                date:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/time/datefrom").value}",
-                                                time:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/time/from").value}",
+                                                   createdTagslocation[index],
+                                                date: createdTagsdate[index],
+                                                time: createdTagstime[index],
                                                 spotsLeft:
-                                                    "${userS.child("tags/KjC91qWzPXZFCfzu5HBmqjnN9LD3Tag2468/totalslots").value}/25",
-                                                profile:
-                                                    "${userS.child("users/${widget.userId}/ProfileImage").value}",
-                                                userProfile: [
-                                                  "${userS.child("users/${widget.userId}/ProfileImage").value}",
-                                                  "${userS.child("users/${widget.userId}/ProfileImage").value}",
-                                                ],
+                                                    containerDetails[index]
+                                                        .spotLeft,
+                                                profile:  "${userS.child("users/${widget.userId}/ProfileImage").value}",
+                                                userProfile:
+                                                    containerDetails[index]
+                                                        .userProfileData,
                                                 page: "tags",
                                               );
                                             },
@@ -566,17 +589,17 @@ class _ProfileViewState extends State<ProfileView> {
                                                                       .red)))))
                                             ],
                                           ),
-                                  ),
+                                  )
                                 ]),
                             // margin: const EdgeInsets.all(10),
-                          );
-                        }
-                        return const Center(
-                          child: Text('There is something wrong!'),
-                        );
-                      }),
-                ],
-              ),
+                          ),
+                        ],
+                      );
+                    }
+                    return const Center(
+                      child: Text('There is something wrong!'),
+                    );
+                  }),
             ));
 
     // : Center(

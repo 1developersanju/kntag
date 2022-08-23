@@ -4,10 +4,12 @@
 
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/app/db.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/colorAndSize.dart';
+import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 
@@ -34,6 +36,7 @@ class EventDetailsView extends StatefulWidget {
   String tagId;
   EventDetailsView({
     required this.hostName,
+    required this.MembersList,
     required this.membersUid,
     required this.tagId,
     required this.date,
@@ -43,7 +46,6 @@ class EventDetailsView extends StatefulWidget {
     required this.time,
     required this.title,
     required this.hostid,
-    required this.MembersList,
     required this.membersJoined,
     required this.spotLeft,
     required this.ShowcaseImage,
@@ -70,6 +72,8 @@ List a = [
 ];
 
 class _EventDetailsViewState extends State<EventDetailsView> {
+  final dbRef = FirebaseDatabase.instance.ref();
+
   @override
   Widget build(BuildContext context) {
     final Event event = Event(
@@ -85,7 +89,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
 
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
-
+    List userProfileImgs = [];
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -104,341 +108,418 @@ class _EventDetailsViewState extends State<EventDetailsView> {
         //   )
         // ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // Expanded(
-          //   flex: 3,
-          //   child: PageView.builder(
-          //     padEnds: false,
-          //     controller: PageController(
-          //       viewportFraction: 4.2 / 6,
-          //     ),
-          //     physics: widget.ShowcaseImage.length == 1
-          //         ? NeverScrollableScrollPhysics()
-          //         : BouncingScrollPhysics(),
-          //     scrollDirection: Axis.horizontal,
-          //     itemBuilder: (BuildContext ctx, int index) {
-          //       return Padding(
-          //         padding: const EdgeInsets.all(5.0),
-          //         child: Container(
-          //             width: widget.ShowcaseImage.length == 1
-          //                 ? currentWidth * 0.9
-          //                 : currentWidth * 0.65,
-          //             height: currentHeight * 0.9,
-          //             child: Image.network(
-          //               widget.ShowcaseImage[index],
-          //               fit: BoxFit.cover,
-          //             )),
-          //       );
-          //     },
-          //     itemCount: widget.ShowcaseImage.length,
-          //   ),
-          // ),
-          Expanded(
-            flex: 4,
-            child: Container(
-                padding: EdgeInsets.only(left: 10, right: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Spacer(),
-                    //#Hash tag text
-                    GestureDetector(
-                      onTap: () {
-                        MapsLauncher.launchCoordinates(
-                            double.parse(widget.latitude),
-                            double.parse(widget.longitude),
-                            widget.title);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Text(
-                          widget.title,
-                          style: TextStyle(
-                              color: titleColor,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+      body: StreamBuilder(
+          stream: dbRef.child("users/${widget.hostid}").onValue,
+          builder: (ctx, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasData) {
+              final userS = snapshot.data!.snapshot.value;
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        //subText for tag timing & date
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                print("location tapped");
-                                Add2Calendar.addEvent2Cal(event);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Text(
-                                  "${widget.date} : ${widget.time}",
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: greyText,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                MapsLauncher.launchCoordinates(
-                                    double.parse(widget.latitude),
-                                    double.parse(widget.longitude),
-                                    widget.title);
-                              },
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(2.0),
+              for (var i = 0; i <= widget.membersUid.length - 1; i++) {
+                // var profile = dbRef.child("users/")['ProfileImage'][i];
+                var name = userS['UserName'][i];
+                userProfileImgs.add(name);
+              }
+              print("userrprofilee  ${widget.MembersList}");
+              // addmarkers(userS);
+              return Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Expanded(
+                      //   flex: 3,
+                      //   child: PageView.builder(
+                      //     padEnds: false,
+                      //     controller: PageController(
+                      //       viewportFraction: 4.2 / 6,
+                      //     ),
+                      //     physics: widget.ShowcaseImage.length == 1
+                      //         ? NeverScrollableScrollPhysics()
+                      //         : BouncingScrollPhysics(),
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (BuildContext ctx, int index) {
+                      //       return Padding(
+                      //         padding: const EdgeInsets.all(5.0),
+                      //         child: Container(
+                      //             width: widget.ShowcaseImage.length == 1
+                      //                 ? currentWidth * 0.9
+                      //                 : currentWidth * 0.65,
+                      //             height: currentHeight * 0.9,
+                      //             child: Image.network(
+                      //               widget.ShowcaseImage[index],
+                      //               fit: BoxFit.cover,
+                      //             )),
+                      //       );
+                      //     },
+                      //     itemCount: widget.ShowcaseImage.length,
+                      //   ),
+                      // ),
+                      Expanded(
+                        flex: 4,
+                        child: Container(
+                            padding: EdgeInsets.only(left: 10, right: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Spacer(),
+                                //#Hash tag text
+                                GestureDetector(
+                                  onTap: () {
+                                    MapsLauncher.launchCoordinates(
+                                        double.parse(widget.latitude),
+                                        double.parse(widget.longitude),
+                                        widget.title);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
                                     child: Text(
-                                      " Location : ${widget.location}",
+                                      widget.title,
                                       style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: greyText,
-                                          fontWeight: FontWeight.w400),
+                                          color: titleColor,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Spacer(),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8.0,
-                              left: 8,
-                              right: 8,
-                            ),
-                            child: Text(
-                              "14 mins away",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12.sp,
-                                  color: greyText),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    // Spacer(),
+                                ),
 
-                    //widget for the line after the subText
-                    Divider(
-                      thickness: 2.3,
-                    ),
-                    // Spacer(),
-                    //arrnging
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("hosted by:",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 11.sp,
-                                    color: greyText)),
-                            Text("${widget.hostName}",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w900,
-                                    color: greyText))
-                          ],
-                        ),
-                        Spacer(),
-                        CircleAvatar(
-                          backgroundImage: NetworkImage("${widget.host}"),
-                          radius: 2.7.h,
-                        )
-                      ],
-                    ),
-                    // Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 10),
-                      child: AutoSizeText(
-                        widget.tagDesc,
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w300,
-                            color: greyText),
-                        maxLines: 15,
-                      ),
-                    ),
-
-                    Spacer(),
-
-                    //
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: currentWidth,
-                        height: currentHeight * 0.075,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(whiteClr),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ))),
-                            onPressed: () {
-                              void _showSheet() {
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true, // set this to true
-                                  builder: (_) {
-                                    return DraggableScrollableSheet(
-                                      expand: false,
-                                      builder: (BuildContext context,
-                                          ScrollController scrollController) {
-                                        return Container(
-                                          color: bgColor,
-                                          child: ListView.builder(
-                                            controller: scrollController,
-                                            itemCount:
-                                                int.parse(widget.membersJoined),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  print("${widget.peopleName}");
-                                                },
-                                                child: Peopleview(
-                                                  name:
-                                                      widget.peopleName[index],
-                                                  profpic: widget
-                                                      .peopleProfileImg[index],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                );
-                              }
-
-                              _showSheet();
-                            },
-                            child: Row(
-                              //  mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                buildStackedImages(),
-                                Spacer(),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      "${widget.membersJoined} Joined",
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: greyText),
+                                    //subText for tag timing & date
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("location tapped");
+                                            Add2Calendar.addEvent2Cal(event);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              "${widget.date} : ${widget.time}",
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: greyText,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            MapsLauncher.launchCoordinates(
+                                                double.parse(widget.latitude),
+                                                double.parse(widget.longitude),
+                                                widget.title);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
+                                                child: Text(
+                                                  " Location : ${widget.location}",
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: greyText,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      "${widget.spotLeft} Spot Left",
-                                      style: TextStyle(
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: greyText),
-                                    ),
+                                    // Spacer(),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                          left: 8,
+                                          right: 8,
+                                        ),
+                                        child: Text(
+                                          "14 mins away",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12.sp,
+                                              color: greyText),
+                                        ),
+                                      ),
+                                    )
                                   ],
                                 ),
-                                SizedBox(
-                                  width: 8,
+                                // Spacer(),
+
+                                //widget for the line after the subText
+                                Divider(
+                                  thickness: 2.3,
                                 ),
-                                CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: iconCicle,
-                                  child: Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: buttonBlue,
+                                // Spacer(),
+                                //arrnging
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("hosted by:",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 11.sp,
+                                                color: greyText)),
+                                        Text("${widget.hostName}",
+                                            style: TextStyle(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w900,
+                                                color: greyText))
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfileView(
+                                                       userId: widget.hostid,
+                                                      changePage: (int index) {
+                                                        // setState(() {
+                                                        //   currentIndexs = index;
+                                                        // });
+                                                        print(
+                                                            "_changeTa2b $index");
+                                                      },
+                                                    )));
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            "${userS['ProfileImage']}"),
+                                        radius: 2.7.h,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                // Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12.0, bottom: 10),
+                                  child: AutoSizeText(
+                                    widget.tagDesc,
+                                    style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: greyText),
+                                    maxLines: 15,
                                   ),
                                 ),
+
+                                Spacer(),
+
+                                //
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: currentWidth,
+                                    height: currentHeight * 0.075,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(whiteClr),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ))),
+                                        onPressed: () {
+                                          void _showSheet() {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              isScrollControlled:
+                                                  true, // set this to true
+                                              builder: (_) {
+                                                return DraggableScrollableSheet(
+                                                  expand: false,
+                                                  builder: (BuildContext
+                                                          context,
+                                                      ScrollController
+                                                          scrollController) {
+                                                    return Container(
+                                                        color: bgColor,
+                                                        child:
+                                                            widget.membersJoined ==
+                                                                    "0"
+                                                                ? Center(
+                                                                    child: Text(
+                                                                        "No joined users available"),
+                                                                  )
+                                                                : ListView
+                                                                    .builder(
+                                                                    controller:
+                                                                        scrollController,
+                                                                    itemCount: int
+                                                                        .parse(widget
+                                                                            .membersJoined),
+                                                                    itemBuilder:
+                                                                        (BuildContext
+                                                                                context,
+                                                                            int index) {
+                                                                      return GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          print(
+                                                                              "${widget.peopleName}");
+                                                                        },
+                                                                        child:
+                                                                            Peopleview(
+                                                                          name:
+                                                                              widget.peopleName[index],
+                                                                          profpic:
+                                                                              widget.peopleProfileImg[index],
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  ));
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          }
+
+                                          _showSheet();
+                                        },
+                                        child: Row(
+                                          //  mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            buildStackedImages(),
+                                            Spacer(),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  "${widget.membersJoined} Joined",
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: greyText),
+                                                ),
+                                                Text(
+                                                  "${widget.spotLeft} Spot Left",
+                                                  style: TextStyle(
+                                                      fontSize: 11.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: greyText),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor: iconCicle,
+                                              child: Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 16,
+                                                color: buttonBlue,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                                // Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                      width: currentWidth,
+                                      height: currentHeight * 0.075,
+                                      child: widget.hostid == user?.uid ||
+                                              widget.membersUid
+                                                  .contains("${user?.uid}")
+                                          ? ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<Color>(
+                                                          Colors.green),
+                                                  shape: MaterialStateProperty
+                                                      .all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ))),
+                                              onPressed: () {
+                                                widget.hostid == user?.uid
+                                                    ? print("equal")
+                                                    : print("not equal");
+                                                // jointag(widget.tagId);
+                                                final snackBar = SnackBar(
+                                                  backgroundColor: Colors.green,
+                                                  content: Text('view tag'),
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                              },
+                                              child: Text(
+                                                "View Tag",
+                                                style:
+                                                    TextStyle(fontSize: 13.sp),
+                                              ))
+                                          : ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(buttonBlue),
+                                                  shape: MaterialStateProperty
+                                                      .all<RoundedRectangleBorder>(
+                                                          RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ))),
+                                              onPressed: () {
+                                                print("sent sussess");
+                                                jointag(widget.tagId);
+                                                final snackBar = SnackBar(
+                                                  backgroundColor: Colors.green,
+                                                  content: const Text(
+                                                      'joined successfully'),
+                                                );
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackBar);
+                                              },
+                                              child: Text(
+                                                "Join Tag",
+                                                style:
+                                                    TextStyle(fontSize: 13.sp),
+                                              ))),
+                                )
                               ],
                             )),
                       ),
-                    ),
-                    // Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: currentWidth,
-                        height: currentHeight * 0.075,
-                        child: widget.hostid == user?.uid ||
-                                widget.membersUid.contains("${user?.uid}")
-                            ?ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.green),
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ))),
-                                onPressed: () {
-                                  widget.hostid == user?.uid
-                                      ? print("equal")
-                                      : print("not equal");
-                                  // jointag(widget.tagId);
-                                  final snackBar = SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text('view tag'),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                },
-                                child: Text(
-                                  "View Tag",
-                                  style: TextStyle(fontSize: 13.sp),
-                                )) :ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            buttonBlue),
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ))),
-                                onPressed: () {
-                                  print("sent sussess");
-                                  jointag(widget.tagId);
-                                  final snackBar = SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: const Text('joined successfully'),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                },
-                                child: Text(
-                                  "Join Tag",
-                                  style: TextStyle(fontSize: 13.sp),
-                                ))
-                            
-                      ),
-                    )
-                  ],
-                )),
-          ),
-        ]),
-      ),
+                    ]),
+              );
+            }
+            return Center(
+              child: Text("Something went wrong"),
+            );
+          }),
     );
   }
 

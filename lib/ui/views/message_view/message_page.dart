@@ -14,6 +14,8 @@ import 'package:simple_animations/simple_animations.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../app/db.dart';
+
 class MessagePage extends StatefulWidget {
   List userProfile;
   String index;
@@ -313,7 +315,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 8, right: 6),
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(widget.userProfile[0]),
+                    backgroundImage: NetworkImage("${user!.photoURL}"),
                   ),
                 ),
                 ChatBubble(

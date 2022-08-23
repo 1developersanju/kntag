@@ -35,6 +35,8 @@ class _CreateTagViewState extends State<CreateTagView> {
   var textFromSecondScreen = "place";
   @override
   void initState() {
+    setState(() {});
+
     reload() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.reload();
@@ -42,7 +44,6 @@ class _CreateTagViewState extends State<CreateTagView> {
 
     reload();
     _loadCounter();
-    setState(() {});
     // TODO: implement initState
     super.initState();
   }
@@ -619,6 +620,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                               Map<String, dynamic> obj = {
                                                 "name": titleController.text,
                                                 "host": user?.displayName,
+                                                "hostProfile": user?.photoURL,
                                                 "slots": 25,
                                                 "description":
                                                     descriptionController.text,
@@ -678,12 +680,16 @@ class _CreateTagViewState extends State<CreateTagView> {
 
                                               if (formGlobalKey.currentState!
                                                   .validate()) {
-                                                createTag(obj, context);
+                                                await createTag(obj, context);
                                                 (Route<dynamic> route) => false;
                                                 setState(() {});
                                                 titleController.clear();
                                                 descriptionController.clear();
                                                 setState(() {});
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            'Successfully Added')));
                                                 widget.changePage(0);
                                               } else {
                                                 print("validate form");
