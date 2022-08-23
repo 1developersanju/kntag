@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:kntag/ui/views/saved_view/saved_view.dart';
 
 class Drawerpage extends StatefulWidget {

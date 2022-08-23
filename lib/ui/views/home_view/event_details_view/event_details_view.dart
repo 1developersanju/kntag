@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:kntag/app/db.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/colorAndSize.dart';
-import 'package:kntag/ui/views/profile_view/profile_view.dart';
+import 'package:kntag/ui/views/profile_view/profile_test.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 

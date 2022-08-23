@@ -12,7 +12,6 @@ import 'package:kntag/app/services/shared_pref.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 // import 'package:kntag/drawer.dart';
 import 'package:kntag/ui/maps/Maps/interactive_maps_marker.dart';
-import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:sizer/sizer.dart';

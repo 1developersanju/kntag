@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:kntag/ui/views/login_view/login_view.dart';
-import 'package:kntag/ui/views/profile_view/profile_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
