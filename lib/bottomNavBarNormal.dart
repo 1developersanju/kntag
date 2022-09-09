@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/ui/views/home_view/home_view%20copy.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/group_view/group_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
@@ -38,59 +39,59 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     _page1 = HomeMap(changePage: _changeTab);
     // InteractiveMapsMarker(changePage: _changeTab);
 
-    _page2 = MessagePage(
-        tagId: "",
-        userProfile: [
-          profilepic,
-          profilepic1,
-          profilepic2,
-          profilepic3,
-          profilepic,
-          profilepic1,
-          profilepic2,
-          profilepic3,
-          profilepic,
-          profilepic1,
-          profilepic2,
-          profilepic3,
-          profilepic,
-          profilepic1,
-          profilepic2,
-          profilepic3,
-          profilepic,
-          profilepic1,
-          profilepic2,
-          profilepic3,
-        ],
-        index: "knchat",
-        title: "KnChat",
-        joinedCount: "3",
-        leftCount: "leftCount",
-        host: "host",
-        location: "location",
-        showcaseImg: [],
-        time: "12:49",
-        latitude: "latitude",
-        longitude: "longitude",
-        peopleName: [
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-          "latitude",
-        ],
-        peopleProfileImg: []);
+    // _page2 = MessagePage(
+    //     tagId: "",
+    //     userProfile: [
+    //       profilepic,
+    //       profilepic1,
+    //       profilepic2,
+    //       profilepic3,
+    //       profilepic,
+    //       profilepic1,
+    //       profilepic2,
+    //       profilepic3,
+    //       profilepic,
+    //       profilepic1,
+    //       profilepic2,
+    //       profilepic3,
+    //       profilepic,
+    //       profilepic1,
+    //       profilepic2,
+    //       profilepic3,
+    //       profilepic,
+    //       profilepic1,
+    //       profilepic2,
+    //       profilepic3,
+    //     ],
+    //     index: "knchat",
+    //     title: "KnChat",
+    //     joinedCount: "3",
+    //     leftCount: "leftCount",
+    //     host: "host",
+    //     location: "location",
+    //     showcaseImg: [],
+    //     time: "12:49",
+    //     latitude: "latitude",
+    //     longitude: "longitude",
+    //     peopleName: [
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //       "latitude",
+    //     ],
+    //     peopleProfileImg: []);
     _page3 = CreateTagView(changePage: _changeTab);
     _page4 = NotificationView(
       title: "Notifications",
     );
-    _page5 = MessageView();
-    _pages = [_page1, _page2, _page3, _page4, _page5];
+    // _page5 = MessageView();
+    _pages = [_page1, _page3, _page4];
     _currentIndex = 0;
     _currentPage = _page1;
   }
@@ -129,19 +130,19 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 width: 25,
               ),
             ),
-            BottomNavigationBarItem(
-              label: " ",
-              activeIcon: Image.asset(
-                "assets/group_selection.png",
-                height: 40,
-                width: 40,
-              ),
-              icon: Image.asset(
-                "assets/tags_icon_unselected.png",
-                height: 25,
-                width: 25,
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   label: " ",
+            //   activeIcon: Image.asset(
+            //     "assets/group_selection.png",
+            //     height: 40,
+            //     width: 40,
+            //   ),
+            //   icon: Image.asset(
+            //     "assets/tags_icon_unselected.png",
+            //     height: 25,
+            //     width: 25,
+            //   ),
+            // ),
             BottomNavigationBarItem(
               label: "",
               activeIcon: Image.asset(
@@ -168,19 +169,19 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 width: 25,
               ),
             ),
-            BottomNavigationBarItem(
-              label: "",
-              activeIcon: Image.asset(
-                "assets/chat selection.png",
-                height: 40,
-                width: 40,
-              ),
-              icon: Image.asset(
-                "assets/chat_unselected.png",
-                height: 25,
-                width: 25,
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   label: "",
+            //   activeIcon: Image.asset(
+            //     "assets/chat selection.png",
+            //     height: 40,
+            //     width: 40,
+            //   ),
+            //   icon: Image.asset(
+            //     "assets/chat_unselected.png",
+            //     height: 25,
+            //     width: 25,
+            //   ),
+            // ),
           ],
           type: BottomNavigationBarType.shifting,
           elevation: 5),

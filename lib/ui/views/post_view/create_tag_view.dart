@@ -630,10 +630,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 "longitude": longitude,
                                                 "timefrm": "00:00",
                                                 "timeto": "00:00",
-                                                "datefrm":
-                                                    DateTime.now().toString(),
-                                                "dateto":
-                                                    DateTime.april.toString(),
+                                                "datefrm": startDate.toIso8601String(),
+                                                "dateto": endDate.toIso8601String(),
                                               };
 
                                               print("on pressed");

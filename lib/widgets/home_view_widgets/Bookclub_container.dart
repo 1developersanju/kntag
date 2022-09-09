@@ -463,12 +463,12 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                       SizedBox(
                                                         width: 5,
                                                       ),
-                                                      // Text(
-                                                      //   "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
-                                                      //   style: TextStyle(
-                                                      //       fontSize: 11.sp,
-                                                      //       color: greyText),
-                                                      // ),
+                                                      Text(
+                                                        "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                        style: TextStyle(
+                                                            fontSize: 11.sp,
+                                                            color: greyText),
+                                                      ),
                                                     ],
                                                   )
                                                 ]),

@@ -60,7 +60,11 @@ class _HomeMapState extends State<HomeMap> {
 
   addmarkers(userS) async {
     for (var i = 0; i < userS.child("tags").children.toList().length; i++) {
+      var hostid =
+          userS.child("tags").children.toList()[i].child('hostId').value;
       markers.add(MarkerItem(
+        tagname:
+            userS.child("tags").children.toList()[i].child('tagname').value,
         id: i,
         latitude: double.parse(userS
             .child("tags")
@@ -74,8 +78,7 @@ class _HomeMapState extends State<HomeMap> {
             .toList()[i]
             .child('map/londitude')
             .value),
-        imgs:
-            "https://github.com/1developersanju/img/blob/main/marker.png?raw=true",
+        imgs: userS.child("users/$hostid/ProfileImage").value,
       ));
     }
   }
@@ -159,7 +162,9 @@ class _HomeMapState extends State<HomeMap> {
                           ? LatLng(_currentPosition?.latitude ?? 0,
                               _currentPosition?.longitude ?? 0)
                           : LatLng(markers[0].latitude, markers[0].longitude),
-                      itemcount: userS.child("tags").children.toList().length,
+                      itemcount: userS.children.toList()[0].key == "tags"
+                          ? userS.child("tags").children.toList().length
+                          : 1,
                       changePage: _changeTab,
                       items: markers,
                       center: LatLng(_currentPosition?.latitude ?? 0,
@@ -171,26 +176,30 @@ class _HomeMapState extends State<HomeMap> {
                       //   return BottomTile(item: item);
                       // },
                       itemBuilder: (BuildContext context, int index) {
-                        var hostid = userS
-                            .child("tags")
-                            .children
-                            .toList()[index]
-                            .child('hostId')
-                            .value;
-                        var membersUid = userS
-                            .child("tags")
-                            .children
-                            .toList()[index]
-                            .child('membersUID')
-                            .value;
-
-                        var membersTotal = userS
-                            .child("tags")
-                            .children
-                            .toList()[index]
-                            .child('membersttl')
-                            .value;
+                        var hostid;
+                        var membersUid;
+                        var membersTotal;
                         try {
+                          hostid = userS
+                              .child("tags")
+                              .children
+                              .toList()[index]
+                              .child('hostId')
+                              .value;
+                          membersUid = userS
+                              .child("tags")
+                              .children
+                              .toList()[index]
+                              .child('membersUID')
+                              .value;
+
+                          membersTotal = userS
+                              .child("tags")
+                              .children
+                              .toList()[index]
+                              .child('membersttl')
+                              .value;
+
                           for (int i = 1; i <= membersTotal; i++) {
                             tagMembers.add(userS
                                 .child("users/${membersUid[i]}/UserName")
@@ -207,7 +216,7 @@ class _HomeMapState extends State<HomeMap> {
                           print("EXCEPTION: : $e");
                         }
 
-                        return markers.isNotEmpty
+                        return userS.children.toList().length == 2
                             ? Container(
                                 // margin: const EdgeInsets.all(10.0),
                                 height: currentHeight * 0.5,
@@ -235,11 +244,8 @@ class _HomeMapState extends State<HomeMap> {
                                       .toList()[index]
                                       .child('hostId')
                                       .value,
-                                  tagId: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .key,
+                                  tagId:
+                                      "${userS.child("tags").children.toList()[index].key}",
                                   peopleProfileImg: tagMembersProfile,
                                   peopleName: tagMembers,
                                   latitude: userS
@@ -254,12 +260,8 @@ class _HomeMapState extends State<HomeMap> {
                                       .toList()[index]
                                       .child('map/londitude')
                                       .value,
-                                  tagText: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('tagname')
-                                      .value,
+                                  tagText:
+                                      "#${userS.child("tags").children.toList()[index].child('tagname').value}",
                                   joined: userS
                                       .child("tags")
                                       .children
@@ -327,7 +329,7 @@ class _HomeMapState extends State<HomeMap> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                "Be the first person to create a tag in your location",
+                                                "Be the first person",
                                                 style: TextStyle(
                                                     fontFamily: "Singolare",
                                                     fontSize: 15.sp),
@@ -339,7 +341,7 @@ class _HomeMapState extends State<HomeMap> {
                                                             null
                                                         ? DialogBox.loginDialog(
                                                             context)
-                                                        : widget.changePage(2);
+                                                        : widget.changePage(1);
                                                   },
                                                   child: Text("Create Tag"),
                                                   style: ButtonStyle(

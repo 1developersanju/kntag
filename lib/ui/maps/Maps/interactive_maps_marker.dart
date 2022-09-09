@@ -15,6 +15,7 @@ import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/ui/views/profile_view/profile_test.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:widget_marker_google_map/widget_marker_google_map.dart';
 import './utils.dart';
 
 class MarkerItem {
@@ -22,13 +23,16 @@ class MarkerItem {
   double latitude;
   double longitude;
   String imgs;
+  String tagname;
   // String image;
 
-  MarkerItem(
-      {required this.id,
-      required this.latitude,
-      required this.longitude,
-      required this.imgs});
+  MarkerItem({
+    required this.id,
+    required this.latitude,
+    required this.longitude,
+    required this.imgs,
+    required this.tagname,
+  });
 }
 
 class InteractiveMapsMarker extends StatefulWidget {
@@ -76,26 +80,93 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   final geolocator =
       Geolocator.getCurrentPosition(forceAndroidLocationManager: true);
   Position? _currentPosition;
+
   late GoogleMapController mapController;
   PageController pageController = PageController(viewportFraction: 0.9);
 
-  Set<Marker> _markers = Set<Marker>();
+  List<WidgetMarker> allMarkers = [];
   List<Marker> customMarkers = [];
 
   int currentIndex = 0;
   int currentIndexs = 0;
   ValueNotifier selectedMarker = ValueNotifier<int>(0);
+
   @override
   void initState() {
+    rebuildMarkers(currentIndex);
+    widget.items.forEach((item) {
+      allMarkers.add(
+        WidgetMarker(
+          position: LatLng(item.latitude, item.longitude),
+          markerId: item.id.toString(),
+          draggable: true,
+          // infoWindow: InfoWindow(
+          //   title: element.shopName,
+          // ),
+          onTap: () {
+            int tappedIndex =
+                widget.items.indexWhere((element) => element.id == item.id);
+            pageController.animateToPage(
+              tappedIndex,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.bounceInOut,
+            );
+            _pageChanged(tappedIndex);
+          },
+          widget: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            child: Card(
+              color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: SizedBox(
+                  height: 50,
+                  width: 120,
+                  child: Center(
+                    // child: Image.network("${item.imgs}"),
+                    child: AutoSizeText(
+                      "⌗${item.tagname}",
+                      style: TextStyle(
+                          fontFamily: "Singolare",
+                          fontSize: 15,
+                          color: Colors.white),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        // Marker(
+        //     markerId: MarkerId(element.shopName),
+        //     draggable: true,
+        //     infoWindow:
+        //         InfoWindow(title: element.shopName, snippet: element.address),
+        //     position: element.locationCoords),
+      );
+    });
     setState(() {});
-
-    rebuildMarkers(0);
-    getCurrentLocation();
-    rebuildMarkers(currentIndex + 1);
-    rebuildMarkers(currentIndex + 1 - 1);
-
     super.initState();
+
+    getCurrentLocation();
+
+    // _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
+    //   ..addListener(() {
+    //     _onScroll();
+    //   });
+    // rebuildMarkers(currentIndex + 1);
+    // rebuildMarkers(currentIndex + 1 - 1);
   }
+
+  late PageController _pageController;
+
+  // void _onScroll() {
+  //   if (_pageController.page?.toInt() != previousPage) {
+  //     previousPage = _pageController.page!.toInt();
+  //     moveCamera();
+  //   }
+  // }
 
   @override
   void didChangeDependencies() {
@@ -255,8 +326,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: PageView.builder(
-                          itemCount:
-                              widget.itemcount == 0 ? 1 : widget.itemcount,
+                          itemCount: widget.itemcount,
                           controller: pageController,
                           onPageChanged: _pageChanged,
                           itemBuilder: widget.itemBuilder)),
@@ -276,9 +346,9 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         builder: (context, value, child) {
           return value == null
               ? Center(child: CircularProgressIndicator())
-              : GoogleMap(
+              : WidgetMarkerGoogleMap(
                   zoomControlsEnabled: false,
-                  markers: _markers,
+                  widgetMarkers: allMarkers,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
                   onMapCreated: _onMapCreated,
@@ -328,13 +398,16 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
     widget.markerIconSelected = await readNetworkImage(markerImages, 400);
     print("got rebuildMarkers images");
 
+    print("entered rebuildMarkers foreach loop");
     widget.items.forEach((item) {
-      print("entered rebuildMarkers foreach loop");
-
-      _markers.add(
-        Marker(
-          markerId: MarkerId(item.id.toString()),
+      allMarkers.add(
+        WidgetMarker(
           position: LatLng(item.latitude, item.longitude),
+          markerId: item.id.toString(),
+          draggable: true,
+          // infoWindow: InfoWindow(
+          //   title: element.shopName,
+          // ),
           onTap: () {
             int tappedIndex =
                 widget.items.indexWhere((element) => element.id == item.id);
@@ -345,13 +418,40 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             );
             _pageChanged(tappedIndex);
           },
-          icon: item.id == current
-              ? BitmapDescriptor.fromBytes(widget.markerIconSelected)
-              : BitmapDescriptor.fromBytes(widget.markerIcon),
+          widget: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            child: Card(
+              color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: SizedBox(
+                  height: 50,
+                  width: 120,
+                  child: Center(
+                    child: AutoSizeText(
+                      "⌗${item.tagname}",
+                      style: TextStyle(
+                          fontFamily: "Singolare",
+                          fontSize: 15,
+                          color: Colors.white),
+                      maxLines: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
+        // Marker(
+        //     markerId: MarkerId(element.shopName),
+        //     draggable: true,
+        //     infoWindow:
+        //         InfoWindow(title: element.shopName, snippet: element.address),
+        //     position: element.locationCoords),
       );
-      print("end rebuildMarkers");
     });
+
+    print("end rebuildMarkers");
 
     // setState(() {
     //   markers = _markers;
@@ -361,7 +461,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
 
   void _pageChanged(int index) {
     setState(() => currentIndex = index);
-    Marker marker = _markers.elementAt(index);
+    WidgetMarker marker = allMarkers.elementAt(index);
     rebuildMarkers(index);
 
     mapController

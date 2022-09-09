@@ -140,10 +140,10 @@ login() async {
 createTag(values, context) async {
   print("entered create tag ${values['name']}");
 
-  DatabaseReference tagRef = FirebaseDatabase.instance
-      .ref("tags/${(user?.uid).toString() + "Tag" + random.toString()}");
+  DatabaseReference tagRef = FirebaseDatabase.instance.ref("tags");
+  DatabaseReference newPostRef = tagRef.push();
 
-  await tagRef.set({
+  await newPostRef.set({
     "tagname": values['name'],
     "hostProfile": values['hostProfile'],
     "hostname": values['host'],
@@ -166,7 +166,7 @@ createTag(values, context) async {
     }
   });
 
-  updateUserOnCreate(tagRef.key, '');
+  updateUserOnCreate(newPostRef.key, '');
   print("tagrefrence: ${tagRef.key}");
   //return promise
   var snackBar = SnackBar(
@@ -222,6 +222,5 @@ jointag(tagId) async {
 }
 
 chat() {
-  DatabaseReference knchat =
-      FirebaseDatabase.instance.ref("knchat}");
+  DatabaseReference knchat = FirebaseDatabase.instance.ref("knchat}");
 }

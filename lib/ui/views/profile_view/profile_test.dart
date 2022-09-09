@@ -65,9 +65,13 @@ class _ProfileViewState extends State<ProfileView> {
     List tagMembersProfile = [];
     List createdTagsNames = [];
     List createdTagslocation = [];
+    List createdTagslatitude = [];
+    List createdTagslongitude = [];
     List createdTagsdate = [];
     List createdTagstime = [];
     List createdTagsdescription = [];
+    List createdTagsMembersCount = [];
+    List createdTagsSlotsleft = [];
 
     final user = FirebaseAuth.instance.currentUser;
     final currentWidth = MediaQuery.of(context).size.width;
@@ -87,8 +91,8 @@ class _ProfileViewState extends State<ProfileView> {
                             final provider = Provider.of<GoogleLoginProvider>(
                                 context,
                                 listen: false);
-                            provider.logout();
-
+                            // provider.logout();
+                            FirebaseAuth.instance.signOut();
                             provider.googleLogin;
                             Navigator.pop(context);
                           }
@@ -480,6 +484,24 @@ class _ProfileViewState extends State<ProfileView> {
                                                           "tags/${tagid[i]}/map/landmark")
                                                       .value);
                                                 }
+                                                //tag latitude
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagslocation.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/map/latitude")
+                                                      .value);
+                                                }
+                                                //tag longitude
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagslocation.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/map/londitude")
+                                                      .value);
+                                                }
                                                 //tag date
                                                 for (int i = 1;
                                                     i <= createdtagCount;
@@ -498,6 +520,16 @@ class _ProfileViewState extends State<ProfileView> {
                                                           "tags/${tagid[i]}/time/to")
                                                       .value);
                                                 }
+                                                //slots left
+
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagsSlotsleft.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/totalslots")
+                                                      .value);
+                                                }
                                                 //tag description
                                                 for (int i = 1;
                                                     i <= createdtagCount;
@@ -512,17 +544,16 @@ class _ProfileViewState extends State<ProfileView> {
                                               }
                                               return BookClubContainer(
                                                 membersUid: [],
-                                                uid: "",
-                                                tagDesc: "",
-                                                hostName: "${userS.child("users/${widget.userId}/UserName").value}",
-                                                hostid: "",
+                                                uid: widget.userId,
+                                                tagDesc: createdTagsdescription[
+                                                    index],
+                                                hostName:
+                                                    "${userS.child("users/${widget.userId}/UserName").value}",
+                                                hostid: widget.userId,
                                                 tagId: "",
                                                 peopleProfileImg:
-                                                    containerDetails[index]
-                                                        .profileImgs,
-                                                peopleName:
-                                                    containerDetails[index]
-                                                        .memberName,
+                                                    tagMembersProfile,
+                                                peopleName: tagMembers,
                                                 latitude:
                                                     containerDetails[index]
                                                         .latitude,
@@ -531,16 +562,15 @@ class _ProfileViewState extends State<ProfileView> {
                                                         .longitude,
                                                 tagText:
                                                     createdTagsNames[index],
-                                                joined: containerDetails[index]
-                                                    .joined,
+                                                joined: "${membersTotal}",
                                                 location:
-                                                   createdTagslocation[index],
+                                                    createdTagslocation[index],
                                                 date: createdTagsdate[index],
                                                 time: createdTagstime[index],
                                                 spotsLeft:
-                                                    containerDetails[index]
-                                                        .spotLeft,
-                                                profile:  "${userS.child("users/${widget.userId}/ProfileImage").value}",
+                                                    "${createdTagsSlotsleft[index]}/25",
+                                                profile:
+                                                    "${userS.child("users/${widget.userId}/ProfileImage").value}",
                                                 userProfile:
                                                     containerDetails[index]
                                                         .userProfileData,
@@ -570,7 +600,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                               context);
                                                         }
                                                       : () {
-                                                          widget.changePage(2);
+                                                          widget.changePage(1);
                                                           print("object");
                                                           Navigator.of(context)
                                                               .pop();

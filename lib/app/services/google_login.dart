@@ -41,15 +41,27 @@ class GoogleLoginProvider extends ChangeNotifier {
 
   @override
   notifyListeners();
-  logout() async {
-    await googleLogin.disconnect();
-    FirebaseAuth.instance.signOut();
-    await _auth.signOut();
-    print("logged Out");
+  // logout() async {
+  //   await googleLogin.disconnect();
+  //   FirebaseAuth.instance.signOut();
+  //   await _auth.signOut();
+  //   print("logged Out");
+  // }
+
+   Future<void> logout() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    await _auth.signOut().then((_) {
+      GoogleSignIn _googleSignIn = GoogleSignIn();
+
+      //try the following
+      _googleSignIn.signOut();
+      //try the following
+
+      // Navigator.of().pushNamedAndRemoveUntil("/login", ModalRoute.withName("/home"));
+    });
   }
 }
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 // getCurrentUser() async {
 //   final User user = await _auth.currentUser!;
