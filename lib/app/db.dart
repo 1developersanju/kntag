@@ -19,6 +19,11 @@ DatabaseReference userRef = FirebaseDatabase.instance.ref("users/${user?.uid}");
 FirebaseDatabase db = FirebaseDatabase.instance;
 
 createUser() async {
+  DatabaseReference notification = FirebaseDatabase.instance
+      .ref("users/${user?.uid}")
+      .child('Notifications')
+      .ref;
+
   await userRef.set({
     "UserName": "${user?.displayName}",
     "Description": "Something about you...!",
@@ -27,7 +32,9 @@ createUser() async {
     "totaltags": 0,
     "totaljoinedtags": 0,
     "JoinedTags": arrset([]),
+    "Notifications": arrset([]),
   });
+
   print("added");
 }
 
@@ -54,10 +61,11 @@ updateUserOnCreate(createdTagId, joinedTagId) async {
   print("update");
 }
 
-updateUserOnJoin(joinedTagId) async {
+updateUserOnJoin(joinedTagId, hostId) async {
   DatabaseReference userRef =
       FirebaseDatabase.instance.ref("users/${user?.uid}");
-
+  DatabaseReference hostRef =
+      FirebaseDatabase.instance.ref("users/${hostId}").child('Notifications');
   DatabaseReference userRefaddCreatedTags =
       FirebaseDatabase.instance.ref("users/${user?.uid}").child('JoinedTags');
 
@@ -68,6 +76,7 @@ updateUserOnJoin(joinedTagId) async {
   var increment = int.parse(totaltags.toString()) + 1;
   print("snapshot: ${increment}");
   userRefaddCreatedTags.update({'$increment': joinedTagId});
+  hostRef.update({"$joinedTagId": user?.uid});
   userRef.update({
     // "Description": "",
     "totaljoinedtags": increment,
@@ -81,7 +90,6 @@ updateTagOnJoin() {}
 deleteTag() {}
 getUsers() {}
 getTags() {}
-
 arrset(arra) {
   return (json.encode({'arr': arra}));
 }
@@ -183,7 +191,7 @@ createTag(values, context) async {
   showSnackbar(context);
 }
 
-jointag(tagId) async {
+jointag(tagId, hostId) async {
   DatabaseReference tagRef = FirebaseDatabase.instance.ref("tags/${tagId}");
 
   DatabaseReference tagRefAdduserUid =
@@ -206,7 +214,7 @@ jointag(tagId) async {
     "membersttl": increment,
     "totalslots": ttlSlots,
   });
-  updateUserOnJoin(tagId);
+  updateUserOnJoin(tagId, hostId);
   // DatabaseReference tagRef =
   //     FirebaseDatabase.instance.ref("tags/${values.tagid}");
   // var memttl = tagRef.child("membersttl").get();

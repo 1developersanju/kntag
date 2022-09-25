@@ -495,7 +495,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                   ))),
                                               onPressed: () {
                                                 print("sent sussess");
-                                                jointag(widget.tagId);
+                                                jointag(widget.tagId,widget.hostid);
                                                 final snackBar = SnackBar(
                                                   backgroundColor: Colors.green,
                                                   content: const Text(
