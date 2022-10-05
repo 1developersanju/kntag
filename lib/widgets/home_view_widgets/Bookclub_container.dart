@@ -640,7 +640,9 @@ class _BookClubContainerState extends State<BookClubContainer> {
 
   //Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages(double size) {
-    final urlImages = widget.userProfile;
+    final urlImages = widget.peopleProfileImg != 0
+        ? widget.peopleProfileImg
+        : [widget.profile];
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 

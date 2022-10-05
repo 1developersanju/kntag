@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_street_map/flutter_open_street_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:kntag/app/services/shared_pref.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,7 @@ class _StreetMapState extends State<StreetMap> {
     // TODO: implement initState
     super.initState();
     getCurrentLocation();
+    prefs?.reload();
   }
 
   void getAddressFromLatLng() async {

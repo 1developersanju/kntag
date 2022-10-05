@@ -35,6 +35,8 @@ class _CreateTagViewState extends State<CreateTagView> {
   var textFromSecondScreen = "place";
   @override
   void initState() {
+    _loadCounter();
+
     setState(() {});
 
     reload() async {
@@ -43,7 +45,6 @@ class _CreateTagViewState extends State<CreateTagView> {
     }
 
     reload();
-    _loadCounter();
     // TODO: implement initState
     super.initState();
   }
@@ -630,8 +631,10 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 "longitude": longitude,
                                                 "timefrm": "00:00",
                                                 "timeto": "00:00",
-                                                "datefrm": startDate.toIso8601String(),
-                                                "dateto": endDate.toIso8601String(),
+                                                "datefrm":
+                                                    startDate.toIso8601String(),
+                                                "dateto":
+                                                    endDate.toIso8601String(),
                                               };
 
                                               print("on pressed");

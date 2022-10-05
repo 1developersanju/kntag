@@ -11,14 +11,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 final user = FirebaseAuth.instance.currentUser;
 final databaseReference = FirebaseDatabase.instance;
 
-var random = Random().nextInt(9999);
+// var random = Random().nextInt(9999);
 DatabaseReference userRef = FirebaseDatabase.instance.ref("users/${user?.uid}");
+DatabaseReference knchat = FirebaseDatabase.instance.ref("knchat");
+
 // DatabaseReference tagRef = FirebaseDatabase.instance
 //     .ref("tags/${(user?.uid).toString() + "Tag" + random.toString()}");
 
 FirebaseDatabase db = FirebaseDatabase.instance;
-
+var notification_count = 0;
 createUser() async {
+  // chat();
+
   DatabaseReference notification = FirebaseDatabase.instance
       .ref("users/${user?.uid}")
       .child('Notifications')
@@ -33,6 +37,7 @@ createUser() async {
     "totaljoinedtags": 0,
     "JoinedTags": arrset([]),
     "Notifications": arrset([]),
+    "NotificationCount": notification_count,
   });
 
   print("added");
@@ -72,17 +77,32 @@ updateUserOnJoin(joinedTagId, hostId) async {
   DatabaseEvent event = await userRef.once();
 
   var totaltags = event.snapshot.child('totaljoinedtags').value;
-
-  var increment = int.parse(totaltags.toString()) + 1;
+  var notificount = event.snapshot.child('NotificationCount').value;
+  var increment = int.parse(notificount.toString()) + 1;
   print("snapshot: ${increment}");
-  userRefaddCreatedTags.update({'$increment': joinedTagId});
-  hostRef.update({"$joinedTagId": user?.uid});
-  userRef.update({
-    // "Description": "",
-    "totaljoinedtags": increment,
+  userRefaddCreatedTags.update({'$increment r': joinedTagId});
+  final snapshot = await userRef.child('users/${user?.uid}').get();
+  var Notificationcount = int.parse(notificount.toString()) + 1;
 
-    // "JoinedTags": arrset([]),
+  // userRef.update({
+  //   // "Description": "",
+  //   "NotificationCount": notification_count,
+
+  //   // "JoinedTags": arrset([]),
+  // });
+  hostRef.push().set({
+    "userId": user?.uid,
+    "joinedTag": joinedTagId,
+    "status": "joined"
+  }).then((value) {
+    userRef.update({
+      // "Description": "",
+      "NotificationCount": Notificationcount,
+
+      // "JoinedTags": arrset([]),
+    });
   });
+
   print("update joined user");
 }
 
@@ -105,6 +125,7 @@ newuser() async {
   // print("USER ID ${user?.uid}");
   if (snapshot.value == null) {
     print("heyyy ${snapshot.value}");
+
     createUser();
     return true;
   } else {
@@ -229,6 +250,23 @@ jointag(tagId, hostId) async {
   // });
 }
 
-chat() {
-  DatabaseReference knchat = FirebaseDatabase.instance.ref("knchat}");
+chat() async {
+  DatabaseReference knchat = FirebaseDatabase.instance.ref("knchat");
+
+  knchat.set({
+    "tagId": "",
+    "userProfile": arrset([]),
+    "index": "knchat",
+    "title": "KnChat",
+    "joinedCount": "",
+    "leftCount": "",
+    "host": "",
+    "location": "",
+    "showcaseImg": arrset([]),
+    "time": "",
+    "latitude": "",
+    "longitude": "",
+    "peopleName": arrset([]),
+    "peopleProfileImg": arrset([]),
+  });
 }

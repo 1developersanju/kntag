@@ -290,7 +290,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     ProfileView(
-                                                       userId: widget.hostid,
+                                                      userId: widget.hostid,
                                                       changePage: (int index) {
                                                         // setState(() {
                                                         //   currentIndexs = index;
@@ -342,6 +342,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                   BorderRadius.circular(8.0),
                                             ))),
                                         onPressed: () {
+                                          print("peeps:${widget.peopleName}");
+
                                           void _showSheet() {
                                             showModalBottomSheet(
                                               context: context,
@@ -377,8 +379,18 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                                       return GestureDetector(
                                                                         onTap:
                                                                             () {
-                                                                          print(
-                                                                              "${widget.peopleName}");
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                  builder: (context) => ProfileView(
+                                                                                        userId: widget.membersUid[index],
+                                                                                        changePage: (int index) {
+                                                                                          // setState(() {
+                                                                                          //   currentIndexs = index;
+                                                                                          // });
+                                                                                          print("_changeTa2b $index");
+                                                                                        },
+                                                                                      )));
                                                                         },
                                                                         child:
                                                                             Peopleview(
@@ -495,7 +507,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                   ))),
                                               onPressed: () {
                                                 print("sent sussess");
-                                                jointag(widget.tagId,widget.hostid);
+                                                jointag(widget.tagId,
+                                                    widget.hostid);
                                                 final snackBar = SnackBar(
                                                   backgroundColor: Colors.green,
                                                   content: const Text(
@@ -526,7 +539,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
   // Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages() {
     final double size = 9.w;
-    final urlImages = widget.MembersList;
+    final urlImages = widget.peopleProfileImg;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 

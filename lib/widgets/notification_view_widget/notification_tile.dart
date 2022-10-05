@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/colorAndSize.dart';
+import 'package:kntag/ui/views/profile_view/profile_test.dart';
 import 'package:sizer/sizer.dart';
 
 class NotificationTile extends StatefulWidget {
@@ -8,12 +9,14 @@ class NotificationTile extends StatefulWidget {
   String status;
   // String date;
   String oppName;
+  String hostId;
 
   NotificationTile({
     required this.oppProfile,
     required this.tagText,
     required this.status,
     // String date;
+    required this.hostId,
     required this.oppName,
   });
 
@@ -41,9 +44,25 @@ class _NotificationTileState extends State<NotificationTile> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  widget.oppProfile,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileView(
+                                userId: widget.hostId,
+                                changePage: (int index) {
+                                  // setState(() {
+                                  //   currentIndexs = index;
+                                  // });
+                                  print("_changeTa2b $index");
+                                },
+                              )));
+                },
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    widget.oppProfile,
+                  ),
                 ),
               ),
               SizedBox(
@@ -77,7 +96,7 @@ class _NotificationTileState extends State<NotificationTile> {
                             )
                           : Expanded(
                               child: Text(
-                                "Has ${widget.status}ed your request",
+                                "Has ${widget.status}ed your Tag",
                                 //"13 Joined\n12/25 Spot Left",
                                 style: TextStyle(
                                     color: Colors.black38, fontSize: 10.sp),
@@ -85,7 +104,7 @@ class _NotificationTileState extends State<NotificationTile> {
                             ),
                       Expanded(
                         child: Text(
-                          "${widget.tagText}",
+                          "#${widget.tagText}",
                           //"13 Joined\n12/25 Spot Left",
                           style:
                               TextStyle(color: Colors.black38, fontSize: 11.sp),

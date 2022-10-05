@@ -447,6 +447,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                       "users/${widget.userId}/createdTags")
                                                   .value;
                                               try {
+                                                tagMembersProfile.clear();
+                                                tagMembers.clear();
                                                 //members user name
                                                 for (int i = 1;
                                                     i <= membersTotal;
@@ -458,6 +460,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 }
                                                 //members profile
                                                 print("tagees $tagMembers");
+
                                                 for (int i = 1;
                                                     i <= membersTotal;
                                                     i++) {
@@ -552,8 +555,14 @@ class _ProfileViewState extends State<ProfileView> {
                                                 hostid: widget.userId,
                                                 tagId: "",
                                                 peopleProfileImg:
-                                                    tagMembersProfile,
-                                                peopleName: tagMembers,
+                                                    membersTotal != 0
+                                                        ? tagMembersProfile
+                                                        : [
+                                                            "${userS.child("users/${widget.userId}/ProfileImage").value}",
+                                                          ],
+                                                peopleName: membersTotal != 0
+                                                    ? tagMembers
+                                                    : [""],
                                                 latitude:
                                                     containerDetails[index]
                                                         .latitude,

@@ -178,6 +178,7 @@ class _HomeMapState extends State<HomeMap> {
                       itemBuilder: (BuildContext context, int index) {
                         var hostid;
                         var membersUid;
+                        List participantsUid = [];
                         var membersTotal;
                         try {
                           hostid = userS
@@ -200,18 +201,35 @@ class _HomeMapState extends State<HomeMap> {
                               .child('membersttl')
                               .value;
 
-                          for (int i = 1; i <= membersTotal; i++) {
-                            tagMembers.add(userS
-                                .child("users/${membersUid[i]}/UserName")
-                                .value);
+                          participantsUid.clear();
+
+                          // TODO: implement initState
+                          for (var element in membersUid) {
+                            participantsUid.add(element);
+                            participantsUid.remove(null);
+                            // print("namee:${widget.peopleName}");
+
+                            // name.removeAt(0);
+                            // peoplename.add(name);
                           }
                           print("tagees $tagMembers");
-                          for (int i = 1; i <= membersTotal; i++) {
+                          tagMembersProfile.clear();
+
+                          for (var element in membersUid) {
                             tagMembersProfile.add(userS
-                                .child("users/${membersUid[i]}/ProfileImage")
+                                .child("users/${element}/ProfileImage")
                                 .value);
+                            tagMembersProfile.remove(null);
+                            print("name::${tagMembersProfile}");
                           }
-                          print("tagees $tagMembers");
+                          tagMembers.clear();
+
+                          for (var element in membersUid) {
+                            tagMembers.add(
+                                userS.child("users/${element}/UserName").value);
+                            tagMembers.remove(null);
+                            print("name::${tagMembers}");
+                          }
                         } catch (e) {
                           print("EXCEPTION: : $e");
                         }
@@ -221,13 +239,7 @@ class _HomeMapState extends State<HomeMap> {
                                 // margin: const EdgeInsets.all(10.0),
                                 height: currentHeight * 0.5,
                                 child: BookClubContainer(
-                                  membersUid: userS
-                                          .child("tags")
-                                          .children
-                                          .toList()[index]
-                                          .child('membersUID')
-                                          .value ??
-                                      [''],
+                                  membersUid: participantsUid,
                                   uid: "${user?.uid}",
                                   tagDesc: userS
                                       .child("tags")
@@ -261,6 +273,7 @@ class _HomeMapState extends State<HomeMap> {
                                       .child('map/londitude')
                                       .value,
                                   tagText:
+                                      // "#${userS.child("tags").children.toList()[index].child('membersUID').value}",
                                       "#${userS.child("tags").children.toList()[index].child('tagname').value}",
                                   joined: userS
                                       .child("tags")
