@@ -539,7 +539,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
   // Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages() {
     final double size = 9.w;
-    final urlImages = widget.peopleProfileImg;
+    final urlImages =
+        widget.membersJoined == "0" ? [widget.host] : widget.peopleProfileImg;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 
