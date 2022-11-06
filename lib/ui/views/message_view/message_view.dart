@@ -44,12 +44,12 @@ class _MessageViewState extends State<MessageView>
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     for (var i = 0; i <= containerDetails.length - 1; i++) {
       var getdate = containerDetails[i].date;
-      if (formattedDate.compareTo(getdate) == 0) {
+      if (formattedDate.compareTo(getdate) > 0) {
         active.add(containerDetails[i]);
         // print("active ${active[i].tagText}");
       }
 
-      if (formattedDate.compareTo(getdate) < 0) {
+      if (formattedDate.compareTo(getdate) > 0) {
         old.add(containerDetails[i]);
         // print("old ${old[i].tagText}");
       }
@@ -115,6 +115,7 @@ class _MessageViewState extends State<MessageView>
                   itemCount: old.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: old[index].memberName,
@@ -163,6 +164,7 @@ class _MessageViewState extends State<MessageView>
                   //  active.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: active[index].memberName,
@@ -210,6 +212,7 @@ class _MessageViewState extends State<MessageView>
                   itemCount: upcoming.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: upcoming[index].memberName,

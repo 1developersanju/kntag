@@ -263,56 +263,58 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   ),
                 ),
                 Spacer(),
-                AutoSizeText(
-                  "Kntag",
-                  style: TextStyle(
-                      color: titleColor,
-                      fontSize: 25.sp,
-                      fontFamily: "Singolare",
-                      fontStyle: FontStyle.normal),
-                  maxLines: 1,
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                      onTap: () {
-                        print(user?.displayName);
-                        // print("user Data${getData()}");
 
-                        // print("object");
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfileView(
-                                    userId: user!.uid,
-                                    changePage: (int index) {
-                                      // setState(() {
-                                      //   currentIndexs = index;
-                                      // });
-                                      print("_changeTa2b $index");
-                                      widget.changePage(index);
-                                    },
-                                  )),
-                        );
-                      },
-                      child: Hero(
-                        tag: "profile",
-                        child: FirebaseAuth.instance.currentUser != null
-                            ? CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage("${user?.photoURL}"))
-                            : GestureDetector(
-                                onTap: () => DialogBox.loginDialog(context),
-                                child: CircleAvatar(child: Icon(Icons.person))),
-                      )),
-                ),
+                // Spacer(),
               ],
             ),
           ),
         ),
-        actions: [],
+        title: AutoSizeText(
+          "Kntag",
+          style: TextStyle(
+              color: titleColor,
+              fontSize: 25.sp,
+              fontFamily: "Singolare",
+              fontStyle: FontStyle.normal),
+          maxLines: 1,
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap: () {
+                  print(user?.displayName);
+                  // print("user Data${getData()}");
+
+                  // print("object");
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileView(
+                              userId: user!.uid,
+                              changePage: (int index) {
+                                // setState(() {
+                                //   currentIndexs = index;
+                                // });
+                                print("_changeTa2b $index");
+                                widget.changePage(index);
+                              },
+                            )),
+                  );
+                },
+                child: Hero(
+                  tag: "profile",
+                  child: FirebaseAuth.instance.currentUser != null
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage("${user?.photoURL}"))
+                      : GestureDetector(
+                          onTap: () => DialogBox.loginDialog(context),
+                          child: CircleAvatar(child: Icon(Icons.person))),
+                )),
+          ),
+        ],
       ),
       body: StreamBuilder<int>(
         builder: (context, snapshot) {
@@ -347,12 +349,16 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
           return value == null
               ? Center(child: CircularProgressIndicator())
               : WidgetMarkerGoogleMap(
+                  compassEnabled: false,
+                  indoorViewEnabled: true,
                   zoomControlsEnabled: false,
+                  buildingsEnabled: true,
+                  zoomGesturesEnabled: true,
                   widgetMarkers: allMarkers,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
                   onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
+                  initialCameraPosition: CameraPosition(  
                     target: widget.itemcount != 0
                         ? widget.center
                         : widget.initialLocation,

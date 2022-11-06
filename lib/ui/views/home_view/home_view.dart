@@ -147,7 +147,11 @@ class _HomeMapState extends State<HomeMap> {
           stream: dbRef.onValue,
           builder: (ctx, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Stack(
+                children: [
+                  const Center(child: CircularProgressIndicator()),
+                ],
+              );
             }
             if (snapshot.hasData) {
               final userS = snapshot.data.snapshot;
@@ -155,14 +159,15 @@ class _HomeMapState extends State<HomeMap> {
               addmarkers(userS);
               return _currentPosition == null
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: LinearProgressIndicator(),
                     )
                   : InteractiveMapsMarker(
                       initialLocation: markers.isEmpty
                           ? LatLng(_currentPosition?.latitude ?? 0,
                               _currentPosition?.longitude ?? 0)
                           : LatLng(markers[0].latitude, markers[0].longitude),
-                      itemcount: userS.children.toList()[0].key == "tags"
+                      itemcount: userS.children.toList()[0].key == "tags" ||
+                              userS.children.toList()[1].key == "tags"
                           ? userS.child("tags").children.toList().length
                           : 1,
                       changePage: _changeTab,
@@ -192,7 +197,7 @@ class _HomeMapState extends State<HomeMap> {
                               .children
                               .toList()[index]
                               .child('membersUID')
-                              .value;
+                              .value.toList();
 
                           membersTotal = userS
                               .child("tags")
@@ -234,7 +239,8 @@ class _HomeMapState extends State<HomeMap> {
                           print("EXCEPTION: : $e");
                         }
 
-                        return userS.children.toList().length == 2
+                        return userS.children.toList()[0].key == "tags" ||
+                                userS.children.toList()[1].key == "tags"
                             ? Container(
                                 // margin: const EdgeInsets.all(10.0),
                                 height: currentHeight * 0.5,
@@ -288,14 +294,10 @@ class _HomeMapState extends State<HomeMap> {
                                       .toList()[index]
                                       .child('map/landmark')
                                       .value,
-                                  date: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('time/datefrom')
-                                      .value,
+                                  date:
+                                      "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
                                   time:
-                                      "${userS.child("tags").children.toList()[index].child('time/from').value}:${userS.child("tags").children.toList()[index].child('time/to').value}",
+                                      " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
                                   spotsLeft:
                                       "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
                                   profile: userS
@@ -354,7 +356,7 @@ class _HomeMapState extends State<HomeMap> {
                                                             null
                                                         ? DialogBox.loginDialog(
                                                             context)
-                                                        : widget.changePage(1);
+                                                        : widget.changePage(2);
                                                   },
                                                   child: Text("Create Tag"),
                                                   style: ButtonStyle(

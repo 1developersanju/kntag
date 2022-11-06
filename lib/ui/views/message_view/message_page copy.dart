@@ -1,5 +1,4 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -17,7 +16,6 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../app/db.dart';
-import '../profile_view/profile_test.dart';
 
 class MessagePage extends StatefulWidget {
   List userProfile;
@@ -59,7 +57,6 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> with AnimationMixin {
   final textController = TextEditingController();
-
   final _scrollController = ScrollController();
   var eventRating = 0.0;
   var hostRating = 0.0;
@@ -94,7 +91,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
   ];
   late Animation<double> opacity;
   var isVisible = true;
-  var israted = false;
 
   @override
   void initState() {
@@ -142,150 +138,216 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     final user = FirebaseAuth.instance.currentUser;
 
     final size = MediaQuery.of(context).size;
-    final ref = FirebaseDatabase.instance.ref().child('${widget.chatPath}');
+    final dbRef = FirebaseDatabase.instance.ref();
 
     final theme = Theme.of(context);
     return Scaffold(
-        backgroundColor: bgColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: widget.index != "knchat" ? BackButton() : SizedBox(),
-          backgroundColor: whiteClr,
-          elevation: 2,
-          centerTitle: true,
-          titleSpacing: 0,
-          title: GestureDetector(
-              onTap: widget.index != "kntag"
-                  ? (() => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return EventDetailsView(
-                          membersUid: [],
-                          tagDesc: "",
-                          hostName: "",
-                          hostid: "",
-                          tagId: widget.tagId,
-                          peopleProfileImg: widget.peopleProfileImg,
-                          peopleName: widget.peopleName,
-                          date: widget.date,
-                          host: widget.host,
-                          location: widget.location,
-                          time: widget.time,
-                          title: widget.title,
-                          MembersList: widget.userProfile,
-                          membersJoined: widget.joinedCount,
-                          spotLeft: widget.leftCount,
-                          latitude: widget.latitude,
-                          longitude: widget.longitude,
-                          ShowcaseImage: [
-                            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
-                            "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
-                            "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-                          ],
-                        );
-                      })))
-                  : () {},
-              child: Text('${widget.title}', style: theme.textTheme.headline6)),
-          // actions: [
-          //   IconButton(
-          //     splashRadius: 20,
-          //     icon: Icon(
-          //       Icons.more_vert,
-          //       color: Colors.grey.shade700,
-          //     ),
-          //     onPressed: () {},
-          //   ),
-          // ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(48.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => Peopl(
-                              backButtonneeded: true,
-                              peoplecount: widget.joinedCount,
-                            ))));
-              },
-              child: Container(
-                  height: 48.0,
-                  alignment: Alignment.center,
-                  child: widget.index != "knchat"
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
+      backgroundColor: bgColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: widget.index != "knchat" ? BackButton() : SizedBox(),
+        backgroundColor: whiteClr,
+        elevation: 2,
+        centerTitle: true,
+        titleSpacing: 0,
+        title: GestureDetector(
+            onTap: widget.index != "kntag"
+                ? (() => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return EventDetailsView(
+                        membersUid: [],
+                        tagDesc: "",
+                        hostName: "",
+                        hostid: "",
+                        tagId: widget.tagId,
+                        peopleProfileImg: widget.peopleProfileImg,
+                        peopleName: widget.peopleName,
+                        date: widget.date,
+                        host: widget.host,
+                        location: widget.location,
+                        time: widget.time,
+                        title: widget.title,
+                        MembersList: widget.userProfile,
+                        membersJoined: widget.joinedCount,
+                        spotLeft: widget.leftCount,
+                        latitude: widget.latitude,
+                        longitude: widget.longitude,
+                        ShowcaseImage: [
+                          "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+                          "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
+                          "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
+                        ],
+                      );
+                    })))
+                : () {},
+            child: Text('${widget.title}', style: theme.textTheme.headline6)),
+        // actions: [
+        //   IconButton(
+        //     splashRadius: 20,
+        //     icon: Icon(
+        //       Icons.more_vert,
+        //       color: Colors.grey.shade700,
+        //     ),
+        //     onPressed: () {},
+        //   ),
+        // ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => Peopl(
+                            backButtonneeded: true,
+                            peoplecount: widget.joinedCount,
+                          ))));
+            },
+            child: Container(
+                height: 48.0,
+                alignment: Alignment.center,
+                child: widget.index != "knchat"
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: buildStackedImages(),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${widget.joinedCount} joined"),
+                              Text("${widget.leftCount} spots left")
+                            ],
+                          ),
+                          Spacer(),
+                          Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: buildStackedImages(),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${widget.joinedCount} joined"),
-                                Text("${widget.leftCount} spots left")
-                              ],
-                            ),
-                            Spacer(),
-                            // Padding(
-                            //     padding: const EdgeInsets.all(8.0),
-                            //     child: BottomAppbar()),
-                          ],
-                        )
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: buildStackedImages(),
-                            // ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${widget.joinedCount} joined"),
-                              ],
-                            ),
-                            Spacer(),
-                          ],
-                        )),
-            ),
+                              child: BottomAppbar()),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: buildStackedImages(),
+                          // ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${widget.joinedCount} joined"),
+                            ],
+                          ),
+                          Spacer(),
+                        ],
+                      )),
           ),
         ),
+      ),
 
-        // a message list
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              child: Column(
+      // a message list
+      body: StreamBuilder(
+          stream: dbRef.onValue,
+          builder: (ctx, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              print("waiting");
+              // const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasData) {
+              final userS = snapshot.data.snapshot;
+
+              return Stack(
+                fit: StackFit.expand,
                 children: [
-                  Expanded(
-                      child: FirebaseAnimatedList(
-                    query: ref,
-                    scrollDirection: Axis.vertical,
-                    reverse: true,
-                    shrinkWrap: true,
-                    controller: _scrollController,
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    itemBuilder: (ontext, snapshot, animation, index) {
-                      return MessageItem(
-                          uid: "${snapshot.child('uid').value}",
-                          messageId: "${snapshot.key}",
-                          isMe: snapshot.child('uid').value == "${user!.uid}",
-                          message: "${snapshot.child('message').value}",
-                          time: "${snapshot.child('time').value}",
-                          image: "${snapshot.child('prof').value}");
-                    },
-                  )),
-                  BottomArea()
+                  Container(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: userS.children.toList()[0].key == "knchat"
+                              ? ListView.builder(
+                                  reverse: true,
+                                  shrinkWrap: true,
+                                  controller: _scrollController,
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  itemCount: userS
+                                      .child("${widget.chatPath}")
+                                      .children
+                                      .toList()
+                                      .length,
+                                  itemBuilder: (context, index) {
+                                    return MessageItem(
+                                        messageId: userS
+                                            .child("${widget.chatPath}")
+                                            .children
+                                            .toList()[index]
+                                            .key,
+                                        isMe: userS
+                                                .child("${widget.chatPath}")
+                                                .children
+                                                .toList()[index]
+                                                .child('uid')
+                                                .value ==
+                                            "${user!.uid}",
+                                        message: userS
+                                            .child("${widget.chatPath}")
+                                            .children
+                                            .toList()[index]
+                                            .child('message')
+                                            .value,
+                                        time: userS
+                                            .child("${widget.chatPath}")
+                                            .children
+                                            .toList()[index]
+                                            .child('time')
+                                            .value,
+                                        image: userS
+                                            .child(
+                                                "users/${userS.child("knchat").children.toList()[index].child('uid').value}/ProfileImage")
+                                            .value);
+                                  },
+                                )
+                              : Container(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.chat,
+                                          size: 80,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'No messages yet',
+                                          style: theme.textTheme.bodyText2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        BottomArea()
+                      ],
+                    ),
+                  ),
                 ],
-              ),
-            ),
-          ],
-        ));
+              );
+            }
+            return Center(
+              child: Text("Something went wrong"),
+            );
+          }),
+    );
   }
 
   Widget MessageItem({
@@ -294,7 +356,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     required String time,
     required String messageId,
     required String image,
-    required String uid,
   }) {
     final theme = Theme.of(context);
 
@@ -358,24 +419,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 4.0, bottom: 8, right: 6),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileView(
-                                        userId: uid,
-                                        changePage: (int index) {
-                                          // setState(() {
-                                          //   currentIndexs = index;
-                                          // });
-                                          print("_changeTa2b $index");
-                                        },
-                                      )));
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage("${image}"),
-                        ),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage("${image}"),
                       ),
                     ),
                     ChatBubble(
@@ -415,28 +460,12 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfileView(
-                            userId: uid,
-                            changePage: (int index) {
-                              // setState(() {
-                              //   currentIndexs = index;
-                              // });
-                              print("_changeTa2b $index");
-                            },
-                          )));
-            },
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(image),
-            ),
+          CircleAvatar(
+            backgroundImage: NetworkImage(image),
           ),
           SizedBox(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ChatBubble(
                   clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
@@ -445,7 +474,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                   backGroundColor: receiverBG,
                   child: Container(
                     constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7,
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
                     ),
                     child: Column(
                       children: [
@@ -459,7 +488,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 5, bottom: 8.0, left: 20.0),
+                      const EdgeInsets.only(top: 5, bottom: 8.0, right: 8.0),
                   child: Text(time,
                       style: theme.textTheme.bodySmall
                           ?.copyWith(color: Colors.black)),
@@ -711,29 +740,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: buttonBlue,
-                      child: IconButton(
-                          splashRadius: 20,
-                          icon: israted
-                              ? Icon(
-                                  Icons.star,
-                                  color: Colors.amber.shade600,
-                                )
-                              : Icon(
-                                  Icons.star_border,
-                                  color: whiteClr,
-                                ),
-                          onPressed: () async {
-                            israted == false
-                                ? setState(() {
-                                    israted = true;
-                                  })
-                                : setState(() {
-                                    israted = false;
-                                  });
-                          }),
-                    ),
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(
@@ -786,13 +792,11 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                         onPressed: FirebaseAuth.instance.currentUser != null
                             ? () async {
                                 Map<String, dynamic> obj = {
-                                  "message": textController.text.trim(),
+                                  "message": textController.text,
                                   "time": TimeOfDay.now()
                                       .format(context)
                                       .toString(),
                                   "uid": user!.uid,
-                                  "prof": user!.photoURL,
-                                  "israted": israted,
                                 };
                                 FocusScopeNode currentFocus =
                                     FocusScope.of(context);
@@ -809,10 +813,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
 
                                   showTheMic();
                                 }
-
-                                setState(() {
-                                  israted = false;
-                                });
                               }
                             : () {
                                 DialogBox.loginDialog(context);

@@ -23,8 +23,10 @@ class MessageTagTile extends StatefulWidget {
   String long;
   List peopleName;
   List peopleProfileImg;
+  String chatPath;
   MessageTagTile(
       {required this.tagText,
+      required this.chatPath,
       required this.joinedCount,
       required this.tagId,
       required this.leftCount,
@@ -58,6 +60,7 @@ class _MessageTagTileState extends State<MessageTagTile> {
             context,
             MaterialPageRoute(
                 builder: (context) => MessagePage(
+                      chatPath: widget.chatPath,
                       tagId: widget.tagId,
                       peopleProfileImg: widget.peopleProfileImg,
                       peopleName: widget.peopleName,

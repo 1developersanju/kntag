@@ -609,7 +609,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                               context);
                                                         }
                                                       : () {
-                                                          widget.changePage(1);
+                                                          widget.changePage(2);
                                                           print("object");
                                                           Navigator.of(context)
                                                               .pop();

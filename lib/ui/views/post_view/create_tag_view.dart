@@ -26,9 +26,9 @@ class _CreateTagViewState extends State<CreateTagView> {
 
   DateTime startDate = DateTime.now();
 
-  TimeOfDay startTime = TimeOfDay.now();
+  var startTime = TimeOfDay.now();
   DateTime endDate = DateTime.now().add(Duration(days: 60, hours: 23));
-  TimeOfDay endTime = TimeOfDay.now();
+  var endTime = TimeOfDay.now();
   String place = '';
   String latitude = '';
   String longitude = '';
@@ -294,6 +294,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 width: currentWidth * 0.15,
                                                 // height: currentHeight/15,
                                                 child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.none,
                                                   initialValue:
                                                       "${formattedStartDate} ",
                                                   style:
@@ -351,6 +353,8 @@ class _CreateTagViewState extends State<CreateTagView> {
 
                                                 //height: currentHeight/15,
                                                 child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.none,
                                                   onTap: () async {
                                                     TimeOfDay? newTime =
                                                         await showTimePicker(
@@ -417,6 +421,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 width: currentWidth * 0.15,
                                                 //height: currentHeight/15,
                                                 child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.none,
                                                   initialValue:
                                                       "$formattedEndDate",
                                                   style:
@@ -466,6 +472,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 width: currentWidth * 0.15,
                                                 //height: currentHeight/15,
                                                 child: TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.none,
                                                   onTap: () async {
                                                     TimeOfDay? newEndTime =
                                                         await showTimePicker(
@@ -629,15 +637,15 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 "landmark": place,
                                                 "hostId": user!.uid,
                                                 "longitude": longitude,
-                                                "timefrm": "00:00",
-                                                "timeto": "00:00",
+                                                "timefrm": startTime.format(context).toString(),
+                                                "timeto": endTime.format(context).toString(),
                                                 "datefrm":
-                                                    startDate.toIso8601String(),
+                                                    formattedStartDate.toString(),
                                                 "dateto":
-                                                    endDate.toIso8601String(),
+                                                    formattedEndDate.toString(),
                                               };
 
-                                              print("on pressed");
+                                              print("$endTime");
 
                                               // MngDB().create_tag();
                                               // print("placeee :: $place");

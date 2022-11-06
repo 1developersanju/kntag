@@ -76,16 +76,17 @@ class _EventDetailsViewState extends State<EventDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    final Event event = Event(
-      title: widget.title,
-      description: "Kntag's Event",
-      location: widget.location,
-      startDate: DateTime.parse(widget.date),
-      endDate: DateTime.parse(widget.date),
-      androidParams: AndroidParams(
-        emailInvites: [], // on Android, you can add invite emails to your event.
-      ),
-    );
+    
+    // final Event event = Event(
+    //   title: widget.title,
+    //   description: "Kntag's Event",
+    //   location: widget.location,
+    //   startDate: DateTime.parse(widget.date),
+    //   endDate: DateTime.parse(widget.date),
+    //   androidParams: AndroidParams(
+    //     emailInvites: [], // on Android, you can add invite emails to your event.
+    //   ),
+    // );
 
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
@@ -197,7 +198,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                         GestureDetector(
                                           onTap: () {
                                             print("location tapped");
-                                            Add2Calendar.addEvent2Cal(event);
+                                            // Add2Calendar.addEvent2Cal(event);
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(2.0),
@@ -245,7 +246,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                           right: 8,
                                         ),
                                         child: Text(
-                                          "14 mins away",
+                                          // "14 mins away",
+                                          "",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp,
@@ -505,10 +507,11 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                         BorderRadius.circular(
                                                             8.0),
                                                   ))),
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 print("sent sussess");
-                                                jointag(widget.tagId,
+                                                await jointag(widget.tagId,
                                                     widget.hostid);
+                                                Navigator.pop(context);
                                                 final snackBar = SnackBar(
                                                   backgroundColor: Colors.green,
                                                   content: const Text(

@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kntag/app/services/shared_pref.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -227,8 +224,7 @@ jointag(tagId, hostId) async {
   var increment = int.parse(totalmembers.toString()) + 1;
   tagRefAdduserUid.update({"$increment": user?.uid});
   tagRefAdduserProfile.update({"$increment": user?.photoURL});
-  var ttlSlots =
-      int.parse(totalslots.toString()) - int.parse(totalmembers.toString());
+  var ttlSlots = int.parse(totalslots.toString()) - 1;
   print("snapshot: ${ttlSlots}");
 
   await tagRef.update({
@@ -250,23 +246,35 @@ jointag(tagId, hostId) async {
   // });
 }
 
-chat() async {
-  DatabaseReference knchat = FirebaseDatabase.instance.ref("knchat");
+sendchat(values, context) async {
+  print("entered create tag ${values['message']}");
 
-  knchat.set({
-    "tagId": "",
-    "userProfile": arrset([]),
-    "index": "knchat",
-    "title": "KnChat",
-    "joinedCount": "",
-    "leftCount": "",
-    "host": "",
-    "location": "",
-    "showcaseImg": arrset([]),
-    "time": "",
-    "latitude": "",
-    "longitude": "",
-    "peopleName": arrset([]),
-    "peopleProfileImg": arrset([]),
+  DatabaseReference tagRef = FirebaseDatabase.instance.ref("knchat");
+  DatabaseReference newPostRef = tagRef.push();
+
+  await newPostRef.set({
+    "message": values['message'],
+    "time": values['time'],
+    "uid": values["uid"],
+    "prof": values["prof"],
+    "israted": values["israted"],
   });
+
+  print("tagrefrence: ${tagRef.key}");
+}
+
+tagChat(values, context) async {
+  print("entered create tag ${values['message']}");
+
+  DatabaseReference tagRef =
+      FirebaseDatabase.instance.ref("tagchat/${values["tagid"]}");
+  DatabaseReference newPostRef = tagRef.push();
+
+  await newPostRef.set({
+    "message": values['message'],
+    "time": values['time'],
+    "uid": values["uid"],
+  });
+
+  print("tagrefrence: ${tagRef.key}");
 }
