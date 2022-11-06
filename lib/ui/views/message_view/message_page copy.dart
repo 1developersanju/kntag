@@ -807,7 +807,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                   print("text: ${textController.text}");
 
                                   addToMessages(textController.text);
-                                  await sendchat(obj, context);
+                                  sendchat(obj, context, "${widget.chatPath}");
 
                                   textController.clear();
 

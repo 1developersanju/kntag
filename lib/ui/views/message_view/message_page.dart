@@ -15,6 +15,7 @@ import 'package:kntag/colorAndSize.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../app/db.dart';
 import '../profile_view/profile_test.dart';
@@ -36,8 +37,14 @@ class MessagePage extends StatefulWidget {
   List peopleName;
   List peopleProfileImg;
   String tagId;
+  String hostId;
+  String desc;
+  String hostName;
   MessagePage(
       {required this.userProfile,
+      required this.desc,
+      required this.hostId,
+      required this.hostName,
       required this.chatPath,
       required this.tagId,
       required this.index,
@@ -160,9 +167,9 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                           MaterialPageRoute(builder: (context) {
                         return EventDetailsView(
                           membersUid: [],
-                          tagDesc: "",
-                          hostName: "",
-                          hostid: "",
+                          tagDesc: widget.desc,
+                          hostName: widget.hostName,
+                          hostid: widget.hostId,
                           tagId: widget.tagId,
                           peopleProfileImg: widget.peopleProfileImg,
                           peopleName: widget.peopleName,
@@ -803,7 +810,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                   print("text: ${textController.text}");
 
                                   addToMessages(textController.text);
-                                  await sendchat(obj, context);
+                                  sendchat(obj, context, "${widget.chatPath}");
 
                                   textController.clear();
 
@@ -826,26 +833,23 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
           );
   }
 
+  Widget buildStackedImages() {
+    final urlImages =
+        widget.joinedCount != "0" ? widget.peopleProfileImg : [widget.host];
+    final double size = 9.w;
+
+    final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
+
+    return StackedWidget(
+      items: items,
+      size: size,
+    );
+  }
+
   @override
   void dispose() {
     super.dispose();
   }
-}
-
-Widget buildStackedImages() {
-  final double size = 30;
-  final urlImages = [
-    "https://c4.wallpaperflare.com/wallpaper/583/178/494/4k-8k-natasha-romanoff-captain-america-civil-war-wallpaper-preview.jpg",
-    "https://wallpaperaccess.com/full/2388604.jpg",
-    "https://images.wallpapersden.com/image/download/marvel-natasha-romanoff_bGVtZWaUmZqaraWkpJRobWllrWdma2U.jpg"
-  ];
-
-  final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
-
-  return StackedWidget(
-    items: items,
-    size: size,
-  );
 }
 
 //Method for providing image $ shape circle

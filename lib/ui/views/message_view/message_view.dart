@@ -115,6 +115,9 @@ class _MessageViewState extends State<MessageView>
                   itemCount: old.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      desc: "",
+                      hostName: "",
+                      hostid: "",
                       chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
@@ -164,6 +167,9 @@ class _MessageViewState extends State<MessageView>
                   //  active.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      desc: "",
+                      hostName: "",
+                      hostid: "",
                       chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
@@ -212,6 +218,9 @@ class _MessageViewState extends State<MessageView>
                   itemCount: upcoming.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      desc: "",
+                      hostName: "",
+                      hostid: "",
                       chatPath: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,

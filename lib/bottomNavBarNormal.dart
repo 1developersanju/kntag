@@ -43,6 +43,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     // InteractiveMapsMarker(changePage: _changeTab);
 
     _page2 = MessagePage(
+        desc: "",
+        hostName: "",
+        hostId: "",
         chatPath: "knchat",
         tagId: "",
         userProfile: [

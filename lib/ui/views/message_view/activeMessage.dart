@@ -120,9 +120,18 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
                     print("EXCEPTION: : $e");
                   }
                   return hostid == user?.uid ||
-                          membersUid.contains("${user?.uid}")
+                          participantsUid.contains("${user?.uid}")
                       ? MessageTagTile(
-                          chatPath: "",
+                          desc: userS
+                              .child("tags")
+                              .children
+                              .toList()[index]
+                              .child('tagdescription')
+                              .value,
+                          hostName: userS.child("users/$hostid/UserName").value,
+                          hostid: hostid,
+                          chatPath:
+                              "tagchat/${userS.child("tags").children.toList()[index].key}",
                           tagId:
                               "${userS.child("tags").children.toList()[index].key}",
                           peopleProfileImg: tagMembersProfile,

@@ -39,15 +39,19 @@ class _PeopleState extends State<Peopl> {
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
         ),
         backgroundColor: bgColor,
-        body: ListView.builder(
-          itemCount: int.parse(widget.peoplecount),
-          itemBuilder: (context, index) {
-            return Peopleview(
-              name: containerDetails[index].name,
-              profpic: containerDetails[index].profpic,
-            );
-          },
-        ));
+        body: widget.peoplecount == 0
+            ? ListView.builder(
+                itemCount: int.parse(widget.peoplecount),
+                itemBuilder: (context, index) {
+                  return Peopleview(
+                    name: containerDetails[index].name,
+                    profpic: containerDetails[index].profpic,
+                  );
+                },
+              )
+            : Center(
+                child: Text("No members found"),
+              ));
   }
 }
 

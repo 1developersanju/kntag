@@ -14,6 +14,8 @@ class MessageTagTile extends StatefulWidget {
   List userProfile;
   String index;
   String date;
+  String hostName;
+  String desc;
   String host;
   String tagId;
   String location;
@@ -24,8 +26,12 @@ class MessageTagTile extends StatefulWidget {
   List peopleName;
   List peopleProfileImg;
   String chatPath;
+  String hostid;
   MessageTagTile(
       {required this.tagText,
+      required this.desc,
+      required this.hostName,
+      required this.hostid,
       required this.chatPath,
       required this.joinedCount,
       required this.tagId,
@@ -60,6 +66,9 @@ class _MessageTagTileState extends State<MessageTagTile> {
             context,
             MaterialPageRoute(
                 builder: (context) => MessagePage(
+                      desc: widget.desc,
+                      hostName: widget.hostName,
+                      hostId: widget.hostid,
                       chatPath: widget.chatPath,
                       tagId: widget.tagId,
                       peopleProfileImg: widget.peopleProfileImg,
@@ -95,15 +104,13 @@ class _MessageTagTileState extends State<MessageTagTile> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text(
-                              widget.tagText,
-                              //"#BookClub",
-                              style: TextStyle(
-                                  color: Colors.blue[900],
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          Text(
+                            widget.tagText,
+                            //"#BookClub",
+                            style: TextStyle(
+                                color: Colors.blue[900],
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold),
                           ),
                           Spacer(),
                           Expanded(

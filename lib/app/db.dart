@@ -167,6 +167,7 @@ createTag(values, context) async {
   print("entered create tag ${values['name']}");
 
   DatabaseReference tagRef = FirebaseDatabase.instance.ref("tags");
+
   DatabaseReference newPostRef = tagRef.push();
 
   await newPostRef.set({
@@ -246,10 +247,10 @@ jointag(tagId, hostId) async {
   // });
 }
 
-sendchat(values, context) async {
+sendchat(values, context, chatpath) async {
   print("entered create tag ${values['message']}");
 
-  DatabaseReference tagRef = FirebaseDatabase.instance.ref("knchat");
+  DatabaseReference tagRef = FirebaseDatabase.instance.ref(chatpath);
   DatabaseReference newPostRef = tagRef.push();
 
   await newPostRef.set({
@@ -263,7 +264,7 @@ sendchat(values, context) async {
   print("tagrefrence: ${tagRef.key}");
 }
 
-tagChat(values, context) async {
+tagChat(values, context, tagid) async {
   print("entered create tag ${values['message']}");
 
   DatabaseReference tagRef =
