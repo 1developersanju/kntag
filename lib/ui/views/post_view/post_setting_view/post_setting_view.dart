@@ -53,8 +53,8 @@ class _PostSettingViewState extends State<PostSettingView> {
         backgroundColor: bgColor,
         duration: Duration(seconds: 1),
         content: Text(
-          textAlign: TextAlign.center,
           "Note : 'Member count cannot be less than 1'",
+          textAlign: TextAlign.center,
           style: TextStyle(color: Colors.red),
         ),
       );

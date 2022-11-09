@@ -4,6 +4,7 @@ import 'package:kntag/app/services/dialog.dart';
 import 'package:kntag/ui/maps/street_map.dart';
 import 'package:kntag/ui/views/post_view/post_setting_view/post_setting_view.dart';
 import 'package:kntag/colorAndSize.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -29,7 +30,7 @@ class _CreateTagViewState extends State<CreateTagView> {
   var startTime = TimeOfDay.now();
   DateTime endDate = DateTime.now().add(Duration(days: 60, hours: 23));
   var endTime = TimeOfDay.now();
-  String place = '';
+  String place = 'place';
   String latitude = '';
   String longitude = '';
   var textFromSecondScreen = "place";
@@ -68,9 +69,9 @@ class _CreateTagViewState extends State<CreateTagView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.reload();
     setState(() {
-      place = (prefs.getString('place') ?? '');
-      latitude = (prefs.getDouble('latitude') ?? '').toString();
-      longitude = (prefs.getDouble('longitude') ?? '').toString();
+      // place = (prefs.getString('place') ?? '');
+      // latitude = (prefs.getDouble('latitude') ?? '').toString();
+      // longitude = (prefs.getDouble('longitude') ?? '').toString();
     });
   }
 
@@ -225,8 +226,9 @@ class _CreateTagViewState extends State<CreateTagView> {
                                           style: TextStyle(fontSize: 15.sp),
                                           controller: placeController,
                                           validator: (value) {
-                                            if (textFromSecondScreen ==
-                                                "place") {
+                                            if (place == "place" ||
+                                                latitude == "" ||
+                                                longitude == "") {
                                               return 'choose your tag place';
                                             }
                                           },
@@ -241,7 +243,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                   FocusScope.of(context)
                                                       .requestFocus(
                                                           new FocusNode());
-                                                  goToSecondScreen(context);
+                                                  showPlacePicker();
+                                                  // goToSecondScreen(context);
                                                 }
                                               : () => DialogBox.loginDialog(
                                                   context),
@@ -253,8 +256,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                       color: Colors.white)),
                                               filled: true,
                                               fillColor: whiteClr,
-                                              hintText: textFromSecondScreen,
-                                              labelText: textFromSecondScreen)),
+                                              hintText: place,
+                                              labelText: place)),
                                     ),
                                   ),
                                 ],
@@ -637,10 +640,14 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                 "landmark": place,
                                                 "hostId": user!.uid,
                                                 "longitude": longitude,
-                                                "timefrm": startTime.format(context).toString(),
-                                                "timeto": endTime.format(context).toString(),
-                                                "datefrm":
-                                                    formattedStartDate.toString(),
+                                                "timefrm": startTime
+                                                    .format(context)
+                                                    .toString(),
+                                                "timeto": endTime
+                                                    .format(context)
+                                                    .toString(),
+                                                "datefrm": formattedStartDate
+                                                    .toString(),
                                                 "dateto":
                                                     formattedEndDate.toString(),
                                               };
@@ -727,6 +734,19 @@ class _CreateTagViewState extends State<CreateTagView> {
         );
       }),
     );
+  }
+
+  void showPlacePicker() async {
+    LocationResult? result = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PlacePicker(googleMapApi)));
+
+    // Handle the result in your way
+    setState(() {
+      place = result!.locality..toString();
+      latitude = result.latLng.latitude.toString();
+      longitude = result.latLng.longitude.toString();
+    });
+    print("heyyy ${result?.latLng.latitude.toString()}");
   }
 
   void goToSecondScreen(BuildContext context) async {

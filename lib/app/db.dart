@@ -263,19 +263,4 @@ sendchat(values, context, chatpath) async {
 
   print("tagrefrence: ${tagRef.key}");
 }
-
-tagChat(values, context, tagid) async {
-  print("entered create tag ${values['message']}");
-
-  DatabaseReference tagRef =
-      FirebaseDatabase.instance.ref("tagchat/${values["tagid"]}");
-  DatabaseReference newPostRef = tagRef.push();
-
-  await newPostRef.set({
-    "message": values['message'],
-    "time": values['time'],
-    "uid": values["uid"],
-  });
-
-  print("tagrefrence: ${tagRef.key}");
-}
+                                     

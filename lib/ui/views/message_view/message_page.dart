@@ -252,7 +252,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${widget.joinedCount} joined"),
+                                // Text("${widget.joinedCount} joined"),
                               ],
                             ),
                             Spacer(),
