@@ -117,9 +117,6 @@ class _HomeMapState extends State<HomeMap> {
     }
   }
 
-  List tagMembers = [];
-  List tagMembersProfile = [];
-
   List<MarkerItem> markers = [];
   Future<Map<String, dynamic>> future() async {
     final tags = await FirebaseDatabase.instance.ref('tags').get();
@@ -157,232 +154,230 @@ class _HomeMapState extends State<HomeMap> {
               final userS = snapshot.data.snapshot;
 
               addmarkers(userS);
-              return _currentPosition == null
-                  ? Center(
-                      child: LinearProgressIndicator(),
-                    )
-                  : InteractiveMapsMarker(
-                      initialLocation: markers.isEmpty
-                          ? LatLng(_currentPosition?.latitude ?? 0,
-                              _currentPosition?.longitude ?? 0)
-                          : LatLng(markers[0].latitude, markers[0].longitude),
-                      itemcount: userS.children.toList()[0].key == "tags" ||
-                              userS.children.toList()[1].key == "tags" ||
-                              userS.children.toList()[2].key == "tags"
-                          ? userS.child("tags").children.toList().length
-                          : 1,
-                      changePage: _changeTab,
-                      items: markers,
-                      center: LatLng(_currentPosition?.latitude ?? 0,
-                          _currentPosition?.longitude ?? 0),
-                      imgs: markers,
+              return
+                  // _currentPosition == null
+                  //     ? Center(
+                  //         child: LinearProgressIndicator(),
+                  //       )
+                  // :
+                  InteractiveMapsMarker(
+                initialLocation: markers.isEmpty
+                    ? LatLng(_currentPosition?.latitude ?? 0,
+                        _currentPosition?.longitude ?? 0)
+                    : LatLng(markers[0].latitude, markers[0].longitude),
+                itemcount: userS.children.toList()[0].key == "tags" ||
+                        userS.children.toList()[1].key == "tags" ||
+                        userS.children.toList()[2].key == "tags"
+                    ? userS.child("tags").children.toList().length
+                    : 1,
+                changePage: _changeTab,
+                items: markers,
+                center: LatLng(_currentPosition?.latitude ?? 0,
+                    _currentPosition?.longitude ?? 0),
+                imgs: markers,
 
-                      // itemContent: (context, index) {
-                      //   MarkerItem item = markers[index];
-                      //   return BottomTile(item: item);
-                      // },
-                      itemBuilder: (BuildContext context, int index) {
-                        var hostid;
-                        var membersUid;
-                        List participantsUid = [];
-                        var membersTotal;
-                        try {
-                          hostid = userS
-                              .child("tags")
-                              .children
-                              .toList()[index]
-                              .child('hostId')
-                              .value;
-                          membersUid = userS
-                              .child("tags")
-                              .children
-                              .toList()[index]
-                              .child('membersUID')
-                              .value
-                              .toList();
+                // itemContent: (context, index) {
+                //   MarkerItem item = markers[index];
+                //   return BottomTile(item: item);
+                // },
+                itemBuilder: (BuildContext context, int index) {
+                  var hostid;
+                  var membersUid;
+                  List participantsUid = [];
+                  List tagMembers = [];
+                  List tagMembersProfile = [];
+                  var membersTotal;
+                  try {
+                    hostid = userS
+                        .child("tags")
+                        .children
+                        .toList()[index]
+                        .child('hostId')
+                        .value;
+                    membersUid = userS
+                        .child("tags")
+                        .children
+                        .toList()[index]
+                        .child('membersUID')
+                        .value
+                        .toList();
 
-                          membersTotal = userS
-                              .child("tags")
-                              .children
-                              .toList()[index]
-                              .child('membersttl')
-                              .value;
+                    membersTotal = userS
+                        .child("tags")
+                        .children
+                        .toList()[index]
+                        .child('membersttl')
+                        .value;
 
-                          participantsUid.clear();
+                    participantsUid.clear();
 
-                          // TODO: implement initState
-                          for (var element in membersUid) {
-                            participantsUid.add(element);
-                            participantsUid.remove(null);
-                            // print("namee:${widget.peopleName}");
+                    // TODO: implement initState
+                    for (var element in membersUid) {
+                      participantsUid.add(element);
+                      participantsUid.remove(null);
+                      // print("namee:${widget.peopleName}");
 
-                            // name.removeAt(0);
-                            // peoplename.add(name);
-                          }
-                          print("tagees $tagMembers");
-                          tagMembersProfile.clear();
+                      // name.removeAt(0);
+                      // peoplename.add(name);
+                    }
+                    print("tagees $tagMembers");
+                    tagMembersProfile.clear();
 
-                          for (var element in membersUid) {
-                            tagMembersProfile.add(userS
-                                .child("users/${element}/ProfileImage")
-                                .value);
-                            tagMembersProfile.remove(null);
-                            print("name::${tagMembersProfile}");
-                          }
-                          tagMembers.clear();
+                    for (var element in participantsUid) {
+                      tagMembersProfile.add(
+                          userS.child("users/${element}/ProfileImage").value);
+                      tagMembersProfile.remove(null);
+                      print("name::${tagMembersProfile}");
+                    }
+                    tagMembers.clear();
 
-                          for (var element in membersUid) {
-                            tagMembers.add(
-                                userS.child("users/${element}/UserName").value);
-                            tagMembers.remove(null);
-                            print("name::${tagMembers}");
-                          }
-                        } catch (e) {
-                          print("EXCEPTION: : $e");
-                        }
+                    for (var element in participantsUid) {
+                      tagMembers
+                          .add(userS.child("users/${element}/UserName").value);
+                      tagMembers.remove(null);
+                      print("name::${tagMembers}");
+                    }
+                  } catch (e) {
+                    print("EXCEPTION: : $e");
+                  }
 
-                        return userS.children.toList()[0].key == "tags" ||
-                                userS.children.toList()[1].key == "tags" ||
-                                userS.children.toList()[2].key == "tags"
-                            ? Container(
-                                // margin: const EdgeInsets.all(10.0),
-                                height: currentHeight * 0.5,
-                                child: BookClubContainer(
-                                  membersUid: participantsUid,
-                                  uid: "${user?.uid}",
-                                  tagDesc: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('tagdescription')
-                                      .value,
-                                  hostName: userS
-                                      .child("users/$hostid/UserName")
-                                      .value,
-                                  hostid: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('hostId')
-                                      .value,
-                                  tagId:
-                                      "${userS.child("tags").children.toList()[index].key}",
-                                  peopleProfileImg: tagMembersProfile,
-                                  peopleName: tagMembers,
-                                  latitude: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('map/latitude')
-                                      .value,
-                                  longitude: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('map/londitude')
-                                      .value,
-                                  tagText:
-                                      // "#${userS.child("tags").children.toList()[index].child('membersUID').value}",
-                                      "#${userS.child("tags").children.toList()[index].child('tagname').value}",
-                                  joined: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('membersttl')
-                                      .value
-                                      .toString(),
-                                  location: userS
-                                      .child("tags")
-                                      .children
-                                      .toList()[index]
-                                      .child('map/landmark')
-                                      .value,
-                                  date:
-                                      "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
-                                  time:
-                                      " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
-                                  spotsLeft:
-                                      "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
-                                  profile: userS
+                  return userS.children.toList()[0].key == "tags" ||
+                          userS.children.toList()[1].key == "tags" ||
+                          userS.children.toList()[2].key == "tags"
+                      ? Container(
+                          // margin: const EdgeInsets.all(10.0),
+                          height: currentHeight * 0.5,
+                          child: BookClubContainer(
+                            membersUid: participantsUid,
+                            uid: "${user?.uid}",
+                            tagDesc: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('tagdescription')
+                                .value,
+                            hostName:
+                                userS.child("users/$hostid/UserName").value,
+                            hostid: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('hostId')
+                                .value,
+                            tagId:
+                                "${userS.child("tags").children.toList()[index].key}",
+                            peopleProfileImg: tagMembersProfile,
+                            peopleName: tagMembers,
+                            latitude: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('map/latitude')
+                                .value,
+                            longitude: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('map/londitude')
+                                .value,
+                            tagText:
+                                // "#${userS.child("tags").children.toList()[index].child('membersUID').value}",
+                                "#${userS.child("tags").children.toList()[index].child('tagname').value}",
+                            joined: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('membersttl')
+                                .value
+                                .toString(),
+                            location: userS
+                                .child("tags")
+                                .children
+                                .toList()[index]
+                                .child('map/landmark')
+                                .value,
+                            date:
+                                "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
+                            time:
+                                " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
+                            spotsLeft:
+                                "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
+                            profile:
+                                userS.child("users/$hostid/ProfileImage").value,
+                            userProfile: [
+                              userS
+                                      .child("users/${membersUid}/ProfileImage")
+                                      .value ??
+                                  userS
                                       .child("users/$hostid/ProfileImage")
                                       .value,
-                                  userProfile: [
-                                    userS
-                                            .child(
-                                                "users/${membersUid}/ProfileImage")
-                                            .value ??
-                                        userS
-                                            .child("users/$hostid/ProfileImage")
-                                            .value,
-                                  ],
-                                  page: "Home",
-                                ),
-                              )
-                            : Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: Container(
-                                        padding: EdgeInsets.all(12),
-                                        width: currentWidth * 0.9,
-                                        height: currentHeight * 0.2,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black87
-                                                    .withOpacity(0.100),
-                                                spreadRadius: 5,
-                                                blurRadius: 7,
-                                                offset: Offset(0, 3),
-                                              )
-                                            ],
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "Be the first person",
-                                                style: TextStyle(
-                                                    fontFamily: "Singolare",
-                                                    fontSize: 15.sp),
-                                              ),
-                                              OutlinedButton(
-                                                  onPressed: () {
-                                                    FirebaseAuth.instance
-                                                                .currentUser ==
-                                                            null
-                                                        ? DialogBox.loginDialog(
-                                                            context)
-                                                        : widget.changePage(2);
-                                                  },
-                                                  child: Text("Create Tag"),
-                                                  style: ButtonStyle(
-                                                      shape: MaterialStateProperty.all<
-                                                              RoundedRectangleBorder>(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          18.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .red)))))
-                                            ],
-                                          ),
+                            ],
+                            page: "Home",
+                          ),
+                        )
+                      : Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Container(
+                                  padding: EdgeInsets.all(12),
+                                  width: currentWidth * 0.9,
+                                  height: currentHeight * 0.2,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color:
+                                              Colors.black87.withOpacity(0.100),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0, 3),
+                                        )
+                                      ],
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          "Be the first person",
+                                          style: TextStyle(
+                                              fontFamily: "Singolare",
+                                              fontSize: 15.sp),
                                         ),
-                                      ),
+                                        OutlinedButton(
+                                            onPressed: () {
+                                              FirebaseAuth.instance
+                                                          .currentUser ==
+                                                      null
+                                                  ? DialogBox.loginDialog(
+                                                      context)
+                                                  : widget.changePage(2);
+                                            },
+                                            child: Text("Create Tag"),
+                                            style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(18.0),
+                                                        side: BorderSide(
+                                                            color:
+                                                                Colors.red)))))
+                                      ],
                                     ),
                                   ),
-                                ],
-                              );
-                      },
-                    );
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                },
+              );
             }
             return Center(
               child: Text("Something went wrong"),

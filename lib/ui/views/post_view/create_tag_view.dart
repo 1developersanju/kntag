@@ -319,8 +319,10 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                                 startDate,
                                                             firstDate:
                                                                 DateTime.now(),
-                                                            lastDate:
-                                                                DateTime(2022));
+                                                            lastDate: DateTime
+                                                                    .now()
+                                                                .add(
+                                                                    Duration()));
                                                     if (newDate == null) {
                                                       return;
                                                     }
@@ -435,7 +437,8 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                         await showDatePicker(
                                                             context: context,
                                                             initialDate:
-                                                                endDate,
+                                                                DateTime.parse(
+                                                                    formattedEndDate),
                                                             firstDate:
                                                                 DateTime(1900),
                                                             lastDate:
@@ -749,14 +752,14 @@ class _CreateTagViewState extends State<CreateTagView> {
     print("heyyy ${result?.latLng.latitude.toString()}");
   }
 
-  void goToSecondScreen(BuildContext context) async {
-    String dataFromSecondPage = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => StreetMap(),
-        ));
-    setState(() {
-      textFromSecondScreen = dataFromSecondPage;
-    });
-  }
+  // void goToSecondScreen(BuildContext context) async {
+  //   String dataFromSecondPage = await Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => StreetMap(),
+  //       ));
+  //   setState(() {
+  //     textFromSecondScreen = dataFromSecondPage;
+  //   });
+  // }
 }

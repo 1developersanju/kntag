@@ -104,13 +104,15 @@ class _MessageTagTileState extends State<MessageTagTile> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.tagText,
-                            //"#BookClub",
-                            style: TextStyle(
-                                color: Colors.blue[900],
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Text(
+                              widget.tagText,
+                              //"#BookClub",
+                              style: TextStyle(
+                                  color: Colors.blue[900],
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Spacer(),
                           Expanded(
@@ -121,14 +123,14 @@ class _MessageTagTileState extends State<MessageTagTile> {
                                   TextStyle(color: greyText, fontSize: 11.sp),
                             ),
                           ),
-                          Expanded(
-                            child: Text(
-                              "${widget.leftCount} Spot Left",
-                              //"13 Joined\n12/25 Spot Left",
-                              style:
-                                  TextStyle(color: greyText, fontSize: 11.sp),
-                            ),
-                          ),
+                          // Expanded(
+                          //   child: Text(
+                          //     "${widget.leftCount} Spot Left",
+                          //     //"13 Joined\n12/25 Spot Left",
+                          //     style:
+                          //         TextStyle(color: greyText, fontSize: 11.sp),
+                          //   ),
+                          // ),
                         ]),
                   ),
                   Spacer(),

@@ -109,7 +109,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             pageController.animateToPage(
               tappedIndex,
               duration: Duration(milliseconds: 300),
-              curve: Curves.bounceInOut,
+              curve: Curves.linear,
             );
             _pageChanged(tappedIndex);
           },
@@ -358,7 +358,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
                   onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(  
+                  initialCameraPosition: CameraPosition(
                     target: widget.itemcount != 0
                         ? widget.center
                         : widget.initialLocation,

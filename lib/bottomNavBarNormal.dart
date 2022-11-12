@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 // import 'package:kntag/ui/views/home_view/home_view%20copy.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
@@ -27,6 +30,9 @@ String profilepic3 =
     "https://images.unsplash.com/photo-1618641986557-1ecd230959aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60";
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
+  StreamSubscription? internetconnection;
+  bool isoffline = false;
+
   late List<Widget> _pages;
   late Widget _page1;
   late Widget _page2;
@@ -39,6 +45,28 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   void initState() {
     super.initState();
+    internetconnection = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      // whenevery connection status is changed.
+      if (result == ConnectivityResult.none) {
+        //there is no any connection
+        setState(() {
+          isoffline = true;
+        });
+        print("offile");
+      } else if (result == ConnectivityResult.mobile) {
+        //connection is mobile data network
+        setState(() {
+          isoffline = false;
+        });
+      } else if (result == ConnectivityResult.wifi) {
+        //connection is from wifi
+        setState(() {
+          isoffline = false;
+        });
+      }
+    });
     _page1 = HomeMap(changePage: _changeTab);
     // InteractiveMapsMarker(changePage: _changeTab);
 
@@ -103,6 +131,13 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     _currentPage = _page1;
   }
 
+  @override
+  dispose() {
+    super.dispose();
+    internetconnection!.cancel();
+    //cancel internent connection subscription after you are done
+  }
+
   void _changeTab(int index) {
     setState(() {
       _currentIndex = index;
@@ -113,9 +148,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _currentPage,
-      ),
+      body: isoffline == true
+          ? Center(child: Text("No Internet Connection Available"))
+          : Center(
+              child: _currentPage,
+            ),
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           selectedItemColor: Colors.black,
@@ -193,5 +230,32 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           type: BottomNavigationBarType.shifting,
           elevation: 5),
     );
+  }
+}
+
+Widget errmsg(String text, bool show) {
+  //error message widget.
+  if (show == true) {
+    //if error is true then show error message box
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: Container(
+        padding: EdgeInsets.all(10.00),
+        margin: EdgeInsets.only(bottom: 10.00),
+        color: Colors.red,
+        child: Row(children: [
+          Container(
+            margin: EdgeInsets.only(right: 6.00),
+            child: Icon(Icons.info, color: Colors.black),
+          ), // icon for error message
+
+          Text(text, style: TextStyle(color: Colors.black)),
+          //show error message text
+        ]),
+      ),
+    );
+  } else {
+    return Container();
+    //if error is false, return empty container.
   }
 }

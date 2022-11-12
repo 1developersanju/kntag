@@ -46,6 +46,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   List<GroupTagList> containerDetails = [];
   File? image;
+
   Future pickimage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -59,8 +60,58 @@ class _ProfileViewState extends State<ProfileView> {
     }
   }
 
+  // Future<void> editdialog(BuildContext context) async {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           title: Text('Edit profile'),
+  //           content: Column(
+  //             children: [
+  //               TextField(
+  //                 onChanged: (value) {
+  //                   setState(() {
+  //                     // valueText = value;
+  //                   });
+  //                 },
+  //                 controller: _textFieldController,
+  //                 decoration: InputDecoration(hintText: "New Name"),
+  //               ),
+  //             ],
+  //           ),
+  //           insetPadding: EdgeInsets.symmetric(vertical: 100),
+  //           actions: <Widget>[
+  //             FlatButton(
+  //               color: Colors.red,
+  //               textColor: Colors.white,
+  //               child: Text('CANCEL'),
+  //               onPressed: () {
+  //                 setState(() {
+  //                   Navigator.pop(context);
+  //                 });
+  //               },
+  //             ),
+  //             FlatButton(
+  //               color: Colors.green,
+  //               textColor: Colors.white,
+  //               child: Text('OK'),
+  //               onPressed: () {
+  //                 setState(() {
+  //                   // codeDialog = valueText;
+  //                   Navigator.pop(context);
+  //                 });
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
+  final formGlobalKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController _textFieldController = TextEditingController();
+
     List tagMembers = [];
     List tagMembersProfile = [];
     List createdTagsNames = [];
@@ -85,6 +136,15 @@ class _ProfileViewState extends State<ProfileView> {
         Scaffold(
             appBar: AppBar(
               actions: [
+                IconButton(
+                    onPressed: FirebaseAuth.instance.currentUser != null
+                        ? () {
+                            // editdialog(context);
+                          }
+                        : () {
+                            DialogBox.loginDialog(context);
+                          },
+                    icon: Icon(Icons.edit)),
                 IconButton(
                     onPressed: FirebaseAuth.instance.currentUser != null
                         ? () {
@@ -190,18 +250,33 @@ class _ProfileViewState extends State<ProfileView> {
                                                                   const EdgeInsets
                                                                       .all(8.0),
                                                               child:
-                                                                  AutoSizeText(
-                                                                "${userS.child("users/${widget.userId}/Description").value}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        11.sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    color:
-                                                                        greyText),
+                                                                  TextField(
+                                                                controller:
+                                                                    _textFieldController,
                                                                 maxLines: 2,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                        enabledBorder:
+                                                                            OutlineInputBorder(
+                                                                          borderSide: BorderSide(
+                                                                              width: 3,
+                                                                              color: bgColor), //<-- SEE HERE
+                                                                        ),
+                                                                        hintText:
+                                                                            "${userS.child("users/${widget.userId}/Description").value}"),
                                                               ),
+                                                              //     AutoSizeText(
+                                                              //   "${userS.child("users/${widget.userId}/Description").value}",
+                                                              //   style: TextStyle(
+                                                              //       fontSize:
+                                                              //           11.sp,
+                                                              //       fontWeight:
+                                                              //           FontWeight
+                                                              //               .w400,
+                                                              //       color:
+                                                              //           greyText),
+                                                              //   maxLines: 2,
+                                                              // ),
                                                             ),
                                                             SizedBox(
                                                               height: 18,

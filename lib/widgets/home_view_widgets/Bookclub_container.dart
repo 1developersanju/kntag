@@ -61,7 +61,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
 
     return GestureDetector(
       onTap: () {
-        print("Host id found::${widget.tagId}");
+        print("Host name found::${widget.peopleName}");
+        print("Host id found::${widget.membersUid}");
 
         Route _createRoute() {
           return PageRouteBuilder(
@@ -229,7 +230,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                        "${widget.joined} Joined ",
+                                                        // . ${widget.spotsLeft} Spot Left",
                                                         style: TextStyle(
                                                             fontSize: 11.sp,
                                                             color: greyText),
@@ -316,10 +318,10 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                   : ElevatedButton(
                                       onPressed: () {
                                         print("datee: ${widget.membersUid}");
-                                        widget.membersUid ==
-                                                [null, "${widget.uid}"]
-                                            ? print("true")
-                                            : print("false");
+                                        // widget.membersUid ==
+                                        //         [null, "${widget.uid}"]
+                                        //     ? print("htrue")
+                                        //     : print("hfalse");
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -464,7 +466,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                         width: 5,
                                                       ),
                                                       Text(
-                                                        "${widget.joined} Joined . ${widget.spotsLeft} Spot Left",
+                                                        "${widget.joined} Joined ",
+                                                        //. ${widget.spotsLeft} Spot Left",
                                                         style: TextStyle(
                                                             fontSize: 11.sp,
                                                             color: greyText),
@@ -640,9 +643,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
 
   //Method for calling StackedWidgets class & for passing image url
   Widget buildStackedImages(double size) {
-    final urlImages = widget.joined != "0"
-        ? widget.peopleProfileImg
-        : [widget.profile];
+    final urlImages =
+        widget.joined != "0" ? widget.peopleProfileImg : [widget.profile];
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 
