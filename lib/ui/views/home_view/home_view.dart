@@ -172,9 +172,7 @@ class _HomeMapState extends State<HomeMap> {
                       ? LatLng(_currentPosition?.latitude ?? 0,
                           _currentPosition?.longitude ?? 0)
                       : LatLng(markers[0].latitude, markers[0].longitude),
-                  itemcount: userS.children.toList()[0].key == "tags" ||
-                          userS.children.toList()[1].key == "tags" ||
-                          userS.children.toList()[2].key == "tags"
+                  itemcount: markers.isNotEmpty
                       ? userS.child("tags").children.toList().length
                       : 1,
                   changePage: _changeTab,
@@ -243,9 +241,7 @@ class _HomeMapState extends State<HomeMap> {
                       print("EXCEPTION: : $e");
                     }
 
-                    return userS.children.toList()[0].key == "tags" ||
-                            userS.children.toList()[1].key == "tags" ||
-                            userS.children.toList()[2].key == "tags"
+                    return markers.isNotEmpty
                         ? Container(
                             // margin: const EdgeInsets.all(10.0),
                             height: currentHeight * 0.5,

@@ -398,7 +398,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                   widgetMarkers: allMarkers,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
-                  mapType: MapType.terrain,
+                  mapType: MapType.normal,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
                     target: widget.itemcount == 0

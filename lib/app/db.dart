@@ -261,8 +261,8 @@ jointag(tagId, hostId) async {
 sendchat(values, context, chatpath) async {
   print("entered create tag ${values['message']}");
 
-  DatabaseReference tagRef = FirebaseDatabase.instance.ref(chatpath);
-  DatabaseReference newPostRef = tagRef.push();
+  DatabaseReference chatRef = FirebaseDatabase.instance.ref(chatpath);
+  DatabaseReference newPostRef = chatRef.push();
 
   await newPostRef.set({
     "message": values['message'],
@@ -273,5 +273,5 @@ sendchat(values, context, chatpath) async {
     "israted": values["israted"],
   });
 
-  print("tagrefrence: ${tagRef.key}");
+  print("chatRefrence: ${chatRef.key}");
 }

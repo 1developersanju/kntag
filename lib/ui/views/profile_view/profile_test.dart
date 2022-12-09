@@ -94,24 +94,31 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             insetPadding: EdgeInsets.symmetric(vertical: 100),
             actions: <Widget>[
-              FlatButton(
-                color: Colors.red,
-                textColor: Colors.white,
-                child: Text('CANCEL'),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                child: Text(
+                  'CANCEL',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
                   });
                 },
               ),
-              FlatButton(
-                color: Colors.green,
-                textColor: Colors.white,
-                child: Text('OK'),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                child: Text('OK',style: TextStyle(color: Colors.white),),
                 onPressed: () {
                   Map<String, dynamic> obj = {
-                    "username": userNameController.text == ""?user?.displayName:userNameController.text,
-                    "password": descController.text == ""?"Something about you...!":descController.text,
+                    "username": userNameController.text == ""
+                        ? user?.displayName
+                        : userNameController.text,
+                    "password": descController.text == ""
+                        ? "Something about you...!"
+                        : descController.text,
                   };
 
                   updateUserProfile(obj);

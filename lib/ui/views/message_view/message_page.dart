@@ -66,6 +66,9 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> with AnimationMixin {
+  var messageDate;
+  var dateObj;
+
   final textController = TextEditingController();
 
   final _scrollController = ScrollController();
@@ -106,6 +109,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
 
   @override
   void initState() {
+    print("messgaeDate$messageDate");
+    print("DateObj $dateObj");
     opacity = Tween<double>(begin: 1, end: 0).animate(controller);
     controller.duration = Duration(milliseconds: 200);
     // controller.play(); // start the animation playback
@@ -278,14 +283,16 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     shrinkWrap: true,
                     controller: _scrollController,
                     padding: EdgeInsets.symmetric(vertical: 8),
-                    itemBuilder: (ontext, snapshot, animation, index) {
-                      return MessageItem(
-                          uid: "${snapshot.child('uid').value}",
-                          messageId: "${snapshot.key}",
-                          isMe: snapshot.child('uid').value == "${user!.uid}",
-                          message: "${snapshot.child('message').value}",
-                          time: "${snapshot.child('time').value}",
-                          image: "${snapshot.child('prof').value}");
+                    itemBuilder: (c, snapshot, a, i) {
+                      return MessageItem(msg: {
+                        "uid": "${snapshot.child('uid').value}",
+                        "messageId": "${snapshot.key}",
+                        "isMe": snapshot.child('uid').value == "${user!.uid}",
+                        "message": "${snapshot.child('message').value}",
+                        "time": "${snapshot.child('time').value}",
+                        "image": "${snapshot.child('prof').value}",
+                        "date": "${snapshot.child('date').value}"
+                      });
                     },
                   )),
                   BottomArea()
@@ -297,127 +304,145 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
   }
 
   Widget MessageItem({
-    required bool isMe,
-    required String message,
-    required String time,
-    required String messageId,
-    required String image,
-    required String uid,
+    required var msg,
   }) {
     final theme = Theme.of(context);
+    var temp = messageDate;
+    messageDate = msg["date"];
 
-    if (isMe) {
-      return GestureDetector(
-        onTap: () {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-              onTap: () {},
-              onLongPress: () {
-                AlertDialog alert = AlertDialog(
-                  title: Column(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          final dbRef = FirebaseDatabase.instance.ref();
-
-                          dbRef.child("knchat/$messageId").remove();
-                          Navigator.pop(context, true);
-                        },
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(fontSize: 25, color: Colors.red),
-                        ),
-                      ),
-                      Divider(),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ],
-                  ),
-                  buttonPadding: EdgeInsets.all(30),
-                );
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // ElevatedButton(
-                    //     onPressed: () {
-
-                    //       print(messageId);
-                    //     },
-                    //     child: Text("data")),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 4.0, bottom: 8, right: 6),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfileView(
-                                        userId: uid,
-                                        changePage: (int index) {
-                                          // setState(() {
-                                          //   currentIndexs = index;
-                                          // });
-                                          print("_changeTa2b $index");
-                                        },
-                                      )));
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage("${image}"),
-                        ),
-                      ),
+    print("date obj $dateObj");
+    if (msg["isMe"]) {
+      return Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child: temp == messageDate
+                ? SizedBox()
+                : Container(
+                    color: whiteClr,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(msg["date"]),
                     ),
-                    ChatBubble(
-                      clipper: ChatBubbleClipper1(type: BubbleType.sendBubble),
-                      alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(right: 5),
-                      backGroundColor: senderBg,
-                      child: Column(
+                  ),
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  onLongPress: () {
+                    AlertDialog alert = AlertDialog(
+                      title: Column(
                         children: [
-                          Container(
-                            constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.7,
-                            ),
+                          TextButton(
+                            onPressed: () {
+                              final dbRef = FirebaseDatabase.instance.ref();
+
+                              dbRef
+                                  .child("knchat/${msg["messageId"]}")
+                                  .remove();
+                              Navigator.pop(context, true);
+                            },
                             child: Text(
-                              message,
-                              style: TextStyle(color: Colors.white),
+                              "Delete",
+                              style: TextStyle(fontSize: 25, color: Colors.red),
+                            ),
+                          ),
+                          Divider(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
                       ),
+                      buttonPadding: EdgeInsets.all(30),
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // ElevatedButton(
+                        //     onPressed: () {
+
+                        //       print(messageId);
+                        //     },
+                        //     child: Text("data")),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 4.0, bottom: 8, right: 6),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfileView(
+                                            userId: msg["uid"],
+                                            changePage: (int index) {
+                                              // setState(() {
+                                              //   currentIndexs = index;
+                                              // });
+                                              print("_changeTa2b $index");
+                                            },
+                                          )));
+                            },
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage("${msg["image"]}"),
+                            ),
+                          ),
+                        ),
+                        ChatBubble(
+                          clipper:
+                              ChatBubbleClipper1(type: BubbleType.sendBubble),
+                          alignment: Alignment.topRight,
+                          margin: EdgeInsets.only(right: 5),
+                          backGroundColor: senderBg,
+                          child: Column(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                child: Text(
+                                  msg["message"],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5, bottom: 8.0, right: 20.0),
+                          child: Text(msg["time"],
+                              style: theme.textTheme.bodySmall
+                                  ?.copyWith(color: Colors.black)),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5, bottom: 8.0, right: 20.0),
-                      child: Text(time,
-                          style: theme.textTheme.bodySmall
-                              ?.copyWith(color: Colors.black)),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
     } else {
       return Row(
@@ -429,7 +454,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProfileView(
-                            userId: uid,
+                            userId: msg["uid"],
                             changePage: (int index) {
                               // setState(() {
                               //   currentIndexs = index;
@@ -439,7 +464,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                           )));
             },
             child: CircleAvatar(
-              backgroundImage: NetworkImage(image),
+              backgroundImage: NetworkImage(msg["image"]),
             ),
           ),
           SizedBox(
@@ -458,7 +483,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     child: Column(
                       children: [
                         Text(
-                          message,
+                          msg["message"],
                           style: TextStyle(color: greyText),
                         ),
                       ],
@@ -468,7 +493,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 5, bottom: 8.0, left: 20.0),
-                  child: Text(time,
+                  child: Text(msg["time"],
                       style: theme.textTheme.bodySmall
                           ?.copyWith(color: Colors.black)),
                 ),
@@ -798,8 +823,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                   "time": TimeOfDay.now()
                                       .format(context)
                                       .toString(),
-                                  "date": DateFormat('yyyy-MM-dd')
-                                      .format(DateTime.now()),
+                                  "date": DateFormat('yyyy-MM-dd').format(
+                                      DateTime.now().add(Duration(days: 2))),
                                   "uid": user!.uid,
                                   "prof": user!.photoURL,
                                   "israted": israted,
