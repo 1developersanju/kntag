@@ -39,12 +39,12 @@ dependencies:
   google_maps_flutter: ^2.1.7
   http: ^0.13.5
   json_serializable: ^6.2.0
-  geolocator: ^8.2.1
+  geolocator: ^9.0.2
   intl: ^0.17.0
-  stacked_services: ^0.8.26
-  stacked: ^2.3.12
+  stacked_services: ^0.9.8
+  stacked: ^3.0.1
   animated_splash_screen: ^1.2.0
-  simple_animations: ^4.2.0
+  simple_animations: ^5.0.0+3
  
   image_picker: ^0.8.5+3
   auth_buttons: ^3.0.0
@@ -64,14 +64,18 @@ dependencies:
   # interactive_maps_marker: ^0.0.3
   # state management
   provider: ^6.0.3
-  cloud_firestore: ^3.4.2
-  firebase_database: ^9.1.0
+  cloud_firestore: ^4.1.0
+  firebase_database: ^10.0.6
   shared_preferences: ^2.0.15
   geocoding: any
   widget_marker_google_map: ^0.0.2
   badges: ^2.0.3
-  place_picker: ^0.9.19
+  place_picker: ^0.10.0
   connectivity_plus: ^2.3.9
+  grouped_list: ^5.1.2
+  flutter_custom_clippers: ^2.0.0
+  flutter_svg: ^1.1.6
+  cached_network_image: ^3.2.1
 
   
   
@@ -88,7 +92,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.1.11
   # Google Signin
-  firebase_auth: ^3.6.1
+  firebase_auth: ^4.1.5
   google_sign_in: ^5.4.0
 
 # For information on the generic Dart part of this file, see the
@@ -108,6 +112,7 @@ flutter:
      - assets/kntag.jpeg
      - assets/
      - assets/exp5.png
+     - assets/peoplebg.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

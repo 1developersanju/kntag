@@ -125,7 +125,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     _page4 = NotificationView(
       title: "Notifications",
     );
-    _page5 = ActiveMessageView();
+    _page5 = ActiveMessageView(changePage: _changeTab);
     _pages = [_page1, _page2, _page3, _page4, _page5];
     _currentIndex = 0;
     _currentPage = _page1;

@@ -204,7 +204,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     "Location: ${widget.location}",
                                                     style: TextStyle(
                                                       color: greyText,
-                                                      fontSize: 13.sp,
+                                                      fontSize: 12.sp,
                                                     ),
                                                     maxLines: 2,
                                                   ),
@@ -217,10 +217,10 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     maxLines: 1,
                                                   ),
                                                   SizedBox(
-                                                    height: 10,
+                                                    height: 5,
                                                   ),
                                                   Divider(
-                                                    endIndent: 210,
+                                                    endIndent: 40,
                                                     color: greyText,
                                                   ),
                                                   Row(

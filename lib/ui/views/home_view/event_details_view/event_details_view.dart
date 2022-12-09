@@ -216,7 +216,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(2.0),
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   " Location : ${widget.location}",
                                                   style: TextStyle(
                                                       fontSize: 12.sp,

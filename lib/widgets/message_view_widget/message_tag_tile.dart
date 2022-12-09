@@ -151,10 +151,14 @@ class _MessageTagTileState extends State<MessageTagTile> {
                               child: CircleAvatar(
                                   backgroundColor: bgColor,
                                   radius: 2.h,
-                                  child: Image.asset(
-                                    "assets/LOCATION selected.png",
-                                    height: 3.w,
-                                  )),
+                                  child: Transform.rotate(
+                                      angle: 20,
+                                      child: Icon(Icons.navigation_outlined,color: greyText,size: 13.sp,))
+                                  //  Image.asset(
+                                  //   "assets/LOCATION selected.png",
+                                  //   height: 3.w,
+                                  // )
+                                  ),
                             ),
                             // SizedBox(
                             //   width: 5,

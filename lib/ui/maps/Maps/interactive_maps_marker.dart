@@ -4,8 +4,15 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/widgets.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_9.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,6 +23,7 @@ import 'package:kntag/ui/views/profile_view/profile_test.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:widget_marker_google_map/widget_marker_google_map.dart';
+import '../../../widgets/Profile_view_widgets/book_club_container.dart';
 import './utils.dart';
 
 class MarkerItem {
@@ -40,7 +48,7 @@ class InteractiveMapsMarker extends StatefulWidget {
 
   final LatLng center;
   final LatLng initialLocation;
-
+  List markerimgs;
   final double itemHeight;
   final double zoom;
   @required
@@ -53,6 +61,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final Alignment contentAlignment;
 
   InteractiveMapsMarker({
+    required this.markerimgs,
     required this.initialLocation,
     required this.itemcount,
     required this.changePage,
@@ -90,9 +99,16 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   int currentIndex = 0;
   int currentIndexs = 0;
   ValueNotifier selectedMarker = ValueNotifier<int>(0);
+  late Image peoplebg;
 
   @override
   void initState() {
+    peoplebg = Image.asset(
+      "assets/peoplebg.png",
+      color: whiteClr.withOpacity(0.9),
+      fit: BoxFit.cover,
+    );
+
     rebuildMarkers(currentIndex);
     widget.items.forEach((item) {
       allMarkers.add(
@@ -113,25 +129,49 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             );
             _pageChanged(tappedIndex);
           },
-          widget: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            child: Card(
-              color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: SizedBox(
-                  height: 50,
-                  width: 120,
-                  child: Center(
-                    // child: Image.network("${item.imgs}"),
-                    child: AutoSizeText(
-                      "⌗${item.tagname}",
-                      style: TextStyle(
-                          fontFamily: "Singolare",
-                          fontSize: 15,
-                          color: Colors.white),
-                      maxLines: 1,
-                    ),
+          widget: SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: SizedBox(
+                height: 120,
+                width: 120,
+                child: Center(
+                  // child: Image.network("${item.imgs}"),
+                  child: Column(
+                    children: [
+                      Card(
+                        color: loginTextColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AutoSizeText(
+                            item.tagname,
+                            style: TextStyle(
+                                fontFamily: "Singolare",
+                                fontSize: 18,
+                                color: Colors.white),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 70,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              child: peoplebg,
+                            ),
+                            Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: buildStackedImages()),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -147,9 +187,9 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
       );
     });
     setState(() {});
-    super.initState();
-
     getCurrentLocation();
+
+    super.initState();
 
     // _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
     //   ..addListener(() {
@@ -171,6 +211,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   @override
   void didChangeDependencies() {
     rebuildMarkers(currentIndex);
+
     super.didChangeDependencies();
   }
 
@@ -350,16 +391,17 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
               ? Center(child: CircularProgressIndicator())
               : WidgetMarkerGoogleMap(
                   compassEnabled: false,
-                  indoorViewEnabled: true,
+                  indoorViewEnabled: false,
                   zoomControlsEnabled: false,
                   buildingsEnabled: true,
                   zoomGesturesEnabled: true,
                   widgetMarkers: allMarkers,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
+                  mapType: MapType.terrain,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: widget.itemcount != 0
+                    target: widget.itemcount == 0
                         ? widget.center
                         : widget.initialLocation,
                     zoom: widget.zoom,
@@ -427,7 +469,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
           widget: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(15)),
             child: Card(
-              color: Colors.red,
+              color: Colors.green,
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: SizedBox(
@@ -479,5 +521,41 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         .then((val) {
       setState(() {});
     });
+  }
+
+  Widget buildStackedImages() {
+    var membersJoined = 0;
+    final double size = 9.w;
+    final urlImages = membersJoined == 0
+        ? [
+            "${user!.photoURL}",
+            "${user!.photoURL}",
+            "${user!.photoURL}",
+          ]
+        : widget.markerimgs;
+
+    final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
+
+    return StackedWidget(
+      items: items,
+      size: size,
+    );
+  }
+
+  Widget buildImage(String urlImage) {
+    final double borderSize = 0.8;
+
+    return ClipOval(
+      child: Container(
+        padding: EdgeInsets.all(borderSize),
+        color: Colors.white,
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: urlImage,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 }

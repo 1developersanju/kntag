@@ -6,6 +6,7 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:kntag/app/services/dialog.dart';
 import 'package:kntag/ui/views/group_view/TagsAndPeople/tags_and_people.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
@@ -273,7 +274,7 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                       child: FirebaseAnimatedList(
                     query: ref,
                     scrollDirection: Axis.vertical,
-                    reverse: true,
+                    reverse: false,
                     shrinkWrap: true,
                     controller: _scrollController,
                     padding: EdgeInsets.symmetric(vertical: 8),
@@ -797,6 +798,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                   "time": TimeOfDay.now()
                                       .format(context)
                                       .toString(),
+                                  "date": DateFormat('yyyy-MM-dd')
+                                      .format(DateTime.now()),
                                   "uid": user!.uid,
                                   "prof": user!.photoURL,
                                   "israted": israted,
@@ -871,45 +874,45 @@ Widget buildImage(String urlImage) {
 }
 
 // Class to stack circles
-class StackedWidget extends StatelessWidget {
-  final List<Widget> items;
-  final TextDirection direction;
-  final double size;
-  final double xShift;
+// class StackedWidget extends StatelessWidget {
+//   final List<Widget> items;
+//   final TextDirection direction;
+//   final double size;
+//   final double xShift;
 
-  const StackedWidget({
-    Key? key,
-    required this.items,
-    this.direction = TextDirection.ltr,
-    this.size = 10,
-    this.xShift = 5,
-  }) : super(key: key);
+//   const StackedWidget({
+//     Key? key,
+//     required this.items,
+//     this.direction = TextDirection.ltr,
+//     this.size = 10,
+//     this.xShift = 5,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final allItems = items
-        .asMap()
-        .map((index, item) {
-          final left = size - xShift;
+//   @override
+//   Widget build(BuildContext context) {
+//     final allItems = items
+//         .asMap()
+//         .map((index, item) {
+//           final left = size - xShift;
 
-          final value = Container(
-            width: size,
-            height: size,
-            margin: EdgeInsets.only(left: left * index),
-            child: item,
-          );
+//           final value = Container(
+//             width: size,
+//             height: size,
+//             margin: EdgeInsets.only(left: left * index),
+//             child: item,
+//           );
 
-          return MapEntry(index, value);
-        })
-        .values
-        .toList();
+//           return MapEntry(index, value);
+//         })
+//         .values
+//         .toList();
 
-    return Center(
-      child: Stack(
-        children: direction == TextDirection.ltr
-            ? allItems.reversed.toList()
-            : allItems,
-      ),
-    );
-  }
-}
+//     return Center(
+//       child: Stack(
+//         children: direction == TextDirection.ltr
+//             ? allItems.reversed.toList()
+//             : allItems,
+//       ),
+//     );
+//   }
+// }

@@ -28,7 +28,7 @@ class PickerDemoState extends State<PickerDemo> {
         MaterialPageRoute(builder: (context) => PlacePicker(googleMapApi)));
 
     // Handle the result in your way
-    print("heyyy ${result!.latLng.latitude.toString()}");
+    print("heyyy ${result!.latLng?.latitude.toString()}");
   }
 }
 

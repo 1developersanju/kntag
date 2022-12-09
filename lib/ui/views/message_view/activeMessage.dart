@@ -8,6 +8,8 @@ import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ActiveMessageView extends StatefulWidget {
+  final void Function(int) changePage;
+  ActiveMessageView({required this.changePage});
   @override
   State<ActiveMessageView> createState() => _ActiveMessageViewState();
 }
@@ -30,6 +32,12 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
     List tagMembersProfile = [];
 
     // List<MarkerItem> markers = [];
+    void _changeTab(int index) {
+      // setState(() {
+      //   currentIndex = index;
+      // });
+      widget.changePage(index);
+    }
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -60,130 +68,166 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
               final userS = snapshot.data.snapshot;
 
               // addmarkers(userS);
-              return ListView.builder(
-                itemCount: userS.child("tags").children.toList().length,
-                itemBuilder: (context, index) {
-                  var hostid;
-                  var membersUid;
-                  List participantsUid = [];
-                  var membersTotal;
-                  try {
-                    hostid = userS
-                        .child("tags")
-                        .children
-                        .toList()[index]
-                        .child('hostId')
-                        .value;
-                    membersUid = userS
-                        .child("tags")
-                        .children
-                        .toList()[index]
-                        .child('membersUID')
-                        .value;
-
-                    membersTotal = userS
-                        .child("tags")
-                        .children
-                        .toList()[index]
-                        .child('membersttl')
-                        .value;
-
-                    participantsUid.clear();
-
-                    // TODO: implement initState
-                    for (var element in membersUid) {
-                      participantsUid.add(element);
-                      participantsUid.remove(null);
-                      // print("namee:${widget.peopleName}");
-
-                      // name.removeAt(0);
-                      // peoplename.add(name);
-                    }
-                    print("tagees $tagMembers");
-                    tagMembersProfile.clear();
-
-                    for (var element in membersUid) {
-                      tagMembersProfile.add(
-                          userS.child("users/${element}/ProfileImage").value);
-                      tagMembersProfile.remove(null);
-                      print("name::${tagMembersProfile}");
-                    }
-                    tagMembers.clear();
-
-                    for (var element in membersUid) {
-                      tagMembers
-                          .add(userS.child("users/${element}/UserName").value);
-                      tagMembers.remove(null);
-                      print("name::${tagMembers}");
-                    }
-                  } catch (e) {
-                    print("EXCEPTION: : $e");
-                  }
-                  return hostid == user?.uid ||
-                          participantsUid.contains("${user?.uid}")
-                      ? MessageTagTile(
-                          desc: userS
+              return userS.child("tags").children.toList().length != 0
+                  ? ListView.builder(
+                      itemCount: userS.child("tags").children.toList().length,
+                      itemBuilder: (context, index) {
+                        var hostid;
+                        var membersUid;
+                        List participantsUid = [];
+                        var membersTotal;
+                        try {
+                          hostid = userS
                               .child("tags")
                               .children
                               .toList()[index]
-                              .child('tagdescription')
-                              .value,
-                          hostName: userS.child("users/$hostid/UserName").value,
-                          hostid: hostid,
-                          chatPath:
-                              "tagchat/${userS.child("tags").children.toList()[index].key}",
-                          tagId:
-                              "${userS.child("tags").children.toList()[index].key}",
-                          peopleProfileImg: tagMembersProfile,
-                          index: "1",
-                          peopleName: tagMembers,
-                          tagText:
-                              "#${userS.child("tags").children.toList()[index].child('tagname').value}",
-                          joinedCount: userS
+                              .child('hostId')
+                              .value;
+                          membersUid = userS
+                              .child("tags")
+                              .children
+                              .toList()[index]
+                              .child('membersUID')
+                              .value;
+
+                          membersTotal = userS
                               .child("tags")
                               .children
                               .toList()[index]
                               .child('membersttl')
-                              .value
-                              .toString(),
-                          leftCount:
-                              "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
-                          userProfile: [
-                            userS
-                                    .child("users/${membersUid}/ProfileImage")
-                                    .value ??
-                                userS.child("users/$hostid/ProfileImage").value,
-                          ],
-                          date:
-                              "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
-                          showcaseImg: [],
-                          time:
-                              " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
-                          location: userS
-                              .child("tags")
-                              .children
-                              .toList()[index]
-                              .child('map/landmark')
-                              .value,
-                          host: userS.child("users/$hostid/ProfileImage").value,
-                          lat: (userS
-                                  .child("tags")
-                                  .children
-                                  .toList()[index]
-                                  .child('map/latitude')
-                                  .value)
-                              .toString(),
-                          long: (userS
-                                  .child("tags")
-                                  .children
-                                  .toList()[index]
-                                  .child('map/londitude')
-                                  .value)
-                              .toString(),
-                        )
-                      : SizedBox();
-                },
-              );
+                              .value;
+
+                          participantsUid.clear();
+
+                          // TODO: implement initState
+                          for (var element in membersUid) {
+                            participantsUid.add(element);
+                            participantsUid.remove(null);
+                            // print("namee:${widget.peopleName}");
+
+                            // name.removeAt(0);
+                            // peoplename.add(name);
+                          }
+                          print("tagees $tagMembers");
+                          tagMembersProfile.clear();
+
+                          for (var element in membersUid) {
+                            tagMembersProfile.add(userS
+                                .child("users/${element}/ProfileImage")
+                                .value);
+                            tagMembersProfile.remove(null);
+                            print("name::${tagMembersProfile}");
+                          }
+                          tagMembers.clear();
+
+                          for (var element in membersUid) {
+                            tagMembers.add(
+                                userS.child("users/${element}/UserName").value);
+                            tagMembers.remove(null);
+                            print("name::${tagMembers}");
+                          }
+                        } catch (e) {
+                          print("EXCEPTION: : $e");
+                        }
+                        return hostid == user?.uid ||
+                                participantsUid.contains("${user?.uid}")
+                            ? MessageTagTile(
+                                desc: userS
+                                    .child("tags")
+                                    .children
+                                    .toList()[index]
+                                    .child('tagdescription')
+                                    .value,
+                                hostName:
+                                    userS.child("users/$hostid/UserName").value,
+                                hostid: hostid,
+                                chatPath:
+                                    "tagchat/${userS.child("tags").children.toList()[index].key}",
+                                tagId:
+                                    "${userS.child("tags").children.toList()[index].key}",
+                                peopleProfileImg: tagMembersProfile,
+                                index: "1",
+                                peopleName: tagMembers,
+                                tagText:
+                                    "${userS.child("tags").children.toList()[index].child('tagname').value}",
+                                joinedCount: userS
+                                    .child("tags")
+                                    .children
+                                    .toList()[index]
+                                    .child('membersttl')
+                                    .value
+                                    .toString(),
+                                leftCount:
+                                    "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
+                                userProfile: [
+                                  userS
+                                          .child(
+                                              "users/${membersUid}/ProfileImage")
+                                          .value ??
+                                      userS
+                                          .child("users/$hostid/ProfileImage")
+                                          .value,
+                                ],
+                                date:
+                                    "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
+                                showcaseImg: [],
+                                time:
+                                    " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
+                                location: userS
+                                    .child("tags")
+                                    .children
+                                    .toList()[index]
+                                    .child('map/landmark')
+                                    .value,
+                                host: userS
+                                    .child("users/$hostid/ProfileImage")
+                                    .value,
+                                lat: (userS
+                                        .child("tags")
+                                        .children
+                                        .toList()[index]
+                                        .child('map/latitude')
+                                        .value)
+                                    .toString(),
+                                long: (userS
+                                        .child("tags")
+                                        .children
+                                        .toList()[index]
+                                        .child('map/londitude')
+                                        .value)
+                                    .toString(),
+                              )
+                            : SizedBox();
+                      },
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _changeTab(2);
+                            },
+                            child: Icon(
+                              Icons.chat,
+                              size: 80,
+                              color: Colors.grey.shade400,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Do not have chats..',
+                            style: TextStyle(color: greyText),
+                          ),
+                          Text(
+                            'Create/Join tag to chat',
+                            style: TextStyle(color: greyText),
+                          ),
+                        ],
+                      ),
+                    );
             }
             return Center(
               child: Text("Something went wrong"),

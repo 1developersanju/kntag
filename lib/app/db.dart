@@ -40,6 +40,17 @@ createUser() async {
   print("added");
 }
 
+updateUserProfile(userdata) async {
+  // chat();
+
+  await userRef.update({
+    "UserName": "${userdata["username"]}",
+    "Description": "${userdata["password"]}",
+  });
+
+  print("added");
+}
+
 updateUserOnCreate(createdTagId, joinedTagId) async {
   DatabaseReference userRef =
       FirebaseDatabase.instance.ref("users/${user?.uid}");
@@ -256,6 +267,7 @@ sendchat(values, context, chatpath) async {
   await newPostRef.set({
     "message": values['message'],
     "time": values['time'],
+    "date": values['date'],
     "uid": values["uid"],
     "prof": values["prof"],
     "israted": values["israted"],
@@ -263,4 +275,3 @@ sendchat(values, context, chatpath) async {
 
   print("tagrefrence: ${tagRef.key}");
 }
-                                     

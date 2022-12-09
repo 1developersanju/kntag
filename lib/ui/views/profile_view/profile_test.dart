@@ -60,57 +60,101 @@ class _ProfileViewState extends State<ProfileView> {
     }
   }
 
-  // Future<void> editdialog(BuildContext context) async {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Text('Edit profile'),
-  //           content: Column(
-  //             children: [
-  //               TextField(
-  //                 onChanged: (value) {
-  //                   setState(() {
-  //                     // valueText = value;
-  //                   });
-  //                 },
-  //                 controller: _textFieldController,
-  //                 decoration: InputDecoration(hintText: "New Name"),
-  //               ),
-  //             ],
-  //           ),
-  //           insetPadding: EdgeInsets.symmetric(vertical: 100),
-  //           actions: <Widget>[
-  //             FlatButton(
-  //               color: Colors.red,
-  //               textColor: Colors.white,
-  //               child: Text('CANCEL'),
-  //               onPressed: () {
-  //                 setState(() {
-  //                   Navigator.pop(context);
-  //                 });
-  //               },
-  //             ),
-  //             FlatButton(
-  //               color: Colors.green,
-  //               textColor: Colors.white,
-  //               child: Text('OK'),
-  //               onPressed: () {
-  //                 setState(() {
-  //                   // codeDialog = valueText;
-  //                   Navigator.pop(context);
-  //                 });
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
+  Future<void> editdialog(
+    BuildContext context,
+  ) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edit profile'),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: userNameController,
+                    decoration: InputDecoration(hintText: "New Name"),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        // valueText = value;
+                      });
+                    },
+                    controller: descController,
+                    decoration:
+                        InputDecoration(hintText: "something about you.."),
+                  ),
+                ],
+              ),
+            ),
+            insetPadding: EdgeInsets.symmetric(vertical: 100),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text('CANCEL'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              FlatButton(
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text('OK'),
+                onPressed: () {
+                  Map<String, dynamic> obj = {
+                    "username": userNameController.text == ""?user?.displayName:userNameController.text,
+                    "password": descController.text == ""?"Something about you...!":descController.text,
+                  };
+
+                  updateUserProfile(obj);
+
+                  setState(() {
+                    // codeDialog = valueText;
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   final formGlobalKey = GlobalKey<FormState>();
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _textFieldController = TextEditingController();
+    Future openDialog() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("Edit profile"),
+              content: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: userNameController,
+                      decoration:
+                          InputDecoration(hintText: "Enter user name.."),
+                    ),
+                    TextField(
+                      controller: descController,
+                      decoration: InputDecoration(
+                          hintText: "Enter something about you.."),
+                    ),
+                  ],
+                ),
+              ),
+            ));
 
     List tagMembers = [];
     List tagMembersProfile = [];
@@ -130,6 +174,13 @@ class _ProfileViewState extends State<ProfileView> {
     final dbRef = FirebaseDatabase.instance.ref();
     final dbTagRef = FirebaseDatabase.instance.ref().child("tags");
 
+    @override
+    void dispose() {
+      userNameController.dispose();
+      descController.dispose();
+      super.dispose();
+    }
+
     return
         // wrong call in wrong place!
 
@@ -139,7 +190,8 @@ class _ProfileViewState extends State<ProfileView> {
                 IconButton(
                     onPressed: FirebaseAuth.instance.currentUser != null
                         ? () {
-                            // editdialog(context);
+                            editdialog(context);
+                            // openDialog();
                           }
                         : () {
                             DialogBox.loginDialog(context);
@@ -220,68 +272,74 @@ class _ProfileViewState extends State<ProfileView> {
                                                                         15)),
                                                         width: currentWidth,
                                                         height: 22.h,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              userS
-                                                                  .child(
-                                                                      "users/${widget.userId}/UserName")
-                                                                  .value,
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      18.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color:
-                                                                      titleColor),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child:
-                                                                  TextField(
-                                                                controller:
-                                                                    _textFieldController,
-                                                                maxLines: 2,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                        enabledBorder:
-                                                                            OutlineInputBorder(
-                                                                          borderSide: BorderSide(
-                                                                              width: 3,
-                                                                              color: bgColor), //<-- SEE HERE
-                                                                        ),
-                                                                        hintText:
-                                                                            "${userS.child("users/${widget.userId}/Description").value}"),
+                                                        child: GestureDetector(
+                                                          onTap: () {},
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                userS
+                                                                    .child(
+                                                                        "users/${widget.userId}/UserName")
+                                                                    .value,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        titleColor),
                                                               ),
-                                                              //     AutoSizeText(
-                                                              //   "${userS.child("users/${widget.userId}/Description").value}",
-                                                              //   style: TextStyle(
-                                                              //       fontSize:
-                                                              //           11.sp,
-                                                              //       fontWeight:
-                                                              //           FontWeight
-                                                              //               .w400,
-                                                              //       color:
-                                                              //           greyText),
-                                                              //   maxLines: 2,
+                                                              SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              // Padding(
+                                                              //   padding:
+                                                              //       const EdgeInsets
+                                                              //           .all(8.0),
+                                                              //   child:
+                                                              //   TextFormField(
+                                                              // // controller:
+                                                              // //     _textFieldController,
+                                                              // maxLines: 2,
+                                                              // decoration:
+                                                              //     InputDecoration(
+                                                              //         enabledBorder:
+                                                              //             OutlineInputBorder(
+                                                              //           borderSide: BorderSide(
+                                                              //               width: 3,
+                                                              //               color: bgColor), //<-- SEE HERE
+                                                              //         ),
+                                                              //         labelText:
+                                                              //             "test",
+                                                              //         hintText:
+                                                              //             ""),
+                                                              // "${userS.child("users/${widget.userId}/Description").value}"),
                                                               // ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 18,
-                                                            )
-                                                          ],
+                                                              AutoSizeText(
+                                                                "${userS.child("users/${widget.userId}/Description").value}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    color:
+                                                                        greyText),
+                                                                maxLines: 2,
+                                                              ),
+
+                                                              SizedBox(
+                                                                height: 18,
+                                                              )
+                                                            ],
+                                                          ),
                                                         )),
                                                   ],
                                                 ),
@@ -501,12 +559,19 @@ class _ProfileViewState extends State<ProfileView> {
                                                     "users/${widget.userId}/totaltags")
                                                 .value,
                                             itemBuilder: (context, index) {
-                                              var membersUid = userS
-                                                  .child("tags")
-                                                  .children
-                                                  .toList()[index]
-                                                  .child('membersUID')
-                                                  .value;
+                                              var membersUid =
+                                                  //  userS
+                                                  //     .child(
+                                                  //         "users/${widget.userId}/CreatedTags")
+                                                  //     .value;
+
+                                                  userS
+                                                      .child("tags")
+                                                      .children
+                                                      .toList()[index]
+                                                      .child('membersUID')
+                                                      .value;
+
                                               var membersTotal = userS
                                                   .child("tags")
                                                   .children
