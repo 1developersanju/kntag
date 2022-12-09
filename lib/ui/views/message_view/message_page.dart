@@ -823,8 +823,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                   "time": TimeOfDay.now()
                                       .format(context)
                                       .toString(),
-                                  "date": DateFormat('yyyy-MM-dd').format(
-                                      DateTime.now().add(Duration(days: 2))),
+                                  "date": DateFormat('yyyy-MM-dd')
+                                      .format(DateTime.now()),
                                   "uid": user!.uid,
                                   "prof": user!.photoURL,
                                   "israted": israted,
