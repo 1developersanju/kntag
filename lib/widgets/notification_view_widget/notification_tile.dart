@@ -104,7 +104,7 @@ class _NotificationTileState extends State<NotificationTile> {
                             ),
                       Expanded(
                         child: Text(
-                          "#${widget.tagText}",
+                          "${widget.tagText}",
                           //"13 Joined\n12/25 Spot Left",
                           style:
                               TextStyle(color: Colors.black38, fontSize: 11.sp),

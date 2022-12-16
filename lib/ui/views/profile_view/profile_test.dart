@@ -73,6 +73,7 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 children: [
                   TextField(
+                    autofocus: true,
                     controller: userNameController,
                     decoration: InputDecoration(hintText: "New Name"),
                   ),
@@ -110,7 +111,10 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: Text('OK',style: TextStyle(color: Colors.white),),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   Map<String, dynamic> obj = {
                     "username": userNameController.text == ""
@@ -163,13 +167,15 @@ class _ProfileViewState extends State<ProfileView> {
               ),
             ));
 
-    List tagMembers = [];
-    List tagMembersProfile = [];
+    // List tagMembers = [];
+    // List tagMembersProfile = [];
     List createdTagsNames = [];
     List createdTagslocation = [];
     List createdTagslatitude = [];
     List createdTagslongitude = [];
     List createdTagsdate = [];
+    List createdTagsEnddate = [];
+    List createdTagsEndTime = [];
     List createdTagstime = [];
     List createdTagsdescription = [];
     List createdTagsMembersCount = [];
@@ -194,25 +200,27 @@ class _ProfileViewState extends State<ProfileView> {
         Scaffold(
             appBar: AppBar(
               actions: [
-                IconButton(
-                    onPressed: FirebaseAuth.instance.currentUser != null
-                        ? () {
-                            editdialog(context);
-                            // openDialog();
-                          }
-                        : () {
-                            DialogBox.loginDialog(context);
-                          },
-                    icon: Icon(Icons.edit)),
+                widget.userId == user!.uid
+                    ? IconButton(
+                        onPressed: FirebaseAuth.instance.currentUser != null
+                            ? () {
+                                editdialog(context);
+                                // openDialog();
+                              }
+                            : () {
+                                DialogBox.loginDialog(context);
+                              },
+                        icon: Icon(Icons.edit))
+                    : SizedBox(),
                 IconButton(
                     onPressed: FirebaseAuth.instance.currentUser != null
                         ? () {
                             final provider = Provider.of<GoogleLoginProvider>(
                                 context,
                                 listen: false);
-                            // provider.logout();
+                            provider.logout();
                             FirebaseAuth.instance.signOut();
-                            provider.googleLogin;
+                            // provider.googleLogin;
                             Navigator.pop(context);
                           }
                         : () {
@@ -566,34 +574,39 @@ class _ProfileViewState extends State<ProfileView> {
                                                     "users/${widget.userId}/totaltags")
                                                 .value,
                                             itemBuilder: (context, index) {
-                                              var membersUid =
-                                                  //  userS
-                                                  //     .child(
-                                                  //         "users/${widget.userId}/CreatedTags")
-                                                  //     .value;
+                                              // var hostid;
+                                              // List participantsUid = [];
+                                              var hostid;
+                                              var membersUid;
+                                              List participantsUid = [];
+                                              List tagMembers = [];
+                                              List tagMembersProfile = [];
 
-                                                  userS
-                                                      .child("tags")
-                                                      .children
-                                                      .toList()[index]
-                                                      .child('membersUID')
-                                                      .value;
+                                              var membersTotal;
 
-                                              var membersTotal = userS
-                                                  .child("tags")
-                                                  .children
-                                                  .toList()[index]
-                                                  .child('membersttl')
-                                                  .value;
-                                              var createdtagCount = userS
-                                                  .child(
-                                                      "users/${widget.userId}/totaltags")
-                                                  .value;
-                                              var tagid = userS
-                                                  .child(
-                                                      "users/${widget.userId}/createdTags")
-                                                  .value;
                                               try {
+                                                membersUid = userS
+                                                    .child("tags")
+                                                    .children
+                                                    .toList()[index]
+                                                    .child('membersUID')
+                                                    .value;
+
+                                                membersTotal = userS
+                                                    .child("tags")
+                                                    .children
+                                                    .toList()[index]
+                                                    .child('membersttl')
+                                                    .value;
+                                                var createdtagCount = userS
+                                                    .child(
+                                                        "users/${widget.userId}/totaltags")
+                                                    .value;
+                                                var tagid = userS
+                                                    .child(
+                                                        "users/${widget.userId}/createdTags")
+                                                    .value;
+
                                                 tagMembersProfile.clear();
                                                 tagMembers.clear();
                                                 //members user name
@@ -661,11 +674,29 @@ class _ProfileViewState extends State<ProfileView> {
                                                           "tags/${tagid[i]}/time/datefrom")
                                                       .value);
                                                 }
+
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagsEnddate.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/time/dateto")
+                                                      .value);
+                                                }
                                                 //tag time
                                                 for (int i = 1;
                                                     i <= createdtagCount;
                                                     i++) {
                                                   createdTagstime.add(userS
+                                                      .child(
+                                                          "tags/${tagid[i]}/time/to")
+                                                      .value);
+                                                }
+
+                                                for (int i = 1;
+                                                    i <= createdtagCount;
+                                                    i++) {
+                                                  createdTagsEndTime.add(userS
                                                       .child(
                                                           "tags/${tagid[i]}/time/to")
                                                       .value);
@@ -693,6 +724,10 @@ class _ProfileViewState extends State<ProfileView> {
                                                 print("EXCEPTION: : $e");
                                               }
                                               return BookClubContainer(
+                                                endDate:
+                                                    createdTagsEnddate[index],
+                                                endTime:
+                                                    createdTagsEndTime[index],
                                                 membersUid: [],
                                                 uid: widget.userId,
                                                 tagDesc: createdTagsdescription[
@@ -734,47 +769,60 @@ class _ProfileViewState extends State<ProfileView> {
                                               );
                                             },
                                           )
-                                        : Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "You have not yet created a tag...",
-                                                style: TextStyle(
-                                                    fontFamily: "Singolare",
-                                                    fontSize: 15.sp),
-                                              ),
-                                              OutlinedButton(
-                                                  onPressed: FirebaseAuth
-                                                              .instance
-                                                              .currentUser ==
-                                                          null
-                                                      ? () {
-                                                          // () => widget.changePage(0);
+                                        : widget.userId == user.uid
+                                            ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Text(
+                                                    "You have not yet created a tag...",
+                                                    style: TextStyle(
+                                                        fontFamily: "Singolare",
+                                                        fontSize: 15.sp),
+                                                  ),
+                                                  OutlinedButton(
+                                                      onPressed: FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser ==
+                                                              null
+                                                          ? () {
+                                                              // () => widget.changePage(0);
 
-                                                          DialogBox.loginDialog(
-                                                              context);
-                                                        }
-                                                      : () {
-                                                          widget.changePage(2);
-                                                          print("object");
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                  child: Text("Create Tag"),
-                                                  style: ButtonStyle(
-                                                      shape: MaterialStateProperty.all<
-                                                              RoundedRectangleBorder>(
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          18.0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .red)))))
-                                            ],
-                                          ),
+                                                              DialogBox
+                                                                  .loginDialog(
+                                                                      context);
+                                                            }
+                                                          : () {
+                                                              widget.changePage(
+                                                                  2);
+                                                              print("object");
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                      child: Text("Create Tag"),
+                                                      style: ButtonStyle(
+                                                          shape: MaterialStateProperty.all<
+                                                                  RoundedRectangleBorder>(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              18.0),
+                                                                  side: BorderSide(
+                                                                      color: Colors
+                                                                          .red)))))
+                                                ],
+                                              )
+                                            : Center(
+                                              child: Text(
+                                                  "Do not have any created tags...",
+                                                  style: TextStyle(
+                                                      fontFamily: "Singolare",
+                                                      fontSize: 15.sp),
+                                                ),
+                                            ),
                                   )
                                 ]),
                             // margin: const EdgeInsets.all(10),

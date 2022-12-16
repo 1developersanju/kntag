@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:kntag/core/models/peopleModel.dart';
+import 'package:kntag/ui/views/profile_view/profile_test.dart';
 
 import '../../../colorAndSize.dart';
 
 class Peopl extends StatefulWidget {
   bool backButtonneeded;
   String peoplecount;
-  Peopl({required this.peoplecount, required this.backButtonneeded});
+  List peopleName;
+  List peopleImage;
+  List membersUid;
+  Peopl(
+      {required this.peoplecount,
+      required this.backButtonneeded,
+      required this.peopleImage,
+      required this.peopleName,
+      required this.membersUid});
   @override
   State<Peopl> createState() => _PeopleState();
 }
@@ -39,13 +48,29 @@ class _PeopleState extends State<Peopl> {
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))],
         ),
         backgroundColor: bgColor,
-        body: widget.peoplecount == 0
+        body: widget.peoplecount != "0"
             ? ListView.builder(
                 itemCount: int.parse(widget.peoplecount),
                 itemBuilder: (context, index) {
-                  return Peopleview(
-                    name: containerDetails[index].name,
-                    profpic: containerDetails[index].profpic,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileView(
+                                    userId: widget.membersUid[index],
+                                    changePage: (int index) {
+                                      // setState(() {
+                                      //   currentIndexs = index;
+                                      // });
+                                      print("_changeTa2b $index");
+                                    },
+                                  )));
+                    },
+                    child: Peopleview(
+                      name: widget.peopleName[index],
+                      profpic: widget.peopleImage[index],
+                    ),
                   );
                 },
               )

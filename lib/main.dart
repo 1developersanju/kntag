@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kntag/app/custom_routes.dart';
 import 'package:kntag/app/services/decide_login.dart';
 import 'package:kntag/colorAndSize.dart';
-import 'package:kntag/ui/views/message_view/message_page%20copy.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kntag/splash.dart';
-import 'package:kntag/tabbar.dart';
-import 'package:kntag/ui/views/login_view/login_view.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'app/services/google_login.dart';
 
@@ -21,6 +17,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
   runApp(MyApp());
 }
 
@@ -35,7 +32,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           // print current route for clarity.
 
-          home: AnimatedSplashScreen(
+          home: 
+          AnimatedSplashScreen(
               duration: 3000,
               splash: SplashScreen(),
               nextScreen: DecideLogin(),

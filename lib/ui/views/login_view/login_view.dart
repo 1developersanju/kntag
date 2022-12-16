@@ -1,24 +1,65 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:auth_buttons/auth_buttons.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kntag/app/db.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kntag/app/services/decide_login.dart';
 import 'package:kntag/app/services/google_login.dart';
 import 'package:kntag/bottomNavBarNormal.dart';
-import 'package:kntag/tabbar.dart';
-import 'package:kntag/ui/views/home_view/home_view.dart';
-import 'package:kntag/ui/views/login_view/forgetpassword_view.dart';
-import 'package:kntag/ui/views/login_view/create_account.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
+  }
+
+  String currentAddress = "";
+  final geolocator =
+      Geolocator.getCurrentPosition(forceAndroidLocationManager: true);
+  late GoogleMapController mapController;
+  Position? _currentPosition;
+
+  void getCurrentLocation() async {
+    LocationPermission permission;
+    permission = await Geolocator.requestPermission();
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+
+      getAddressFromLatLng();
+    }).catchError((e) {
+      print("errrror:$e");
+    });
+  }
+
+  void getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition?.latitude ?? 0, _currentPosition?.longitude ?? 0);
+
+      Placemark place = p[0];
+
+      setState(() {
+        currentAddress = "${place.locality}";
+      });
+    } catch (e) {
+      print("exceeeptionnn$e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +143,9 @@ class LoginView extends StatelessWidget {
                                 child: GoogleAuthButton(
                               onPressed: () async {
                                 // RealDB().setData();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                // prefs.setString('latitude', '${}');
 
                                 final provider =
                                     Provider.of<GoogleLoginProvider>(context,
@@ -113,8 +157,6 @@ class LoginView extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => DecideLogin()));
-                                        
-
                               },
                               text: 'Login with Google',
                               style: AuthButtonStyle(

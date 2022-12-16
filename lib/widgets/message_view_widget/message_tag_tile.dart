@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kntag/app/db.dart';
 import 'package:kntag/ui/views/Google%20map/openMap.dart';
 import 'package:kntag/ui/views/home_view/event_details_view/event_details_view.dart';
 import 'package:kntag/ui/views/message_view/message_page.dart';
@@ -10,6 +11,9 @@ import 'package:url_launcher/url_launcher.dart';
 class MessageTagTile extends StatefulWidget {
   String tagText;
   String joinedCount;
+  String endDate;
+  String endTime;
+  bool hasUnseenMessage;
   String leftCount;
   List userProfile;
   String index;
@@ -24,11 +28,16 @@ class MessageTagTile extends StatefulWidget {
   String lat;
   String long;
   List peopleName;
+  List membersUid;
   List peopleProfileImg;
   String chatPath;
   String hostid;
   MessageTagTile(
       {required this.tagText,
+      required this.endDate,
+      required this.endTime,
+      required this.hasUnseenMessage,
+      required this.membersUid,
       required this.desc,
       required this.hostName,
       required this.hostid,
@@ -62,10 +71,14 @@ class _MessageTagTileState extends State<MessageTagTile> {
       padding: const EdgeInsets.only(top: 6.5, left: 10, right: 10),
       child: GestureDetector(
         onTap: () {
+          viewedMessage({"viewedUid": user!.uid}, context, widget.chatPath);
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => MessagePage(
+                      endDate: widget.endDate,
+                      endTime: widget.endTime,
+                      membersUid: widget.membersUid,
                       desc: widget.desc,
                       hostName: widget.hostName,
                       hostId: widget.hostid,
@@ -95,7 +108,10 @@ class _MessageTagTileState extends State<MessageTagTile> {
             width: currentWidth * 0.90,
             height: currentHeight * 0.13,
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                color: widget.hasUnseenMessage == true
+                    ? Colors.white
+                    : Colors.amber,
+                borderRadius: BorderRadius.circular(8)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -153,7 +169,11 @@ class _MessageTagTileState extends State<MessageTagTile> {
                                   radius: 2.h,
                                   child: Transform.rotate(
                                       angle: 20,
-                                      child: Icon(Icons.navigation_outlined,color: greyText,size: 13.sp,))
+                                      child: Icon(
+                                        Icons.navigation_outlined,
+                                        color: greyText,
+                                        size: 13.sp,
+                                      ))
                                   //  Image.asset(
                                   //   "assets/LOCATION selected.png",
                                   //   height: 3.w,
@@ -190,7 +210,9 @@ class _MessageTagTileState extends State<MessageTagTile> {
 
   Widget buildStackedImages() {
     final double size = 4.h;
-    final urlImages = widget.userProfile;
+    final urlImages = widget.joinedCount != "0"
+        ? widget.peopleProfileImg
+        : widget.userProfile;
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 

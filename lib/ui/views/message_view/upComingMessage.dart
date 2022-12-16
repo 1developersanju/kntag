@@ -25,6 +25,10 @@ class _UpcomingMessageViewState extends State<UpcomingMessageView> {
         itemCount: containerDetails.length,
         itemBuilder: (context, index) {
           return MessageTagTile(
+            endDate: "",
+            endTime: "",
+            hasUnseenMessage: false,
+            membersUid: [],
             desc: "",
             hostName: "",
             hostid: "",

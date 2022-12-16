@@ -6,6 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kntag/app/services/dialog.dart';
+import 'package:kntag/app/services/notif_api.dart';
 import 'package:kntag/app/services/shared_pref.dart';
 // import 'package:interactive_maps_marker/interactive_maps_marker.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
@@ -15,6 +16,8 @@ import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/widgets/home_view_widgets/Bookclub_container.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../app/db.dart';
 
 class HomeMap extends StatefulWidget {
   final void Function(int) changePage;
@@ -38,9 +41,11 @@ class _HomeMapState extends State<HomeMap> {
   var usersnap;
   @override
   void initState() {
+    NotificationApi.init();
+    // userAvailable(context);
     // TODO: implement initState
     super.initState();
-    getCurrentLocation();
+    // getCurrentLocation();
     containerDetails = tagTileDatas();
     _changeTab;
     var i = {"id": 9};
@@ -57,9 +62,39 @@ class _HomeMapState extends State<HomeMap> {
   Position? _currentPosition;
 
   addmarkers(userS) async {
+    List memUid = [];
+    List membersProfile = [];
+    var membersUid = userS
+        .child("tags")
+        .children
+        .toList()[1]
+        .child('membersUID')
+        .value
+        .toList();
+    ;
+
+    memUid.clear();
+
+    // TODO: implement initState
+    for (var element in memUid) {
+      memUid.add(element);
+      memUid.remove(null);
+      // print("namee:${widget.peopleName}");
+
+      // name.removeAt(0);
+      // peoplename.add(name);
+    }
+
+    for (var element in memUid) {
+      membersProfile.add(userS.child("users/${element}/ProfileImage").value);
+      membersProfile.remove(null);
+      print("profile pick::${membersProfile}");
+    }
+
     for (var i = 0; i < userS.child("tags").children.toList().length; i++) {
       var hostid =
           userS.child("tags").children.toList()[i].child('hostId').value;
+
       markers.add(MarkerItem(
         tagname:
             userS.child("tags").children.toList()[i].child('tagname').value,
@@ -77,6 +112,7 @@ class _HomeMapState extends State<HomeMap> {
             .child('map/londitude')
             .value),
         imgs: userS.child("users/$hostid/ProfileImage").value,
+        markerimg: membersProfile,
       ));
     }
   }
@@ -133,31 +169,22 @@ class _HomeMapState extends State<HomeMap> {
 
     final user = FirebaseAuth.instance.currentUser;
     final currentHeight = MediaQuery.of(context).size.height;
-    var hostid;
-    var membersUid;
-    List participantsUid = [];
-    List tagMembers = [];
-    List tagMembersProfile = [];
 
     return Scaffold(
       // drawer: Drawer(child: Drawerpage()),
       extendBodyBehindAppBar: true,
-
       body: StreamBuilder(
           stream: dbRef.onValue,
           builder: (ctx, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Stack(
-                children: [
-                  const Center(child: CircularProgressIndicator()),
-                ],
-              );
+              return Text("waiting");
             } else if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 return const Text('Error');
               } else if (snapshot.hasData) {
                 final userS = snapshot.data.snapshot;
+                List markerMembersProfile = [];
 
                 addmarkers(userS);
                 return
@@ -167,7 +194,8 @@ class _HomeMapState extends State<HomeMap> {
                     //       )
                     // :
                     InteractiveMapsMarker(
-                  markerimgs: tagMembersProfile,
+                  userid: userS.child("users/${user?.uid}/UserName").value ?? "",
+                  markerimgs: markerMembersProfile,
                   initialLocation: markers.isEmpty
                       ? LatLng(_currentPosition?.latitude ?? 0,
                           _currentPosition?.longitude ?? 0)
@@ -186,6 +214,12 @@ class _HomeMapState extends State<HomeMap> {
                   //   return BottomTile(item: item);
                   // },
                   itemBuilder: (BuildContext context, int index) {
+                    var hostid;
+                    var membersUid;
+                    List participantsUid = [];
+                    List tagMembers = [];
+                    List tagMembersProfile = [];
+
                     var membersTotal;
                     try {
                       hostid = userS
@@ -229,6 +263,7 @@ class _HomeMapState extends State<HomeMap> {
                         tagMembersProfile.remove(null);
                         print("name::${tagMembersProfile}");
                       }
+
                       tagMembers.clear();
 
                       for (var element in participantsUid) {
@@ -295,9 +330,13 @@ class _HomeMapState extends State<HomeMap> {
                                   .child('map/landmark')
                                   .value,
                               date:
-                                  "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
+                                  "${userS.child("tags").children.toList()[index].child('time/datefrom').value}",
                               time:
-                                  " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
+                                  " ${userS.child("tags").children.toList()[index].child('time/from').value}",
+                              endDate:
+                                  "${userS.child("tags").children.toList()[index].child('time/dateto').value}",
+                              endTime:
+                                  "${userS.child("tags").children.toList()[index].child('time/to').value}",
                               spotsLeft:
                                   "${userS.child("tags").children.toList()[index].child('totalslots').value.toString()}/25",
                               profile: userS

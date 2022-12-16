@@ -1,78 +1,36 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:kntag/ui/views/saved_view/saved_view.dart';
 
-class Drawerpage extends StatefulWidget {
-  const Drawerpage({Key? key}) : super(key: key);
+class ListViewBuilderPage extends StatelessWidget {
+  const ListViewBuilderPage({Key? key}) : super(key: key);
 
-  @override
-  State<Drawerpage> createState() => _DrawerpageState();
-}
-
-class _DrawerpageState extends State<Drawerpage> {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: Color.fromARGB(
-        255,
-        10,
-        76,
-        205,
-      ),
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(title: const Text("ListView.builder")),
+      body: Stack(
         children: [
-          DrawerHeader(
-            child: Text(
-              'Kntag',
-              style: TextStyle(fontSize: 30, color: Colors.white),
-            ),
+          Container(
+            color: Colors.amber,
           ),
-          SizedBox(height: 30),
-          Center(
-              child: TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => const ProfileView()),
-                    // );
-                  },
-                  child: Text(
-                    'Profile',
-                    style: TextStyle(color: Colors.white),
-                  ))),
-          SizedBox(
-            height: 30,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.25,
+            alignment: Alignment.bottomCenter,
+            child: PageView.builder(
+                itemCount: 5,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    color: Colors.green,
+                    height: 200,
+                    child: ListTile(
+                        leading: const Icon(Icons.list),
+                        trailing: const Text(
+                          "GFG",
+                          style: TextStyle(color: Colors.green, fontSize: 15),
+                        ),
+                        title: Text("List item $index")),
+                  );
+                }),
           ),
-          Center(
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SavedView()),
-                    );
-                  },
-                  child: Text(
-                    'Saved',
-                    style: TextStyle(color: Colors.white),
-                  ))),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-              child: Text(
-            'Settings',
-            style: TextStyle(color: Colors.white),
-          )),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Image.asset('assets/kntag.jpeg',
-                height: MediaQuery.of(context).size.height / 6,
-                width: MediaQuery.of(context).size.width / 3),
-          )
         ],
       ),
     );

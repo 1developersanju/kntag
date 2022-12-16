@@ -7,6 +7,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:kntag/app/db.dart';
+import 'package:kntag/app/services/dialog.dart';
+import 'package:kntag/ui/views/message_view/message_page.dart';
 import 'package:kntag/ui/views/message_view/people.dart';
 import 'package:kntag/colorAndSize.dart';
 import 'package:kntag/ui/views/profile_view/profile_test.dart';
@@ -20,6 +22,8 @@ class EventDetailsView extends StatefulWidget {
   String location;
   String date;
   String time;
+  String endDate;
+  String endTime;
   String host;
   String membersJoined;
   String spotLeft;
@@ -40,6 +44,8 @@ class EventDetailsView extends StatefulWidget {
     required this.membersUid,
     required this.tagId,
     required this.date,
+    required this.endDate,
+    required this.endTime,
     required this.tagDesc,
     required this.host,
     required this.location,
@@ -62,6 +68,7 @@ List a = [];
 
 class _EventDetailsViewState extends State<EventDetailsView> {
   final dbRef = FirebaseDatabase.instance.ref();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -196,7 +203,23 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(2.0),
                                             child: Text(
-                                              "${widget.date} : ${widget.time}",
+                                              "${widget.date} : ${widget.time}  to ",
+                                              style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: greyText,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("location tapped");
+                                            // Add2Calendar.addEvent2Cal(event);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              "${widget.endDate} : ${widget.endTime} ",
                                               style: TextStyle(
                                                   fontSize: 12.sp,
                                                   color: greyText,
@@ -483,15 +506,62 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                     ? print("equal")
                                                     : print("not equal");
                                                 // jointag(widget.tagId);
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.green,
-                                                  content: Text('view tag'),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MessagePage(
+                                                              endDate: widget
+                                                                  .endDate,
+                                                              endTime: widget
+                                                                  .endTime,
+                                                              membersUid: widget
+                                                                  .membersUid,
+                                                              desc: widget
+                                                                  .tagDesc,
+                                                              hostName: widget
+                                                                  .hostName,
+                                                              hostId:
+                                                                  widget.hostid,
+                                                              chatPath:
+                                                                  "tagchat/${widget.tagId}",
+                                                              tagId:
+                                                                  widget.tagId,
+                                                              peopleProfileImg:
+                                                                  widget
+                                                                      .peopleProfileImg,
+                                                              peopleName: widget
+                                                                  .peopleName,
+                                                              userProfile: widget
+                                                                  .MembersList,
+                                                              index: "",
+                                                              title:
+                                                                  widget.title,
+                                                              joinedCount: widget
+                                                                  .membersJoined,
+                                                              leftCount: widget
+                                                                  .spotLeft,
+                                                              date: widget.date,
+                                                              showcaseImg: widget
+                                                                  .ShowcaseImage,
+                                                              time: widget.time,
+                                                              location: widget
+                                                                  .location,
+                                                              latitude: widget
+                                                                  .latitude,
+                                                              longitude: widget
+                                                                  .longitude,
+                                                              host: widget.host,
+                                                            )));
+                                                // final snackBar = SnackBar(
+                                                //   backgroundColor: Colors.green,
+                                                //   content: Text('view tag chat'),
+                                                // );
+                                                // ScaffoldMessenger.of(context)
+                                                //     .showSnackBar(snackBar);
                                               },
                                               child: Text(
-                                                "View Tag",
+                                                "View Tag Chat",
                                                 style:
                                                     TextStyle(fontSize: 13.sp),
                                               ))
@@ -507,19 +577,50 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                                         BorderRadius.circular(
                                                             8.0),
                                                   ))),
-                                              onPressed: () async {
-                                                print("sent sussess");
-                                                await jointag(widget.tagId,
-                                                    widget.hostid);
-                                                Navigator.pop(context);
-                                                final snackBar = SnackBar(
-                                                  backgroundColor: Colors.green,
-                                                  content: const Text(
-                                                      'joined successfully'),
-                                                );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
-                                              },
+                                              onPressed: user?.uid != null
+                                                  ? () async {
+                                                      print("sent sussess");
+
+                                                      await jointag(
+                                                          widget.tagId,
+                                                          widget.hostid);
+                                                      Navigator.pop(context);
+                                                      final snackBar = SnackBar(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        content: const Text(
+                                                            'joined successfully'),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    }
+                                                  : () async {
+                                                      print(
+                                                          "sent Login request");
+
+                                                      final snackBar = SnackBar(
+                                                        backgroundColor:
+                                                            Colors.blueGrey,
+                                                        content: const Text(
+                                                            'Login to join tag'),
+                                                        action: SnackBarAction(
+                                                          label: 'Login',
+                                                          textColor: Colors.green,
+                                                          onPressed: () {
+                                                            // Some code to undo the change.
+                                                            DialogBox
+                                                                .loginDialog(
+                                                                    context);
+                                                          },
+                                                        ),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    },
                                               child: Text(
                                                 "Join Tag",
                                                 style:

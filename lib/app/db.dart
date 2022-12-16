@@ -2,7 +2,11 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kntag/app/services/decide_login.dart';
+import 'package:kntag/app/services/google_login.dart';
+import 'package:kntag/app/services/notif_api.dart';
 import 'package:kntag/colorAndSize.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final user = FirebaseAuth.instance.currentUser;
@@ -98,7 +102,7 @@ updateUserOnJoin(joinedTagId, hostId) async {
 
   //   // "JoinedTags": arrset([]),
   // });
-  hostRef.push().set({
+  hostRef.push().update({
     "userId": user?.uid,
     "joinedTag": joinedTagId,
     "status": "joined"
@@ -143,6 +147,7 @@ newuser() async {
     return false;
   }
 }
+
 
 login() async {
   print("entered login");
@@ -207,18 +212,21 @@ createTag(values, context) async {
   updateUserOnCreate(newPostRef.key, '');
   print("tagrefrence: ${tagRef.key}");
   //return promise
-  var snackBar = SnackBar(
-    backgroundColor: buttonBlue,
-    content: Text('Tag created Successfully...!'),
-  );
+  // var snackBar = SnackBar(
+  //   backgroundColor: buttonBlue,
+  //   content: Text('Tag created Successfully...!'),
+  // );
 
 // Find the ScaffoldMessenger in the widget tree
 // and use it to show a SnackBar.
-  showSnackbar(context) {
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  // showSnackbar(context) {
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 
-  showSnackbar(context);
+  NotificationApi.showNotification(
+      image: '${user?.photoURL}',
+      title: '${values['name']}',
+      body: 'You have successfully created the tag.');
 }
 
 jointag(tagId, hostId) async {
@@ -258,12 +266,14 @@ jointag(tagId, hostId) async {
   // });
 }
 
+var messageid;
+
 sendchat(values, context, chatpath) async {
   print("entered create tag ${values['message']}");
 
-  DatabaseReference chatRef = FirebaseDatabase.instance.ref(chatpath);
-  DatabaseReference newPostRef = chatRef.push();
-
+  DatabaseReference chatRef = FirebaseDatabase.instance.ref();
+  DatabaseReference newPostRef = chatRef.child("$chatpath").push();
+  DatabaseReference newMsgId = chatRef.child("$chatpath");
   await newPostRef.set({
     "message": values['message'],
     "time": values['time'],
@@ -271,7 +281,30 @@ sendchat(values, context, chatpath) async {
     "uid": values["uid"],
     "prof": values["prof"],
     "israted": values["israted"],
+    "messageViewed": arrset([]),
+    "viewCount": "0",
   });
+  await newMsgId.update({"lastMessageid": newPostRef.key});
 
+  print("chatRefrence: ${chatRef.key}");
+}
+
+viewedMessage(values, context, chatpath) async {
+  print("entered create tag ${values['message']}");
+
+  DatabaseReference chatRef = FirebaseDatabase.instance.ref(chatpath);
+  DatabaseEvent event = await chatRef.once();
+
+  var chatid = event.snapshot.child('lastMessageid').value;
+
+  DatabaseReference newPostRef = chatRef.child(chatid.toString());
+  var totalViewCount = event.snapshot.child('$chatid/viewCount').value;
+
+  var increment = int.parse(totalViewCount.toString()) + 1;
+
+  await newPostRef.update({
+    "messageViewed": {increment: values["viewedUid"]},
+    "viewCount": increment,
+  });
   print("chatRefrence: ${chatRef.key}");
 }

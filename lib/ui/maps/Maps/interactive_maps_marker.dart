@@ -32,7 +32,7 @@ class MarkerItem {
   double longitude;
   String imgs;
   String tagname;
-  // String image;
+  List markerimg;
 
   MarkerItem({
     required this.id,
@@ -40,6 +40,7 @@ class MarkerItem {
     required this.longitude,
     required this.imgs,
     required this.tagname,
+    required this.markerimg,
   });
 }
 
@@ -59,8 +60,9 @@ class InteractiveMapsMarker extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
   final EdgeInsetsGeometry itemPadding;
   final Alignment contentAlignment;
-
+  String userid;
   InteractiveMapsMarker({
+    required this.userid,
     required this.markerimgs,
     required this.initialLocation,
     required this.itemcount,
@@ -99,17 +101,10 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   int currentIndex = 0;
   int currentIndexs = 0;
   ValueNotifier selectedMarker = ValueNotifier<int>(0);
-  late Image peoplebg;
 
   @override
   void initState() {
-    peoplebg = Image.asset(
-      "assets/peoplebg.png",
-      color: whiteClr.withOpacity(0.9),
-      fit: BoxFit.cover,
-    );
-
-    rebuildMarkers(currentIndex);
+    getCurrentLocation();
     widget.items.forEach((item) {
       allMarkers.add(
         WidgetMarker(
@@ -158,14 +153,17 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                         child: Stack(
                           children: [
                             Positioned(
-                              child: peoplebg,
+                              child: Image.asset(
+                                "assets/markerbg.png",
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             Container(
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 20.0),
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child: buildStackedImages()),
+                                    child: buildStackedImages(item.imgs)),
                               ),
                             ),
                           ],
@@ -178,25 +176,13 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             ),
           ),
         ),
-        // Marker(
-        //     markerId: MarkerId(element.shopName),
-        //     draggable: true,
-        //     infoWindow:
-        //         InfoWindow(title: element.shopName, snippet: element.address),
-        //     position: element.locationCoords),
       );
+      print("image markers ${widget.markerimgs}");
     });
     setState(() {});
-    getCurrentLocation();
+    // getCurrentLocation();
 
     super.initState();
-
-    // _pageController = PageController(initialPage: 1, viewportFraction: 0.8)
-    //   ..addListener(() {
-    //     _onScroll();
-    //   });
-    // rebuildMarkers(currentIndex + 1);
-    // rebuildMarkers(currentIndex + 1 - 1);
   }
 
   late PageController _pageController;
@@ -210,8 +196,6 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
 
   @override
   void didChangeDependencies() {
-    rebuildMarkers(currentIndex);
-
     super.didChangeDependencies();
   }
 
@@ -296,10 +280,13 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                         Icons.pin_drop,
                         color: buttonBlue,
                       ),
-                      Text(
-                        currentAddress.toString(),
-                        style: TextStyle(color: buttonBlue, fontSize: 13.sp),
-                      ),
+                      currentAddress != ""
+                          ? Text(
+                              currentAddress.toString(),
+                              style:
+                                  TextStyle(color: buttonBlue, fontSize: 13.sp),
+                            )
+                          : Text("empty.."),
                     ],
                   ),
                 ),
@@ -334,7 +321,7 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ProfileView(
-                              userId: user!.uid,
+                              userId: user?.uid ?? "Guest",
                               changePage: (int index) {
                                 // setState(() {
                                 //   currentIndexs = index;
@@ -504,13 +491,15 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
     // setState(() {
     //   markers = _markers;
     // });
-    selectedMarker.value = current;
+    setState(() {
+      selectedMarker.value = current;
+    });
   }
 
   void _pageChanged(int index) {
     setState(() => currentIndex = index);
     WidgetMarker marker = allMarkers.elementAt(index);
-    rebuildMarkers(index);
+    // rebuildMarkers(index);
 
     mapController
         .animateCamera(
@@ -523,16 +512,10 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
     });
   }
 
-  Widget buildStackedImages() {
+  Widget buildStackedImages(images) {
     var membersJoined = 0;
     final double size = 9.w;
-    final urlImages = membersJoined == 0
-        ? [
-            "${user!.photoURL}",
-            "${user!.photoURL}",
-            "${user!.photoURL}",
-          ]
-        : widget.markerimgs;
+    final urlImages = images.isEmpty ? [user?.photoURL] : [images];
 
     final items = urlImages.map((urlImage) => buildImage(urlImage)).toList();
 
@@ -552,7 +535,8 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         child: ClipOval(
           child: CachedNetworkImage(
             imageUrl: urlImage,
-            fit: BoxFit.cover,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ),

@@ -14,6 +14,7 @@ class GoogleLoginProvider extends ChangeNotifier {
     final User? users = auth.currentUser;
     final uid = users?.uid;
     try {
+      
       final googleUser = await googleLogin.signIn();
       if (googleUser == null) return;
       _user = googleUser;

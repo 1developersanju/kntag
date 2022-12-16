@@ -76,6 +76,8 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   flutter_svg: ^1.1.6
   cached_network_image: ^3.2.1
+  flutter_local_notifications: ^12.0.4
+  rxdart: ^0.27.7
 
   
   
@@ -112,7 +114,7 @@ flutter:
      - assets/kntag.jpeg
      - assets/
      - assets/exp5.png
-     - assets/peoplebg.png
+     - assets/markerbg.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -115,10 +115,14 @@ class _MessageViewState extends State<MessageView>
                   itemCount: old.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      hasUnseenMessage: false,
+                      membersUid: [],
                       desc: "",
                       hostName: "",
                       hostid: "",
                       chatPath: "",
+                      endDate: "",
+                      endTime: "",
                       tagId: "",
                       peopleProfileImg: containerDetails[index].profileImgs,
                       peopleName: old[index].memberName,
@@ -167,7 +171,11 @@ class _MessageViewState extends State<MessageView>
                   //  active.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      hasUnseenMessage: false,
+                      membersUid: [],
                       desc: "",
+                      endDate: "",
+                      endTime: "",
                       hostName: "",
                       hostid: "",
                       chatPath: "",
@@ -218,6 +226,10 @@ class _MessageViewState extends State<MessageView>
                   itemCount: upcoming.length,
                   itemBuilder: (context, index) {
                     return MessageTagTile(
+                      hasUnseenMessage: false,
+                      membersUid: [],
+                      endDate: "",
+                      endTime: "",
                       desc: "",
                       hostName: "",
                       hostid: "",

@@ -29,6 +29,8 @@ class MessagePage extends StatefulWidget {
   String joinedCount;
   String leftCount;
   String date;
+  String endDate;
+  String endTime;
   String host;
   String location;
   String time;
@@ -37,12 +39,16 @@ class MessagePage extends StatefulWidget {
   String longitude;
   List peopleName;
   List peopleProfileImg;
+  List membersUid;
   String tagId;
   String hostId;
   String desc;
   String hostName;
   MessagePage(
       {required this.userProfile,
+      required this.endDate,
+      required this.endTime,
+      required this.membersUid,
       required this.desc,
       required this.hostId,
       required this.hostName,
@@ -106,9 +112,13 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
   late Animation<double> opacity;
   var isVisible = true;
   var israted = false;
+  late final ref;
 
   @override
   void initState() {
+    super.initState();
+
+    ref = FirebaseDatabase.instance.ref().child('${widget.chatPath}');
     print("messgaeDate$messageDate");
     print("DateObj $dateObj");
     opacity = Tween<double>(begin: 1, end: 0).animate(controller);
@@ -124,7 +134,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
         messages.length = 0;
       });
     }
-    super.initState();
   }
 
   addToMessages(String text) {
@@ -155,7 +164,6 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     final user = FirebaseAuth.instance.currentUser;
 
     final size = MediaQuery.of(context).size;
-    final ref = FirebaseDatabase.instance.ref().child('${widget.chatPath}');
 
     final theme = Theme.of(context);
     return Scaffold(
@@ -174,6 +182,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                         return EventDetailsView(
                           membersUid: [],
                           tagDesc: widget.desc,
+                          endDate: widget.endDate,
+                          endTime: widget.endTime,
                           hostName: widget.hostName,
                           hostid: widget.hostId,
                           tagId: widget.tagId,
@@ -216,6 +226,9 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                     context,
                     MaterialPageRoute(
                         builder: ((context) => Peopl(
+                              membersUid: widget.membersUid,
+                              peopleName: widget.peopleName,
+                              peopleImage: widget.peopleProfileImg,
                               backButtonneeded: true,
                               peoplecount: widget.joinedCount,
                             ))));
@@ -276,24 +289,27 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
               child: Column(
                 children: [
                   Expanded(
-                      child: FirebaseAnimatedList(
-                    query: ref,
-                    scrollDirection: Axis.vertical,
-                    reverse: false,
-                    shrinkWrap: true,
-                    controller: _scrollController,
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    itemBuilder: (c, snapshot, a, i) {
-                      return MessageItem(msg: {
-                        "uid": "${snapshot.child('uid').value}",
-                        "messageId": "${snapshot.key}",
-                        "isMe": snapshot.child('uid').value == "${user!.uid}",
-                        "message": "${snapshot.child('message').value}",
-                        "time": "${snapshot.child('time').value}",
-                        "image": "${snapshot.child('prof').value}",
-                        "date": "${snapshot.child('date').value}"
-                      });
-                    },
+                      child: SingleChildScrollView(
+                    reverse: true,
+                    child: FirebaseAnimatedList(
+                      query: ref,
+                      scrollDirection: Axis.vertical,
+                      reverse: false,
+                      shrinkWrap: true,
+                      controller: _scrollController,
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      itemBuilder: (c, snapshot, a, i) {
+                        return MessageItem(msg: {
+                          "uid": "${snapshot.child('uid').value}",
+                          "messageId": "${snapshot.key}",
+                          "isMe": snapshot.child('uid').value == "${user?.uid}",
+                          "message": "${snapshot.child('message').value}",
+                          "time": "${snapshot.child('time').value}",
+                          "image": "${snapshot.child('prof').value}",
+                          "date": "${snapshot.child('date').value}"
+                        });
+                      },
+                    ),
                   )),
                   BottomArea()
                 ],
@@ -307,8 +323,10 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
     required var msg,
   }) {
     final theme = Theme.of(context);
+
     var temp = messageDate;
     messageDate = msg["date"];
+    print("temp $temp");
 
     print("date obj $dateObj");
     if (msg["isMe"]) {
@@ -445,63 +463,83 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
         ],
       );
     } else {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfileView(
-                            userId: msg["uid"],
-                            changePage: (int index) {
-                              // setState(() {
-                              //   currentIndexs = index;
-                              // });
-                              print("_changeTa2b $index");
-                            },
-                          )));
-            },
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(msg["image"]),
-            ),
-          ),
-          SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      return msg["date"] == msg["uid"]
+          ? SizedBox()
+          : Column(
               children: [
-                ChatBubble(
-                  clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(right: 0),
-                  backGroundColor: receiverBG,
-                  child: Container(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width * 0.7,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          msg["message"],
-                          style: TextStyle(color: greyText),
+                ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  child: temp == messageDate
+                      ? SizedBox()
+                      : Container(
+                          color: whiteClr,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(msg["date"]),
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 5, bottom: 8.0, left: 20.0),
-                  child: Text(msg["time"],
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(color: Colors.black)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileView(
+                                      userId: msg["uid"],
+                                      changePage: (int index) {
+                                        // setState(() {
+                                        //   currentIndexs = index;
+                                        // });
+                                        print("_changeTa2b $index");
+                                      },
+                                    )));
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(msg["image"]),
+                      ),
+                    ),
+                    SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ChatBubble(
+                            clipper: ChatBubbleClipper1(
+                                type: BubbleType.receiverBubble),
+                            alignment: Alignment.topLeft,
+                            margin: EdgeInsets.only(right: 0),
+                            backGroundColor: receiverBG,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.7,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    msg["message"],
+                                    style: TextStyle(color: greyText),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5, bottom: 8.0, left: 20.0),
+                            child: Text(msg["time"],
+                                style: theme.textTheme.bodySmall
+                                    ?.copyWith(color: Colors.black)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ),
-        ],
-      );
+            );
     }
   }
 
@@ -825,8 +863,8 @@ class _MessagePageState extends State<MessagePage> with AnimationMixin {
                                       .toString(),
                                   "date": DateFormat('yyyy-MM-dd')
                                       .format(DateTime.now()),
-                                  "uid": user!.uid,
-                                  "prof": user!.photoURL,
+                                  "uid": user?.uid,
+                                  "prof": user?.photoURL,
                                   "israted": israted,
                                 };
                                 FocusScopeNode currentFocus =

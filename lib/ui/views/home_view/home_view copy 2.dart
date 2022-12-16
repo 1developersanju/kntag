@@ -276,6 +276,10 @@ class _HomeMap2State extends State<HomeMap2> {
                                     // margin: const EdgeInsets.all(10.0),
                                     height: height * 0.5,
                                     child: BookClubContainer(
+                                      endDate:
+                                          "${userS.child("tags").children.toList()[index].child('time/dateto').value}",
+                                      endTime:
+                                          "${userS.child("tags").children.toList()[index].child('time/to').value}",
                                       membersUid: userS
                                               .child("tags")
                                               .children

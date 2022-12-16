@@ -7,10 +7,9 @@ import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/group_view/group_view.dart';
 import 'package:kntag/ui/views/home_view/home_view.dart';
 import 'package:kntag/ui/views/message_view/activeMessage.dart';
-import 'package:kntag/ui/views/message_view/message_view.dart';
 import 'package:kntag/ui/views/notification_view/notification_view.dart';
 import 'package:kntag/ui/views/post_view/create_tag_view.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'ui/views/message_view/message_page copy.dart';
 import 'ui/views/message_view/message_page.dart';
 
@@ -32,6 +31,7 @@ String profilepic3 =
 class _MyNavigationBarState extends State<MyNavigationBar> {
   StreamSubscription? internetconnection;
   bool isoffline = false;
+  final user = FirebaseAuth.instance.currentUser;
 
   late List<Widget> _pages;
   late Widget _page1;
@@ -71,6 +71,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     // InteractiveMapsMarker(changePage: _changeTab);
 
     _page2 = MessagePage(
+        endDate: "",
+        endTime: "",
+        membersUid: [],
         desc: "",
         hostName: "",
         hostId: "",
@@ -126,7 +129,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       title: "Notifications",
     );
     _page5 = ActiveMessageView(changePage: _changeTab);
-    _pages = [_page1, _page2, _page3, _page4, _page5];
+    _pages = user?.uid != null
+        ? [_page1, _page2, _page3, _page4, _page5]
+        : [_page1, _page2, _page3, _page4, _page5];
     _currentIndex = 0;
     _currentPage = _page1;
   }

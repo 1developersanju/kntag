@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kntag/app/db.dart';
 import 'package:kntag/core/models/group_tag_list/group_tag_list_model.dart';
 import 'package:kntag/colorAndSize.dart';
@@ -14,6 +15,8 @@ class BookClubContainer extends StatefulWidget {
   String location;
   String date;
   String time;
+  String endDate;
+  String endTime;
   String hostid;
   String joined;
   String hostName;
@@ -36,6 +39,8 @@ class BookClubContainer extends StatefulWidget {
       required this.tagDesc,
       required this.tagId,
       required this.hostid,
+      required this.endDate,
+      required this.endTime,
       required this.hostName,
       required this.location,
       required this.date,
@@ -58,7 +63,11 @@ class _BookClubContainerState extends State<BookClubContainer> {
   Widget build(BuildContext context) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+    var date = DateTime.parse("${widget.date}");
+    var formattedDate = DateFormat('d MMM yyyy').format(date);
 
+    var enddate = DateTime.parse("${widget.endDate}");
+    var formattedEndDate = DateFormat('d MMM yyyy').format(enddate);
     return GestureDetector(
       onTap: () {
         print("Host name found::${widget.peopleName}");
@@ -69,13 +78,15 @@ class _BookClubContainerState extends State<BookClubContainer> {
             pageBuilder: (context, animation, secondaryAnimation) =>
                 EventDetailsView(
               membersUid: widget.membersUid,
+              endDate: formattedEndDate,
+              endTime: widget.endTime,
               tagDesc: widget.tagDesc,
               hostName: widget.hostName,
               hostid: widget.hostid,
               tagId: widget.tagId,
               peopleProfileImg: widget.peopleProfileImg,
               peopleName: widget.peopleName,
-              date: widget.date,
+              date: formattedDate,
               host: widget.profile,
               time: widget.time,
               latitude: widget.latitude,
@@ -113,6 +124,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
           MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => EventDetailsView(
+              endDate: formattedEndDate,
+              endTime: widget.endTime,
               membersUid: widget.membersUid,
               tagDesc: widget.tagDesc,
               hostName: widget.hostName,
@@ -120,7 +133,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
               tagId: widget.tagId,
               peopleProfileImg: widget.peopleProfileImg,
               peopleName: widget.peopleName,
-              date: widget.date,
+              date: formattedDate,
               host: widget.profile,
               latitude: widget.latitude,
               longitude: widget.longitude,
@@ -204,12 +217,12 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     "Location: ${widget.location}",
                                                     style: TextStyle(
                                                       color: greyText,
-                                                      fontSize: 12.sp,
+                                                      fontSize: 14.sp,
                                                     ),
                                                     maxLines: 2,
                                                   ),
                                                   AutoSizeText(
-                                                    "${widget.date} : ${widget.time}",
+                                                    "${formattedDate} : ${widget.time}",
                                                     style: TextStyle(
                                                       color: greyText,
                                                       fontSize: 13.sp,
@@ -217,10 +230,10 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     maxLines: 1,
                                                   ),
                                                   SizedBox(
-                                                    height: 5,
+                                                    height: 3,
                                                   ),
                                                   Divider(
-                                                    endIndent: 40,
+                                                    endIndent: 240,
                                                     color: greyText,
                                                   ),
                                                   Row(
@@ -232,6 +245,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                       Text(
                                                         "${widget.joined} Joined ",
                                                         // . ${widget.spotsLeft} Spot Left",
+                                                        maxLines: 1,
                                                         style: TextStyle(
                                                             fontSize: 11.sp,
                                                             color: greyText),
@@ -328,6 +342,8 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                             fullscreenDialog: true,
                                             builder: (context) =>
                                                 EventDetailsView(
+                                              endDate: formattedEndDate,
+                                              endTime: widget.endTime,
                                               membersUid: widget.membersUid,
                                               tagDesc: widget.tagDesc,
                                               hostName: widget.hostName,
@@ -338,7 +354,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                               peopleName: widget.peopleName,
                                               latitude: widget.latitude,
                                               longitude: widget.longitude,
-                                              date: widget.date,
+                                              date: formattedDate,
                                               host: widget.profile,
                                               time: widget.time,
                                               location: widget.location,
@@ -397,7 +413,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                   child: Container(
                                     padding: EdgeInsets.all(12),
                                     width: 90.w,
-                                    height: 20.h,
+                                    height: 21.h,
                                     decoration: BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(
@@ -445,7 +461,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     maxLines: 2,
                                                   ),
                                                   AutoSizeText(
-                                                    "${widget.date} : ${widget.time}",
+                                                    "${formattedDate} : ${widget.time}",
                                                     style: TextStyle(
                                                       color: greyText,
                                                       fontSize: 13.sp,
@@ -453,10 +469,10 @@ class _BookClubContainerState extends State<BookClubContainer> {
                                                     maxLines: 1,
                                                   ),
                                                   SizedBox(
-                                                    height: 10,
+                                                    height: 5,
                                                   ),
                                                   Divider(
-                                                    endIndent: 210,
+                                                    endIndent: 240,
                                                     color: greyText,
                                                   ),
                                                   Row(
@@ -560,7 +576,7 @@ class _BookClubContainerState extends State<BookClubContainer> {
               //                                       color: greyText,
               //                                       fontSize: 12.sp)),
               //                               Text(
-              //                                 "${widget.date} : ${widget.time}",
+              //                                 "${formattedDate} : ${widget.time}",
               //                                 style: TextStyle(
               //                                     color: greyText,
               //                                     fontSize: 12.sp),

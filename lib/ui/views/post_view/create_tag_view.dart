@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kntag/app/db.dart';
 import 'package:kntag/app/services/dialog.dart';
+import 'package:kntag/app/services/notif_api.dart';
 import 'package:kntag/ui/maps/street_map.dart';
 import 'package:kntag/ui/views/post_view/post_setting_view/post_setting_view.dart';
 import 'package:kntag/colorAndSize.dart';
@@ -110,6 +111,8 @@ class _CreateTagViewState extends State<CreateTagView> {
 
   @override
   void initState() {
+    NotificationApi.init();
+
     _loadCounter();
 
     setState(() {});
@@ -388,38 +391,6 @@ class _CreateTagViewState extends State<CreateTagView> {
                                                           _displayText("start",
                                                               startDate);
                                                       setState(() {});
-
-                                                      // var pickeDate =
-                                                      //     await showDatePicker(
-                                                      //         context: context,
-                                                      //         initialDate:
-                                                      //             DateTime
-                                                      //                 .now(),
-                                                      //         firstDate:
-                                                      //             DateTime
-                                                      //                 .now(),
-                                                      //         lastDate:
-                                                      //             DateTime(
-                                                      //                 2100));
-
-                                                      // if (pickeDate != null) {
-                                                      //   // print(pickeDate);
-                                                      //   String formatedDate =
-                                                      //       DateFormat(
-                                                      //               'dd/MM/yyyy')
-                                                      //           .format(
-                                                      //               pickeDate);
-                                                      //   //  print(formatedDate);
-                                                      //   setState(() {
-                                                      //     dateController.text =
-                                                      //         formatedDate;
-                                                      //     formattedStartDate =
-                                                      //         formatedDate;
-                                                      //   });
-                                                      // } else {
-                                                      //   print(
-                                                      //       'date is not selected');
-                                                      // }
                                                     },
                                                     decoration: InputDecoration(
                                                       enabledBorder:
@@ -801,10 +772,7 @@ class _CreateTagViewState extends State<CreateTagView> {
                                               titleController.clear();
                                               descriptionController.clear();
                                               setState(() {});
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          'Successfully Added')));
+
                                               widget.changePage(0);
                                             } else {
                                               ScaffoldMessenger.of(context)

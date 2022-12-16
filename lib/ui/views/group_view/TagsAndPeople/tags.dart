@@ -40,7 +40,8 @@ class _TagsState extends State<Tags> {
             itemCount: 4,
             itemBuilder: (context, index) {
               return BookClubContainer(
-
+                endDate: "",
+                endTime: "",
                 membersUid: [],
                 uid: "",
                 tagDesc: "",

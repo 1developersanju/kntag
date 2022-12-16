@@ -53,6 +53,8 @@ class _SavedViewState extends State<SavedView> {
             itemCount: 4,
             itemBuilder: (context, index) {
               return BookClubContainer(
+                endDate: "",
+                endTime: "",
                 tagDesc: "",
                 hostName: "",
                 uid: "",

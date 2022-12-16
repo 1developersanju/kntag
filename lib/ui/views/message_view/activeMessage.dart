@@ -28,9 +28,6 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
-    List tagMembers = [];
-    List tagMembersProfile = [];
-
     // List<MarkerItem> markers = [];
     void _changeTab(int index) {
       // setState(() {
@@ -72,11 +69,20 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
                   ? ListView.builder(
                       itemCount: userS.child("tags").children.toList().length,
                       itemBuilder: (context, index) {
+                        print(
+                            "ter: ${userS.child("tagchat/${userS.child("tagchat/${userS.child("tags").children.toList()[index].key}/lastMessageid").value}").key}");
+                        print(
+                            "ideaa: ${userS.child("tagchat/${userS.child("tags").children.toList()[index].key}/${userS.child("tagchat/${userS.child("tagchat/${userS.child("tags").children.toList()[index].key}/lastMessageid").value}").key}/date").key}");
+                        List tagMembers = [];
+                        List tagMembersProfile = [];
+
                         var hostid;
                         var membersUid;
                         List participantsUid = [];
                         var membersTotal;
                         try {
+                          tagMembersProfile.clear();
+
                           hostid = userS
                               .child("tags")
                               .children
@@ -108,8 +114,6 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
                             // name.removeAt(0);
                             // peoplename.add(name);
                           }
-                          print("tagees $tagMembers");
-                          tagMembersProfile.clear();
 
                           for (var element in membersUid) {
                             tagMembersProfile.add(userS
@@ -132,6 +136,19 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
                         return hostid == user?.uid ||
                                 participantsUid.contains("${user?.uid}")
                             ? MessageTagTile(
+                                hasUnseenMessage:
+                                    // "${userS.child("tagchat/${userS.child("tags").children.toList()[index].key}/lastMessageid").value}" ==
+                                    //             "-NJ1Ar2uQgML9_P49JYI" ||
+                                    //         userS
+                                    //                 .child(
+                                    //                     "tagchat/${userS.child("tagchat/${userS.child("tags").children.toList()[index].key}/lastMessageid").value}/${userS.child("${userS.child("tags").children.toList()[index].key}/date").value}")
+                                    //                 .key ==
+                                    //             "2022-12-11"
+                                    //     ? true
+                                    true,
+                                membersUid: participantsUid,
+                                endDate: "${userS.child("tags").children.toList()[index].child('time/dateto').value}",
+                                endTime: "${userS.child("tags").children.toList()[index].child('time/to').value}",
                                 desc: userS
                                     .child("tags")
                                     .children
@@ -169,10 +186,10 @@ class _ActiveMessageViewState extends State<ActiveMessageView> {
                                           .value,
                                 ],
                                 date:
-                                    "${userS.child("tags").children.toList()[index].child('time/datefrom').value}, ${userS.child("tags").children.toList()[index].child('time/from').value}",
+                                    "${userS.child("tags").children.toList()[index].child('time/datefrom').value}",
                                 showcaseImg: [],
                                 time:
-                                    " ${userS.child("tags").children.toList()[index].child('time/dateto').value}, ${userS.child("tags").children.toList()[index].child('time/to').value}",
+                                    " ${userS.child("tags").children.toList()[index].child('time/dateto').value}",
                                 location: userS
                                     .child("tags")
                                     .children
